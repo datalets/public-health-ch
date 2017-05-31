@@ -215,6 +215,7 @@ class HomePage(Page):
     def newsfeed(self):
         # Get list of latest news
         curlang = translation.get_language()
+        if not curlang in ['de', 'fr']: curlang = 'de' # Default language
         parent = BlogPage.objects.filter(slug='news-%s' % curlang)
         if not parent: return []
         entries = EntryPage.objects.live().descendant_of(parent[0])
