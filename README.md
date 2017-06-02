@@ -114,6 +114,17 @@ The order of deployment is:
 - node.yaml
 - site.yaml
 - harden.yaml
+- certbot.yaml
+
+The last line adds support for Let's Encrypt, which you can configure and enable (updating your Nginx setup) with:
+
+```
+sudo /opt/certbot/certbot-auto --nginx certonly
+```
+
+If you do **not** wish to use SSL, delete the last part of your nginx site configuration (/etc/nginx/sites-enabled/...).
+
+### Production releases
 
 For further deployment and system maintenance we have a `Makefile` which automates Docker Compose tasks. This should be converted to use [Ansible Container](http://docs.ansible.com/ansible-container/getting_started.html). In the meantime, start a release with Ansible, then complete it using `make`, i.e.:
 

@@ -50,41 +50,17 @@ server {
 		proxy_redirect off;
 		proxy_pass http://wagtail-site;
 	}
-}
 
-# Web archive configuration
-server {
-	listen 80;
-	server_name www-old.{{ domain }};
-	index index.html index.htm;
-	root {{ archive_dir }};
-	location / {
-		try_files $uri $uri/ =404;
+	# Enable secure site support
+	listen [::]:443;
+	listen 443 ssl;
+	ssl on;
+	ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+	include /etc/letsencrypt/options-ssl-nginx.conf;
+
+	if ($scheme != "https") {
+		return 301 https://$host$request_uri;
 	}
-}
 
-# Beta site configuration
-server {
- 	listen 80;
- 	server_name beta.{{ domain }} www.{{ domain }};
- 	return 301 $scheme://{{ domain }};
-}
-
-# TODO: parameterize
-server {
-	listen 80; listen 443 ssl;
-	server_name conference.{{ domain }};
-	location /fr {
-		return 301 $scheme://sph17.organizers-congress.org/frontend/index.php?sub=89;
-	}
-	location / {
-		return 301 $scheme://sph17.organizers-congress.org;
-	}
-}
-
-# TODO: parameterize
-server {
-	listen 80; listen 443 ssl;
-	server_name sphc.ch;
-	return 301 $scheme://sph17.organizers-congress.org;
 }
