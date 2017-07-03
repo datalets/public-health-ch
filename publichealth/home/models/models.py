@@ -212,7 +212,7 @@ class HomePage(Page):
         return articles[:4]
 
     @property
-    def newsfeed(self):
+    def blogentries(self):
         # Get list of latest news
         curlang = translation.get_language()
         if not curlang in ['de', 'fr']: curlang = 'de' # Default language
@@ -227,7 +227,7 @@ class HomePage(Page):
         # Update template context
         context = super(HomePage, self).get_context(request)
         context['featured'] = self.featured
-        context['newsfeed'] = self.newsfeed
+        context['blogentries'] = self.blogentries
         return context
 
     parent_page_types = ['wagtailcore.Page']
