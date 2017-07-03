@@ -59,7 +59,10 @@ class Entry(models.Model):
         if len(raw['alternate']) > 0:
             self.link = raw['alternate'][0]['href']
 
-        if 'enclosure' in raw and len(raw['enclosure']) > 0:
+        if 'thumbnail' in raw and len(raw['thumbnail']) > 0:
+            if 'url' in raw['thumbnail'][0]:
+                self.visual = raw['thumbnail'][0]['url']
+        elif 'enclosure' in raw and len(raw['enclosure']) > 0:
             if 'href' in raw['enclosure'][0]:
                 self.visual = raw['enclosure'][0]['href']
         elif 'visual' in raw and 'url' in raw['visual']:
