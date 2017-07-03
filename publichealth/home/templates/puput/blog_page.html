@@ -20,6 +20,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ blog_page.title }}" />
     <meta name="twitter:description" content="{{ blog_page.description }}" />
+    <link rel="alternate" type="application/rss+xml" title="{{ blog_page.title }}" href="{% feeds_url blog_page %}" />
 {% endblock social_share %}
 
 {% block content %}
@@ -56,4 +57,8 @@
         </div>
     {% endwith %}
 </section>
+
+<a href="{% feeds_url blog_page %}" target="_blank" title="RSS">
+     <i class="fa fa-rss-square"></i> <span>RSS Feed</span>
+</a>
 {% endblock content %}
