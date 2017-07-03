@@ -39,8 +39,10 @@ def top_menu(context, parent, calling_page=None):
         menuitem.show_dropdown = has_menu_children(menuitem)
         menuitem.active = (calling_page.url.startswith(menuitem.url)
                            if calling_page else False)
-        if 'trans_title' in menuitem:
+        try:
             menuitem.title = menuitem.trans_title
+        except AttributeError:
+            pass
     return {
         'calling_page': calling_page,
         'menuitems': menuitems,
@@ -50,8 +52,10 @@ def top_menu(context, parent, calling_page=None):
 def menuitems_children(parent):
     menuitems_children = parent.get_children().live().in_menu().specific()
     for menuitem in menuitems_children:
-        if 'trans_title' in menuitem:
+        try:
             menuitem.title = menuitem.trans_title
+        except AttributeError:
+            pass
     return menuitems_children
 
 # Retrieves the children of the top menu items for the drop downs
