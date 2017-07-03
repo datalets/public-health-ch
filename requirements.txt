@@ -1,8 +1,8 @@
 # Updated: 30.5.2017
 
 # Core
-wagtail==1.10.1
-Django==1.11.1
+wagtail==1.11
+Django==1.11.3
 
 # Database
 psycopg2==2.7.1
@@ -19,8 +19,8 @@ django-redis==4.8.0
 
 # Frontend
 django-libsass==0.7
-libsass==0.12.3
-Pillow==4.1.1
+libsass==0.13.2
+Pillow==4.2.0
 
 # Development tools
 stellar==0.4.3
