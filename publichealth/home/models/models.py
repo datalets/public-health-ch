@@ -62,6 +62,10 @@ class ArticleIndexPage(Page):
         context['subcategories'] = subcategories
         return context
 
+    parent_page_types = [
+        'home.ArticleIndexPage',
+        'home.HomePage'
+    ]
     subpage_types = [
         'home.ArticlePage',
         'home.ArticleIndexPage',
@@ -145,6 +149,10 @@ class ArticlePage(Page):
         MultiFieldPanel(Page.promote_panels, "Einstellungen"),
     ]
 
+    parent_page_types = [
+        'home.ArticleIndexPage',
+        'home.HomePage'
+    ]
     subpage_types = []
     class Meta:
         verbose_name = "Artikel"
@@ -221,7 +229,7 @@ class HomePage(Page):
         entries = EntryPage.objects.live().descendant_of(parent[0])
         # Order by most recent date first
         entries = entries.order_by('-date')
-        return entries[:4]
+        return entries[:6]
 
     def get_context(self, request):
         # Update template context
