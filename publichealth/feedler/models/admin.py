@@ -11,6 +11,11 @@ from django.core.mail import send_mail
 
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 
+from .models import Entry, Stream
+
+import logging
+logger = logging.getLogger('feedler')
+
 # Feedly integration module
 
 @register_setting
@@ -26,24 +31,34 @@ class FeedlySettings(BaseSetting):
         ), blank=True, null=True,
         help_text='How many pages to fetch?'
     )
-    feedly_stream = models.TextField(
-        help_text='Stream ID to fetch', blank=True)
+    feedly_stream = models.ManyToManyField(Stream)
     class Meta:
         verbose_name = 'Feedly'
 
+API_BASEURL = 'https://cloud.feedly.com/v3/streams/contents?streamId='
+
 @receiver(pre_save, sender=FeedlySettings)
 def handle_save_settings(sender, instance, *args, **kwargs):
-    if instance.feedly_stream and instance.feedly_auth:
-        entries = []
-        url = 'https://cloud.feedly.com/v3/streams/contents?streamId='
-        url = url + instance.feedly_stream
-        headers = {
-            'Authorization': 'OAuth '+instance.feedly_auth
-        }
-        contents = requests.get(url, headers=headers).json()
-        if 'errorMessage' in contents:
-            raise PermissionError(contents['errorMessage'])
-        for raw_entry in contents['items']:
-            entry = Entry(raw_entry)
-            entries.append(entry)
-        print(json.dumps(entries))
+    if instance.feedly_auth:
+        streams = instance.feedly_stream.all()
+        for stream in streams:
+            # Start a request to download the feed
+            logger.info("Processing stream %s" % stream.title)
+            url = API_BASEURL + stream.ident
+            headers = {
+                'Authorization': 'OAuth ' + instance.feedly_auth
+            }
+            contents = requests.get(url, headers=headers).json()
+            if 'errorMessage' in contents:
+                raise PermissionError(contents['errorMessage'])
+            for raw_entry in contents['items']:
+                eid = raw_entry['id']
+                # Create or update data
+                try:
+                    entry = Entry.objects.get(entry_id=eid)
+                    logger.info("Updating entry '%s'" % eid)
+                except Entry.DoesNotExist:
+                    logger.info("Adding entry '%s'" % eid)
+                    entry = Entry()
+                entry.parse(raw_entry, stream)
+                entry.save()
