@@ -23,7 +23,6 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'publichealth.home',
     'publichealth.home.templatetags',
-    'publichealth.feedler',
     'publichealth.search',
 
     'wagtail.contrib.wagtailsearchpromotions',
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'taggit',
     'puput',
     'anymail',
+    'feedler',
 
     'django.contrib.admin',
     'django.contrib.auth',

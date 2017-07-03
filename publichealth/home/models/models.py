@@ -15,7 +15,7 @@ from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 
-from puput.models import EntryPage, BlogPage
+# from puput.models import EntryPage, BlogPage
 
 from ..util import TranslatedField
 
