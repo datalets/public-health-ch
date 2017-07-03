@@ -58,7 +58,11 @@ class Entry(models.Model):
 
         if len(raw['alternate']) > 0:
             self.link = raw['alternate'][0]['href']
-        if 'visual' in raw and 'url' in raw['visual']:
+
+        if 'enclosure' in raw and len(raw['enclosure']) > 0:
+            if 'href' in raw['enclosure'][0]:
+                self.visual = raw['enclosure'][0]['href']
+        elif 'visual' in raw and 'url' in raw['visual']:
             self.visual = raw['visual']['url']
 
         self._buildContent()
