@@ -230,6 +230,6 @@ class HomePage(Page):
         context['newsfeed'] = self.newsfeed
         return context
 
-    parent_page_types = []
+    parent_page_types = ['wagtailcore.Page']
     class Meta:
         verbose_name = "Frontpage"

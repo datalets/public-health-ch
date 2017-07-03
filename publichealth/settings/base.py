@@ -23,11 +23,13 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'publichealth.home',
     'publichealth.home.templatetags',
+    'publichealth.feedler',
     'publichealth.search',
 
     'wagtail.contrib.wagtailsearchpromotions',
     'wagtail.contrib.wagtailroutablepage',
     'wagtail.contrib.wagtailsitemaps',
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',

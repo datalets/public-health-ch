@@ -7,6 +7,8 @@ from django.core.mail import send_mail
 
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 
+# A simple feedback module built into the site admin
+
 @register_setting
 class DataletsSettings(BaseSetting):
     feedback_question = models.TextField(
@@ -23,7 +25,7 @@ class DataletsSettings(BaseSetting):
     feedback_comment = models.TextField(
         help_text='Any general feedback', blank=True)
     class Meta:
-        verbose_name = 'Datalets'
+        verbose_name = 'Get support'
 
 @receiver(pre_save, sender=DataletsSettings)
 def handle_save_settings(sender, instance, *args, **kwargs):
