@@ -4,6 +4,10 @@ from datetime import datetime
 
 from django.db import models
 
+from wagtail.wagtailcore.models import Page, Orderable
+from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailcore.fields import RichTextField
+
 class Stream(models.Model):
     title = models.CharField(max_length=255)
     ident = models.CharField(max_length=255)
@@ -80,3 +84,33 @@ class Entry(models.Model):
                 if len(label) > 3 and not label in tags:
                     tags.append(label)
         self.tags = ','.join(tags)
+
+class FeedPage(Page):
+    intro = RichTextField(default='', blank=True)
+    stream = models.ForeignKey(Stream, on_delete=models.PROTECT,
+        null=True, blank=True, verbose_name='Filter to stream (optional)')
+
+    content_panels = [
+        FieldPanel('title'),
+        FieldPanel('intro'),
+        FieldPanel('stream'),
+    ]
+
+    @property
+    def feedentries(self):
+        if self.stream:
+            entries = Entry.objects.filter(stream=self.stream)
+        else:
+            entries = Entry.objects.all()
+        # Order by most recent date first
+        entries = entries.order_by('-published')
+        return entries[:10]
+
+    def get_context(self, request):
+        # Update template context
+        context = super(FeedPage, self).get_context(request)
+        context['feedentries'] = self.feedentries
+        return context
+
+    class Meta:
+        verbose_name = "Feeds"

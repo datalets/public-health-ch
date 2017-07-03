@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block title %}Feeds{% endblock %}
+
+{% block content %}
+
+<section id="article-index" class="article-index-page">
+	<div class="container">
+		<h2>{{ page.title }}</h2>
+		<p class="lead">{{ page.intro|richtext }}</p>
+	</div>
+</section>
+
+<!-- Page body -->
+<section id="news" class="feedpage-body">
+	<div class="container">
+		<div class="row">
+      {% for entry in feedentries %}
+			<div class="col-md-4 col-sm-6 col-xs-12">
+				<div class="panel panel-default">
+					{% if entry.visual %}
+						<img src="{{ entry.visual }}" width="360">
+					{% endif %}
+					<div class="panel-body">
+						<h3><span>{{ entry.title }}</span></h3>
+						<p>
+						{{ entry.content|striptags|truncatewords_html:40 }}
+						<br><em><small><span>{{ entry.author }}</span></small></em>
+						</p>
+					</div>
+					<a href="{{ entry.link }}" target="_blank" class="fill"></a>
+				</div>
+			</div>
+			{% empty %}
+			    <!-- No news today -->
+	    {% endfor %}
+		</div>
+	</div>
+</section>
+
+{% endblock %}
