@@ -8,10 +8,12 @@ FEEDLER_APPS = (
     # Wagtail apps
     'wagtail.wagtailcore',
     'wagtail.wagtailadmin',
-    'wagtail.contrib.wagtailroutablepage',
     'wagtail.contrib.modeladmin',
+    'wagtail.contrib.wagtailroutablepage',
+    'wagtail.api.v2',
 
     # Third-party apps
+    'rest_framework',
 
     # My apps
     'feedler',
