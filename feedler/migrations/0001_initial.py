@@ -10,6 +10,10 @@ class Migration(migrations.Migration):
 
     initial = True
 
+    dependencies = [
+        ('wagtailcore', '__latest__'),
+    ]
+    
     operations = [
         migrations.CreateModel(
             name='Entry',
