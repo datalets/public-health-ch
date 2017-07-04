@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+	// All external links in a new window
+	$('a[href^="http"]').filter(function() {
+		return this.hostname && this.hostname !== location.hostname;
+	}).attr('target', '_blank');
+
+	// Initialise front page carousel component
 	$('.carousel-inner.slick').slick({
 		autoplay: true,
 		autoplaySpeed: '10000',
