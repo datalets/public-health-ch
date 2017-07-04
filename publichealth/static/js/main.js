@@ -18,4 +18,11 @@ $(document).ready(function() {
 		nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
 	});
 
+	// Formatting of live news
+	$('.feedpage-body .panel').each(function() {
+		var hue = Math.floor(Math.random() * 360);
+		var pastel = 'hsl(' + hue + ', 100%, 87.5%)';
+		$(this).css('border-top', '3px solid ' + pastel);
+	});
+
 });
