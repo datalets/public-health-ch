@@ -13,7 +13,9 @@
 <section id="article-index" class="article-index-page">
 	<div class="container">
 		<h2>{{ page.title }}</h2>
-		<p class="lead">{{ page.intro|richtext }}</p>
+		{% if page.intro %}
+			<p class="lead">{{ page.intro|richtext }}</p>
+		{% endif %}
 	</div>
 </section>
 
@@ -23,15 +25,17 @@
 		<div class="row">
       {% for entry in feedentries %}
 			<div class="col-md-4 col-sm-6 col-xs-12">
+				{% if entry.visual %}
 				<div class="panel panel-default">
-					{% if entry.visual %}
-						<img src="{{ entry.visual }}" width="360">
-					{% endif %}
+					<img src="{{ entry.visual }}">
+				{% else %}
+				<div class="panel panel-fulltext">
+				{% endif %}
 					<div class="panel-body">
-						<h3><span>{{ entry.title }}</span></h3>
+						<h3><span>{{ entry.title|striptags|truncatewords_html:10 }}</span></h3>
 						<p>
-						{{ entry.content|striptags|truncatewords_html:40 }}
-						<br><em><small><span>{{ entry.author }}</span></small></em>
+							<em><small><span>{{ entry.author }}</span></small></em><br><br>
+						{{ entry.content|striptags|truncatewords_html:25 }}
 						</p>
 					</div>
 					<a href="{{ entry.link }}" target="_blank" class="fill"></a>

@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 
 from .models import Entry, Stream
+import feedler.feedparser as feedparser
 
 import logging
 logger = logging.getLogger('feedler')
@@ -60,5 +61,5 @@ def handle_save_settings(sender, instance, *args, **kwargs):
                 except Entry.DoesNotExist:
                     logger.info("Adding entry '%s'" % eid)
                     entry = Entry()
-                entry.parse(raw_entry, stream)
+                entry = feedparser.parse(entry, raw_entry, stream)
                 entry.save()

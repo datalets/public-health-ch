@@ -6,8 +6,6 @@ from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailcore.fields import RichTextField
 
-import feedler.feedparser as feedparser
-
 class Stream(models.Model):
     title = models.CharField(max_length=255)
     ident = models.CharField(max_length=255)
@@ -37,10 +35,6 @@ class Entry(models.Model):
 
     class Meta:
         verbose_name_plural = 'Entries'
-
-    def parse(self, raw, stream):
-        # TODO: Exception handling
-        feedparser.parse(self, raw, stream)
 
 class FeedPage(Page):
     intro = RichTextField(default='', blank=True)

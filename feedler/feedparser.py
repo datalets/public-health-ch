@@ -12,7 +12,7 @@ def parse(obj, raw, stream):
 
     # Date stamp handling
     ts = raw['published'] / 1000
-    obj.published = datetime.utcfromtimestamp(ts)
+    obj.published = datetime.fromtimestamp(ts)
 
     # Authorship and title
     obj.title = raw['title']
@@ -32,6 +32,8 @@ def parse(obj, raw, stream):
             obj.visual = raw['enclosure'][0]['href']
     elif 'visual' in raw and 'url' in raw['visual']:
         obj.visual = raw['visual']['url']
+    if obj.visual.lower().strip() == 'none':
+        obj.visual = ''
 
     # Collect text in nested JSON content
     if 'content' in obj.raw:
