@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-
 from django.db import models
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailcore.fields import RichTextField
+
+import feedler.feedparser as feedparser
 
 class Stream(models.Model):
     title = models.CharField(max_length=255)
@@ -39,58 +39,8 @@ class Entry(models.Model):
         verbose_name_plural = 'Entries'
 
     def parse(self, raw, stream):
-        """
-        Parse the raw JSON implementation from the Feedly API
-        """
-        self.raw = raw
-        self.stream = stream
-
-        ts = raw['published'] / 1000
-        self.published = datetime.utcfromtimestamp(ts)
-        self.entry_id = raw['id']
-
-        self.title = raw['title']
-
-        if 'author' in raw['origin']:
-            self.author = raw['author']
-        elif 'title' in raw['origin']:
-            self.author = raw['origin']['title']
-
-        if len(raw['alternate']) > 0:
-            self.link = raw['alternate'][0]['href']
-
-        if 'thumbnail' in raw and len(raw['thumbnail']) > 0:
-            if 'url' in raw['thumbnail'][0]:
-                self.visual = raw['thumbnail'][0]['url']
-        elif 'enclosure' in raw and len(raw['enclosure']) > 0:
-            if 'href' in raw['enclosure'][0]:
-                self.visual = raw['enclosure'][0]['href']
-        elif 'visual' in raw and 'url' in raw['visual']:
-            self.visual = raw['visual']['url']
-
-        self._buildContent()
-
-    def _buildContent(self):
-        # Collect text content
-        if 'content' in self.raw:
-            self.content = self.raw['content']
-        else:
-            if 'summary' in self.raw:
-                if 'content' in self.raw['summary']:
-                    self.content = self.raw['summary']['content']
-                else:
-                    self.content = self.raw['summary']
-            else:
-                self.content = ''
-        # Collect tags
-        tags = []
-        for tag in self.raw['tags']:
-            if 'label' in tag:
-                label = tag['label'].replace(',','-')
-                label = label.strip().lower()
-                if len(label) > 3 and not label in tags:
-                    tags.append(label)
-        self.tags = ','.join(tags)
+        # TODO: Exception handling
+        feedparser.parse(self, raw, stream)
 
 class FeedPage(Page):
     intro = RichTextField(default='', blank=True)
