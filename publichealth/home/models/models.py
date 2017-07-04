@@ -69,7 +69,8 @@ class ArticleIndexPage(Page):
     subpage_types = [
         'home.ArticlePage',
         'home.ArticleIndexPage',
-        'home.ContactForm'
+        'home.ContactForm',
+        'wagtailcore.Page'
     ]
     class Meta:
         verbose_name = "Rubrik"
