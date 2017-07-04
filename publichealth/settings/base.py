@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.wagtailsearchpromotions',
     'wagtail.contrib.wagtailroutablepage',
     'wagtail.contrib.wagtailsitemaps',
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -41,11 +42,15 @@ INSTALLED_APPS = [
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
 
+    'wagtail.api.v2',
+    'rest_framework',
+
     'modelcluster',
     'compressor',
     'taggit',
     'puput',
     'anymail',
+    'feedler',
 
     'django.contrib.admin',
     'django.contrib.auth',

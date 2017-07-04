@@ -62,10 +62,15 @@ class ArticleIndexPage(Page):
         context['subcategories'] = subcategories
         return context
 
+    parent_page_types = [
+        'home.ArticleIndexPage',
+        'home.HomePage'
+    ]
     subpage_types = [
         'home.ArticlePage',
         'home.ArticleIndexPage',
-        'home.ContactForm'
+        'home.ContactForm',
+        'wagtailcore.Page'
     ]
     class Meta:
         verbose_name = "Rubrik"
@@ -145,6 +150,10 @@ class ArticlePage(Page):
         MultiFieldPanel(Page.promote_panels, "Einstellungen"),
     ]
 
+    parent_page_types = [
+        'home.ArticleIndexPage',
+        'home.HomePage'
+    ]
     subpage_types = []
     class Meta:
         verbose_name = "Artikel"
@@ -212,7 +221,7 @@ class HomePage(Page):
         return articles[:4]
 
     @property
-    def newsfeed(self):
+    def blogentries(self):
         # Get list of latest news
         curlang = translation.get_language()
         if not curlang in ['de', 'fr']: curlang = 'de' # Default language
@@ -221,15 +230,15 @@ class HomePage(Page):
         entries = EntryPage.objects.live().descendant_of(parent[0])
         # Order by most recent date first
         entries = entries.order_by('-date')
-        return entries[:4]
+        return entries[:6]
 
     def get_context(self, request):
         # Update template context
         context = super(HomePage, self).get_context(request)
         context['featured'] = self.featured
-        context['newsfeed'] = self.newsfeed
+        context['blogentries'] = self.blogentries
         return context
 
-    parent_page_types = []
+    parent_page_types = ['wagtailcore.Page']
     class Meta:
         verbose_name = "Frontpage"
