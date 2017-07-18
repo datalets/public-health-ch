@@ -2,15 +2,15 @@
 
 from modelcluster.fields import ParentalKey
 
-from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, FieldRowPanel,
-    InlinePanel, MultiFieldPanel
-)
-
 from django.db.models import CharField
+
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailforms.models import (
     AbstractEmailForm, AbstractFormField
+)
+from wagtail.wagtailadmin.edit_handlers import (
+    FieldPanel, FieldRowPanel,
+    InlinePanel, MultiFieldPanel
 )
 
 from ..util import TranslatedField

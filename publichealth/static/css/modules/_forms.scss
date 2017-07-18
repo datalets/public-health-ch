@@ -1,10 +1,10 @@
-// Contact page
+// Contact page form
 #contact-page {
 
   form {
     label {
       width: 15em;
-      border-bottom: 1px dashed #ccc;
+      border-bottom: 1px dashed $gray-light;
       line-height: 166%;
       vertical-align: top;
     }
@@ -24,21 +24,28 @@
       display: block;
       font-size: 90%;
     }
+    input[type='text'], textarea {
+      border: 1px solid $gray-light;
+      padding: 3px;
+    }
+
+    // Full width comment on mobile screens
+    @include max-screen($screen-xs-max) {
+      textarea { width: 100%; }
+    }
   }
 
 }
 
-// Footer search form
-#search-form {
-
-  input {
-    float: left;
-    width: auto;
-    color: white;
+// Search result form
+#search-page {
+  input[type='text'] {
+    font-size: 110%;
   }
-  button {
-    background: none; border: none;
-    padding-top: 0.5em;
+  h4 {
+    margin-bottom: 0px;
   }
-
+  .container > center {
+    margin-bottom: 3em;
+  }
 }

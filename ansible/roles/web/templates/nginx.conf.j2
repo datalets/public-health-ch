@@ -6,7 +6,7 @@ upstream wagtail-site {
 server {
 	listen [::]:80;
 	listen 80;
-	server_name {{ domain }} www.{{ domain }};
+	server_name {{ domain }};
 
 	client_max_body_size 16M;
 
@@ -19,26 +19,28 @@ server {
 	gzip_vary on;
 
 	location /static/ {
-		access_log off;
-		expires 3600;
+		access_log off; expires 36000;
 		alias {{ release_dir }}/static/;
-				add_header Cache-Control "public";
-				add_header Access-Control-Allow-Origin https://{{ domain }};
+		add_header Cache-Control "public";
+		add_header Access-Control-Allow-Origin https://{{ domain }};
 	}
 
 	# Set a longer expiry for CACHE/, because the filenames are unique.
 	location /static/CACHE/ {
-		access_log off;
-		expires 864000;
+		access_log off; expires 864000;
 		alias {{ release_dir }}/static/CACHE/;
+	}
+
+	location /favicon.ico {
+		access_log off; expires max;
+		alias {{ release_dir }}/static/images/favicon.ico;
 	}
 
 	# Only serve /media/images by default, not e.g. original_images/.
 	location /media/images {
 		alias {{ release_dir }}/media/images;
-				access_log off;
-				expires max;
-				add_header Cache-Control "public";
+		access_log off; expires max;
+		add_header Cache-Control "public";
 	}
 
 	location / {
@@ -48,23 +50,17 @@ server {
 		proxy_redirect off;
 		proxy_pass http://wagtail-site;
 	}
-}
 
-# TODO: parameterize
-server {
-	listen 80; listen 443 ssl;
-	server_name conference.public-health.ch;
-	location /fr {
-		return 301 $scheme://sph17.organizers-congress.org/frontend/index.php?sub=89;
-	}
-	location / {
-		return 301 $scheme://sph17.organizers-congress.org;
-	}
-}
+	# Enable secure site support
+	listen [::]:443;
+	listen 443 ssl;
+	ssl on;
+	ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+	include /etc/letsencrypt/options-ssl-nginx.conf;
 
-# TODO: parameterize
-server {
-	listen 80; listen 443 ssl;
-	server_name sphc.ch;
-	return 301 $scheme://sph17.organizers-congress.org;
+	if ($scheme != "https") {
+		return 301 https://$host$request_uri;
+	}
+
 }

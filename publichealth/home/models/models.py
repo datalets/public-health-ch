@@ -3,9 +3,11 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import translation
+
 from modelcluster.fields import ParentalKey
 
-from wagtail.wagtailcore import blocks
+from wagtail.wagtailcore.blocks import StructBlock, CharBlock, URLBlock, RichTextBlock
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import StreamField, RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
@@ -13,16 +15,16 @@ from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 
-from puput.models import EntryPage
+from puput.models import EntryPage, BlogPage
 
 from ..util import TranslatedField
 
-class InfoBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=True)
+class InfoBlock(StructBlock):
+    title = CharBlock(required=True)
     photo = ImageChooserBlock(required=True)
-    summary = blocks.RichTextBlock(required=True)
-    action = blocks.CharBlock(required=False)
-    url = blocks.URLBlock(required=False)
+    summary = RichTextBlock(required=True)
+    action = CharBlock(required=False)
+    url = URLBlock(required=False)
 
 class ArticleIndexPage(Page):
     title_fr = models.CharField(max_length=255, default="")
@@ -60,10 +62,15 @@ class ArticleIndexPage(Page):
         context['subcategories'] = subcategories
         return context
 
+    parent_page_types = [
+        'home.ArticleIndexPage',
+        'home.HomePage'
+    ]
     subpage_types = [
         'home.ArticlePage',
         'home.ArticleIndexPage',
-        'home.ContactForm'
+        'home.ContactForm',
+        'wagtailcore.Page'
     ]
     class Meta:
         verbose_name = "Rubrik"
@@ -83,15 +90,15 @@ class ArticlePage(Page):
     )
 
     body_de = StreamField([
-        ('paragraph', blocks.RichTextBlock()),
+        ('paragraph', RichTextBlock()),
         ('image', ImageChooserBlock()),
-        ('section', blocks.CharBlock(classname="full title")),
+        ('section', CharBlock(classname="full title")),
         ('info', InfoBlock()),
     ], null=True, blank=True)
     body_fr = StreamField([
-        ('paragraph', blocks.RichTextBlock()),
+        ('paragraph', RichTextBlock()),
         ('image', ImageChooserBlock()),
-        ('section', blocks.CharBlock(classname="full title")),
+        ('section', CharBlock(classname="full title")),
         ('info', InfoBlock()),
     ], null=True, blank=True)
     trans_body = TranslatedField(
@@ -112,25 +119,27 @@ class ArticlePage(Page):
     )
 
     search_fields = Page.search_fields + [
-        index.SearchField('body_de'),
-        index.SearchField('body_fr'),
-        index.SearchField('title'),
-        index.SearchField('title_fr'),
-        index.SearchField('intro_de'),
-        index.SearchField('intro_fr'),
+        index.SearchField('title',    partial_match=True, boost=10),
+        index.SearchField('title_fr', partial_match=True, boost=10),
+        index.SearchField('body_de',  partial_match=True),
+        index.SearchField('body_fr',  partial_match=True),
+        index.SearchField('intro_de', partial_match=True),
+        index.SearchField('intro_fr', partial_match=True),
     ]
     content_panels = [
         MultiFieldPanel([
             FieldPanel('title'),
             FieldPanel('intro_de'),
-            StreamFieldPanel('body_de'),
         ], heading="Deutsch"),
+        StreamFieldPanel('body_de'),
         MultiFieldPanel([
             FieldPanel('title_fr'),
             FieldPanel('intro_fr'),
-            StreamFieldPanel('body_fr'),
         ], heading="Français"),
-        ImageChooserPanel('feed_image'),
+        StreamFieldPanel('body_fr'),
+        MultiFieldPanel([
+            ImageChooserPanel('feed_image'),
+        ], heading="Images"),
     ]
     promote_panels = [
         InlinePanel('related_links', label="Links"),
@@ -141,6 +150,10 @@ class ArticlePage(Page):
         MultiFieldPanel(Page.promote_panels, "Einstellungen"),
     ]
 
+    parent_page_types = [
+        'home.ArticleIndexPage',
+        'home.HomePage'
+    ]
     subpage_types = []
     class Meta:
         verbose_name = "Artikel"
@@ -180,13 +193,18 @@ class HomePage(Page):
         'infos_fr',
     )
 
+    # news_home_de = models.ForeignKey(
+    #     'puput.EntryPage',
+    #     null=True, blank=True, on_delete=models.SET_NULL,
+    # )
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('intro_de', classname="full"),
             FieldPanel('body_de', classname="full"),
             StreamFieldPanel('infos_de'),
         ], heading="Deutsch"),
-            MultiFieldPanel([
+        MultiFieldPanel([
             FieldPanel('intro_fr', classname="full"),
             FieldPanel('body_fr', classname="full"),
             StreamFieldPanel('infos_fr'),
@@ -203,21 +221,24 @@ class HomePage(Page):
         return articles[:4]
 
     @property
-    def newsfeed(self):
+    def blogentries(self):
         # Get list of latest news
-        # TODO: fetch children of 'News (DE)'
-        entries = EntryPage.objects.live().descendant_of(self)
+        curlang = translation.get_language()
+        if not curlang in ['de', 'fr']: curlang = 'de' # Default language
+        parent = BlogPage.objects.filter(slug='news-%s' % curlang)
+        if not parent: return []
+        entries = EntryPage.objects.live().descendant_of(parent[0])
         # Order by most recent date first
         entries = entries.order_by('-date')
-        return entries[:4]
+        return entries[:6]
 
     def get_context(self, request):
         # Update template context
         context = super(HomePage, self).get_context(request)
         context['featured'] = self.featured
-        context['newsfeed'] = self.newsfeed
+        context['blogentries'] = self.blogentries
         return context
 
-    parent_page_types = []
+    parent_page_types = ['wagtailcore.Page']
     class Meta:
         verbose_name = "Frontpage"

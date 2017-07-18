@@ -2,20 +2,12 @@
 // News overview
 #news {
 
-  .panel-default {
+  .panel-default, .panel-fulltext {
     font-size: 90%;
     padding-top: 75%; /* 1:1 Aspect Ratio */
     position: relative; /* If you want text inside of it */
     overflow: hidden;
     background: lighten($brand-primary, 10%);
-
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
 
     .panel-body {
       position: absolute;
@@ -24,10 +16,7 @@
       width: 100%;
       height: 100%;
       padding: 0;
-      transform: translateY(60%);
       background-color: rgba($brand-primary, .8);
-      transition: transform .65s;
-
       h3, p {
         color: white;
       }
@@ -58,9 +47,6 @@
         text-align: center;
       }
     }
-    &:hover .panel-body {
-      transform: rotateY(0);
-    }
 
     // expand link over the thumbnail
     a.fill {
@@ -70,6 +56,23 @@
       width: 100%;
       height: 100%;
       font-size: 0;
+    }
+  }
+
+  .panel-default {
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+    }
+    .panel-body {
+      transform: translateY(60%);
+      transition: transform .65s;
+    }
+    &:hover .panel-body {
+      transform: rotateY(0);
     }
   }
 }

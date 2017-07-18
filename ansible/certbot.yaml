@@ -1,0 +1,13 @@
+- hosts: webservers
+  become: true
+  become_method: 'sudo'
+  gather_facts: yes
+  vars:
+    certbot_auto_renew_user: ansible
+    certbot_auto_renew_minute: 20
+    certbot_auto_renew_hour: 5
+    certbot_dir: /opt/certbot
+    certbot_install_from_source: yes
+    certbot_version: v0.14.2
+  roles:
+    - geerlingguy.certbot

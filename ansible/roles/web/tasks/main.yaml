@@ -17,9 +17,6 @@
     - nodejs
     - setup
 
-- include: manage.yaml
+- include: release.yaml
   tags:
-    - manage
-    - docker
-    - setup
-    - run
+    - release

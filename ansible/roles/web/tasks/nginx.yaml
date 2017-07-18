@@ -7,6 +7,12 @@
     src: nginx.conf.j2
     dest: /etc/nginx/sites-available/{{ domain }}
 
+- name: Copy extra Nginx site config
+  become: true
+  template:
+    src: ph-extra-nginx.conf.j2
+    dest: /etc/nginx/sites-available/extra-{{ domain }}
+
 - name: Activate Nginx site config
   become: true
   file:

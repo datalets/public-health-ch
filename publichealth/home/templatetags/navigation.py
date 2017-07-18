@@ -7,11 +7,16 @@ register = template.Library()
 # Language switcher
 @register.inclusion_tag('tags/language.html', takes_context=True)
 def language_switcher(context):
-    url = context['page'].url
+    url = '/$lang$'
+    if 'page' in context:
+        url = context['page'].url.split('/')
+        if len(url) > 2 and len(url[1]) >= 2:
+            url[1] = '$lang$'
+            url = '/'.join(url)
     return {
         'languages': [
-            { 'code': 'de', 'title': 'De', 'url': url.replace('/fr/','/de/') },
-            { 'code': 'fr', 'title': 'Fr', 'url': url.replace('/de/','/fr/') }
+            { 'code': 'de', 'title': 'De', 'url': url.replace('$lang$','de') },
+            { 'code': 'fr', 'title': 'Fr', 'url': url.replace('$lang$','fr') }
         ],
         'currentlangcode': translation.get_language(),
         'request': context['request'],
@@ -34,7 +39,10 @@ def top_menu(context, parent, calling_page=None):
         menuitem.show_dropdown = has_menu_children(menuitem)
         menuitem.active = (calling_page.url.startswith(menuitem.url)
                            if calling_page else False)
-        menuitem.title = menuitem.trans_title
+        try:
+            menuitem.title = menuitem.trans_title
+        except AttributeError:
+            pass
     return {
         'calling_page': calling_page,
         'menuitems': menuitems,
@@ -44,7 +52,10 @@ def top_menu(context, parent, calling_page=None):
 def menuitems_children(parent):
     menuitems_children = parent.get_children().live().in_menu().specific()
     for menuitem in menuitems_children:
-        menuitem.title = menuitem.trans_title
+        try:
+            menuitem.title = menuitem.trans_title
+        except AttributeError:
+            pass
     return menuitems_children
 
 # Retrieves the children of the top menu items for the drop downs

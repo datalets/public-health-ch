@@ -1,5 +1,6 @@
 import os
 from puput import PUPUT_APPS
+from feedler import FEEDLER_APPS
 
 WAGTAIL_SITE_NAME = 'Public Health'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -16,6 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 )
 INSTALLED_APPS += PUPUT_APPS
+INSTALLED_APPS += FEEDLER_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

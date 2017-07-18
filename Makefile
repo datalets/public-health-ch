@@ -9,14 +9,14 @@ build-cached:
 build:
 	docker-compose build --no-cache
 
-run:
+run-here:
 	docker-compose stop web	# for restart cases, when already running
 	docker-compose up
 
-run-detached:
-	docker-compose up -d
+run:
+	docker-compose up -d # detach by default
 
-django-restart-detached:
+restart:
 	docker-compose stop web
 	docker-compose up -d web
 
@@ -27,7 +27,7 @@ migrate:
 	docker-compose exec web ./manage.py migrate
 
 migrations:
-	docker-compose exec web ./manage.py makemigrations
+	docker-compose exec web ./manage.py makemigrations --merge
 
 apply-migrations: migrations migrate
 
@@ -38,13 +38,21 @@ setup:
 	docker-compose exec web ./manage.py collectstatic
 
 release:
+	sudo docker-compose build web
 	docker-compose stop web
 	docker-compose kill web
-	docker-compose build web
 	docker-compose up -d web
+	docker-compose exec web ./manage.py collectstatic --noinput
+	docker-compose exec web ./manage.py compress
+
+reindex:
+	docker-compose exec web ./manage.py update_index
+
+clear_index:
+	docker-compose exec elasticsearch curl -XDELETE localhost:9200/_all
 
 django-exec-bash:
-		# execute bash in the currently running container
+	# execute bash in the currently running container
 	docker-compose exec web bash
 
 django-run-bash:
@@ -57,21 +65,40 @@ django-shell:
 logs:
 	docker-compose logs -f --tail=500
 
+backup:
+	docker-compose exec web ./manage.py dumpdata --natural-foreign --indent=4 -e contenttypes -e auth.Permission -e sessions -e wagtailcore.pagerevision -e wagtailcore.groupcollectionpermission > ~/publichealth.home.json
+	zip ~/publichealth.home.json.`date +"%d%m%Y-%H%M"`.zip ~/publichealth.home.json
+	rm ~/publichealth.home.json
+
+django-loaddata:
+	gunzip ~/publichealth.home.json.gz
+	docker-compose exec web ./manage.py loaddata ~/publichealth.home.json
+
+restore: django-loaddata restart
+
+psql:
+	docker-compose exec postgres psql -U postgres -d postgres
+
 pg-run-detached:
-		# start pg service
-	docker-compose up -d pg_database
+	# start pg service
+	docker-compose up -d postgres
 
 pg-exec:
-	docker-compose exec pg_database bash
+	docker-compose exec postgres bash
 
 pg-dump:
-	docker-compose exec pg_database bash -c 'pg_dump -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f ./dumps/latest.sql'
+	docker-compose exec postgres bash -c 'pg_dump -U postgres -d postgres -f ./latest.sql'
+
+pg-backup:
+	docker-compose exec postgres bash -c 'pg_dump -U postgres -d postgres' > ~/pg-backup.sql
+	zip ~/pg-backup.sql.`date +"%d%m%Y-%H%M"`.zip ~/pg-backup.sql
+	rm ~/pg-backup.sql
 
 pg-restore:
-	docker-compose exec pg_database bash -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" -f ./dumps/latest.sql'
+	docker-compose exec postgres bash -c 'psql -U postgres -d postgres -f ./latest.sql'
 
 pg-surefire-drop-restore-db:
-		# drop existing database, recreate it, and then restore its content from backup.
-	-docker-compose exec pg_database bash -c 'dropdb -h localhost -U "$$POSTGRES_USER" "$$POSTGRES_DB"'
-	docker-compose exec pg_database bash -c 'createdb -h localhost -U "$$POSTGRES_USER" "$$POSTGRES_DB"'
+	# drop existing database, recreate it, and then restore its content from backup.
+	-docker-compose exec postgres bash -c 'dropdb -h localhost -U postgres postgres'
+	docker-compose exec postgres bash -c 'createdb -h localhost -U postgres postgres'
 	make pg-restore

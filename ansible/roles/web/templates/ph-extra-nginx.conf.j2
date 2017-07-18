@@ -1,0 +1,32 @@
+#{{ ansible_managed }}
+
+# Web archive and other special configurations for public-health.ch
+
+server {
+	listen 80;
+	server_name www-old.{{ domain }};
+	index index.html index.htm;
+	root {{ archive_dir }};
+	location / {
+		try_files $uri $uri/ =404;
+	}
+}
+
+# TODO: parameterize
+server {
+	listen 80;
+	server_name conference.{{ domain }};
+	location /fr {
+		return 301 $scheme://sph17.organizers-congress.org/frontend/index.php?sub=89;
+	}
+	location / {
+		return 301 $scheme://sph17.organizers-congress.org;
+	}
+}
+
+# TODO: parameterize
+server {
+	listen 80;
+	server_name sphc.ch;
+	return 301 $scheme://sph17.organizers-congress.org;
+}

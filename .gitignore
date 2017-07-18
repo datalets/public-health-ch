@@ -4,6 +4,7 @@
 .DS_Store
 *.swp
 *.sqlite3
+/docker-compose.yml
 /env/
 /venv/
 /static/
@@ -15,3 +16,4 @@
 /docs/_build/
 /node_modules/
 /publichealth/static/libs/
+/mockup/assets/css/*.css

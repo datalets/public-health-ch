@@ -145,7 +145,7 @@ if REDIS_LOCATION is not None:
 if 'ELASTICSEARCH_URL' in env:
     WAGTAILSEARCH_BACKENDS = {
         'default': {
-            'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch5',
+            'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch2',
             'URLS': [env['ELASTICSEARCH_URL']],
             'INDEX': APP_NAME,
             'ATOMIC_REBUILD': True,
@@ -178,7 +178,7 @@ LOGGING = {
         },
         'wagtail': {
             'handlers':     [],
-            'level':        'INFO',
+            'level':        'WARNING',
             'propagate':    False,
             'formatter':    'verbose',
         },
@@ -211,7 +211,7 @@ if 'LOG_DIR' in env:
 
     # Wagtail log
     LOGGING['handlers']['wagtail_file'] = {
-        'level':        'INFO',
+        'level':        'WARNING',
         'class':        'cloghandler.ConcurrentRotatingFileHandler',
         'filename':     os.path.join(env['LOG_DIR'], 'wagtail.log'),
         'maxBytes':     5242880, # 5MB

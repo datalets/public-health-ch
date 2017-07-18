@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.wagtailsearchpromotions',
     'wagtail.contrib.wagtailroutablepage',
     'wagtail.contrib.wagtailsitemaps',
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -41,11 +42,15 @@ INSTALLED_APPS = [
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
 
+    'wagtail.api.v2',
+    'rest_framework',
+
     'modelcluster',
     'compressor',
     'taggit',
     'puput',
     'anymail',
+    'feedler',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,14 +131,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'de-DE'
+LANGUAGE_CODE = 'de' # default language
 
 TIME_ZONE = 'Europe/Zurich'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
