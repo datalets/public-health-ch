@@ -231,8 +231,14 @@ class HomePage(Page):
 
     @property
     def newsentries(self):
-        # Get news entries
+        # Get the last few news entries
         entries = Entry.objects.all().order_by('-published')
+        # Filter out by current language
+        curlang = translation.get_language()
+        if curlang in ['de']:
+            entries = entries.exclude(lang='fr')
+        elif curlang in ['fr']:
+            entries = entries.exclude(lang='de')
         return entries[:6]
 
     def get_context(self, request):

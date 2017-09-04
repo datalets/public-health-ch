@@ -132,6 +132,10 @@ PASSWORD_REQUIRED_TEMPLATE = 'password.html'
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
+LANGUAGES = (
+   ('de', u'Deutsch'),
+   ('fr', u'Français'),
+)
 LANGUAGE_CODE = 'de' # default language
 
 TIME_ZONE = 'Europe/Zurich'

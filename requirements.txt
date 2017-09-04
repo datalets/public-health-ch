@@ -8,8 +8,9 @@ Django==1.11.4
 psycopg2==2.7.3.1
 dj-database-url==0.4.2
 
-# Addons
+# Content
 puput==0.9
+guess-language==0.2
 
 # Search
 elasticsearch>=2.0.0,<3.0.0
