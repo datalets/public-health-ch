@@ -34,8 +34,8 @@
 					<div class="panel-body">
 						<h3><span>{{ entry.title|striptags|truncatewords_html:10 }}</span></h3>
 						<p>
-							<em><small><span>{{ entry.author }}</span></small></em><br><br>
-						{{ entry.content|striptags|truncatewords_html:25 }}
+							{{ entry.content|striptags|truncatewords_html:25 }}
+							<em><span>{{ entry.author }}</span></em>
 						</p>
 					</div>
 					<a href="{{ entry.link }}" target="_blank" class="fill"></a>
