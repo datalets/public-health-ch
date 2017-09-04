@@ -10,7 +10,7 @@ dj-database-url==0.4.2
 
 # Content
 puput==0.9
-guess-language==0.2
+guess-language-spirit==0.5.3
 
 # Search
 elasticsearch>=2.0.0,<3.0.0
