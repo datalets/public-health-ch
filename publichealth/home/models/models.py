@@ -16,6 +16,8 @@ from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 
 from puput.models import EntryPage, BlogPage
+from feedler.models import Entry
+from itertools import chain
 
 from ..util import TranslatedField
 
@@ -193,11 +195,6 @@ class HomePage(Page):
         'infos_fr',
     )
 
-    # news_home_de = models.ForeignKey(
-    #     'puput.EntryPage',
-    #     null=True, blank=True, on_delete=models.SET_NULL,
-    # )
-
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('intro_de', classname="full"),
@@ -227,10 +224,12 @@ class HomePage(Page):
         if not curlang in ['de', 'fr']: curlang = 'de' # Default language
         parent = BlogPage.objects.filter(slug='news-%s' % curlang)
         if not parent: return []
-        entries = EntryPage.objects.live().descendant_of(parent[0])
+        posts = EntryPage.objects.live().descendant_of(parent[0])
         # Order by most recent date first
-        entries = entries.order_by('-date')
-        return entries[:6]
+        posts = posts.order_by('-date')
+        # Get news entries
+        entries = Entry.objects.all().order_by('-published')
+        return list(chain(entries[:3], posts[:3]))
 
     def get_context(self, request):
         # Update template context

@@ -75,6 +75,12 @@
       transform: rotateY(0);
     }
   }
+
+  .news-entry .panel-body {
+    background-color: #f0f0f0;
+    border: 2px solid rgba(38, 67, 169, 0.8);
+    *,a { color: black !important; }
+  }
 }
 
 // News detail article
