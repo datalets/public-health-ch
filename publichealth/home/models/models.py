@@ -227,15 +227,20 @@ class HomePage(Page):
         posts = EntryPage.objects.live().descendant_of(parent[0])
         # Order by most recent date first
         posts = posts.order_by('-date')
+        return posts[:3]
+
+    @property
+    def newsentries(self):
         # Get news entries
         entries = Entry.objects.all().order_by('-published')
-        return list(chain(entries[:3], posts[:3]))
+        return entries[:6]
 
     def get_context(self, request):
         # Update template context
         context = super(HomePage, self).get_context(request)
         context['featured'] = self.featured
         context['blogentries'] = self.blogentries
+        context['newsentries'] = self.newsentries
         return context
 
     parent_page_types = ['wagtailcore.Page']
