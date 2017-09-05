@@ -61,5 +61,7 @@ def handle_save_settings(sender, instance, *args, **kwargs):
                 except Entry.DoesNotExist:
                     logger.info("Adding entry '%s'" % eid)
                     entry = Entry()
+                # Parse the Feedly object
                 entry = feedparser.parse(entry, raw_entry, stream)
+                # Persist resulting object
                 entry.save()

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from guess_language import guess_language
 
 def parse(obj, raw, stream):
     """
@@ -47,14 +48,18 @@ def parse(obj, raw, stream):
         else:
             obj.content = ''
 
+    # Detect language
+    obj.lang = guess_language(obj.content) or ''
+
     # Collect tags
     tags = []
-    for tag in obj.raw['tags']:
-        if 'label' in tag:
-            label = tag['label'].replace(',','-')
-            label = label.strip().lower()
-            if len(label) > 3 and not label in tags:
-                tags.append(label)
-    obj.tags = ','.join(tags)
+    if 'tags' in obj.raw:
+        for tag in obj.raw['tags']:
+            if 'label' in tag:
+                label = tag['label'].replace(',','-')
+                label = label.strip().lower()
+                if len(label) > 3 and not label in tags:
+                    tags.append(label)
+        obj.tags = ','.join(tags)
 
     return obj

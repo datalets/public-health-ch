@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.utils import translation
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
@@ -12,6 +14,14 @@ class Stream(models.Model):
 
     def __str__(self):
         return self.title
+
+LANGUAGE_CHOICES = (
+    ('de', 'Deutsch'),
+    ('fr', 'Français'),
+    ('it', 'Italiano'),
+    ('en', 'English'),
+    ('',   ' * * * '),
+)
 
 class Entry(models.Model):
     """Implementation of the Entry from the feedly API as generic Django model
@@ -25,7 +35,7 @@ class Entry(models.Model):
     author = models.CharField(max_length=255, blank=True)
     link = models.URLField()
     visual = models.URLField(blank=True)
-
+    lang = models.CharField(max_length=2, blank=True, default='', choices=LANGUAGE_CHOICES)
     content = models.TextField()
     tags = models.TextField(blank=True)
 
@@ -53,14 +63,28 @@ class FeedPage(Page):
             entries = Entry.objects.filter(stream=self.stream)
         else:
             entries = Entry.objects.all()
+        # Filter out by chosen language
+        curlang = translation.get_language()
+        if curlang in ['de']:
+            entries = entries.exclude(lang='fr')
+        elif curlang in ['fr']:
+            entries = entries.exclude(lang='de')
         # Order by most recent date first
-        entries = entries.order_by('-published')
-        return entries[:10]
+        return entries.order_by('-published')[:72]
 
     def get_context(self, request):
         # Update template context
         context = super(FeedPage, self).get_context(request)
-        context['feedentries'] = self.feedentries
+
+        # Wrap with pagination
+        paginator = Paginator(self.feedentries, 9)
+        page = request.GET.get('page')
+        try:
+            feedentries = paginator.page(page)
+        except (PageNotAnInteger, EmptyPage):
+            feedentries = paginator.page(1)
+
+        context['feedentries'] = feedentries
         return context
 
     class Meta:
