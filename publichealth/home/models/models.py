@@ -227,15 +227,26 @@ class HomePage(Page):
         posts = EntryPage.objects.live().descendant_of(parent[0])
         # Order by most recent date first
         posts = posts.order_by('-date')
-        # Get news entries
+        return posts[:3]
+
+    @property
+    def newsentries(self):
+        # Get the last few news entries
         entries = Entry.objects.all().order_by('-published')
-        return list(chain(entries[:3], posts[:3]))
+        # Filter out by current language
+        curlang = translation.get_language()
+        if curlang in ['de']:
+            entries = entries.exclude(lang='fr')
+        elif curlang in ['fr']:
+            entries = entries.exclude(lang='de')
+        return entries[:6]
 
     def get_context(self, request):
         # Update template context
         context = super(HomePage, self).get_context(request)
         context['featured'] = self.featured
         context['blogentries'] = self.blogentries
+        context['newsentries'] = self.newsentries
         return context
 
     parent_page_types = ['wagtailcore.Page']

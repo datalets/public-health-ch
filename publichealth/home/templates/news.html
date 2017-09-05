@@ -5,7 +5,6 @@
 	<div class="container">
 		<div class="row">
       {% for entry in blogentries %}
-			{% if entry.body %}
 			<!-- Blog post {{ entry.id }} -->
 			<div class="col-md-4 col-sm-6 col-xs-12 blog-entry">
 				<div class="panel panel-default">
@@ -21,12 +20,16 @@
 							{{ entry.body|striptags|truncatewords_html:40 }}
 						{% endif %}
 						</p>
-						<a href="{% pageurl entry %}" class="btn btn-default btn-xs">Mehr erfahren</a>
+						<a href="{% pageurl entry %}" class="btn btn-default btn-xs"> ... </a>
 					</div>
 					<a href="{% pageurl entry %}" class="fill"></a>
 				</div>
 			</div>
-		{% else %}
+		{% empty %}
+				<!-- No blogs today -->
+		{% endfor %}
+			<h4 class="partner-news"><a href="/aktuelles/">Partner news</a></h4>
+		{% for entry in newsentries %}
 			<!-- News entry {{ entry.id }} -->
 			<div class="col-md-4 col-sm-6 col-xs-12 news-entry">
 				{% if entry.visual %}
@@ -38,14 +41,12 @@
 					<div class="panel-body">
 						<h3><span>{{ entry.title|striptags|truncatewords_html:10 }}</span></h3>
 						<p>
-							<em><small><span>{{ entry.author }}</span></small></em><br><br>
-						{{ entry.content|striptags|truncatewords_html:25 }}
+							<em><small><span>{{ entry.author }}</span></small></em>
 						</p>
 					</div>
 					<a href="{{ entry.link }}" target="_blank" class="fill"></a>
 				</div>
 			</div>
-		{% endif %}
 		{% empty %}
 		    <!-- No news today -->
     {% endfor %}
