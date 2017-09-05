@@ -70,7 +70,7 @@ class FeedPage(Page):
         elif curlang in ['fr']:
             entries = entries.exclude(lang='de')
         # Order by most recent date first
-        return entries.order_by('-published')
+        return entries.order_by('-published')[:72]
 
     def get_context(self, request):
         # Update template context
