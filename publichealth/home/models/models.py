@@ -7,7 +7,7 @@ from django.utils import translation
 
 from modelcluster.fields import ParentalKey
 
-from wagtail.wagtailcore.blocks import StructBlock, CharBlock, URLBlock, RichTextBlock
+from wagtail.wagtailcore.blocks import StructBlock, CharBlock, URLBlock, RichTextBlock, ListBlock, TextBlock
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import StreamField, RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
@@ -77,6 +77,13 @@ class ArticleIndexPage(Page):
     class Meta:
         verbose_name = "Rubrik"
 
+class ImageCarouselBlock(StructBlock):
+    image = ImageChooserBlock()
+    caption = TextBlock(required=False)
+
+    class Meta:
+        icon = 'image'
+
 class ArticlePage(Page):
     title_fr = models.CharField(max_length=255, default="")
     trans_title = TranslatedField(
@@ -93,7 +100,7 @@ class ArticlePage(Page):
 
     body_de = StreamField([
         ('paragraph', RichTextBlock()),
-        ('image', ImageChooserBlock()),
+        ('image_carousel', ListBlock(ImageCarouselBlock(),template='publichealth/templates/home/article_page.html',icon="image")),
         ('section', CharBlock(classname="full title")),
         ('info', InfoBlock()),
     ], null=True, blank=True)
