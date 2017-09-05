@@ -19,12 +19,32 @@
 	</div>
 </section>
 
+
 <!-- Page body -->
 <section id="news" class="feedpage-body">
 	<div class="container">
+
+		<!-- Pagination -->
+		<center>
+			<ul class="pagination">
+			  {% if feedentries.has_previous %}
+			    <li><a href="?page={{ feedentries.previous_page_number }}" title="Previous">
+						<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a></li>
+			  {% endif %}
+			  {% for page_num in feedentries.paginator.page_range %}
+			    <li {% if page_num == feedentries.number %}class="active"{% endif %}>
+						<a href="?page={{ page_num }}">{{ page_num }}</a></li>
+			  {% endfor %}
+				{% if feedentries.has_next %}
+				  <li><a href="?page={{ feedentries.next_page_number }}" title="Next">
+						<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></a></li>
+				{% endif %}
+			</ul>
+		</center>
+
 		<div class="row">
       {% for entry in feedentries %}
-			<div class="col-md-4 col-sm-6 col-xs-12">
+			<div class="col-md-4 col-sm-6 col-xs-12 news-entry">
 				{% if entry.visual %}
 				<div class="panel panel-default">
 					<img src="{{ entry.visual }}">
@@ -34,14 +54,13 @@
 					<div class="panel-body">
 						<h3><span>{{ entry.title|striptags|truncatewords_html:10 }}</span></h3>
 						<p>
-							<em><small><span>{{ entry.author }}</span></small></em><br><br>
-						{{ entry.content|striptags|truncatewords_html:25 }}
+							{{ entry.content|striptags|truncatewords_html:25 }}
+							<em><span>{{ entry.author }}</span></em>
 						</p>
 					</div>
 					<a href="{{ entry.link }}" target="_blank" class="fill"></a>
 				</div>
 			</div>
-			<!-- {{ entry.raw }} -->
 			{% empty %}
 			    <!-- No news today -->
 	    {% endfor %}

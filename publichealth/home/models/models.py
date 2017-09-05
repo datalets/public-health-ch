@@ -239,7 +239,7 @@ class HomePage(Page):
             entries = entries.exclude(lang='fr')
         elif curlang in ['fr']:
             entries = entries.exclude(lang='de')
-        return entries[:6]
+        return entries[:3]
 
     def get_context(self, request):
         # Update template context

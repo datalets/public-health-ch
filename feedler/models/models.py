@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.utils import translation
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailcore.fields import RichTextField
-
-from django.utils import translation
 
 class Stream(models.Model):
     title = models.CharField(max_length=255)
@@ -70,13 +70,21 @@ class FeedPage(Page):
         elif curlang in ['fr']:
             entries = entries.exclude(lang='de')
         # Order by most recent date first
-        entries = entries.order_by('-published')
-        return entries[:10]
+        return entries.order_by('-published')[:72]
 
     def get_context(self, request):
         # Update template context
         context = super(FeedPage, self).get_context(request)
-        context['feedentries'] = self.feedentries
+
+        # Wrap with pagination
+        paginator = Paginator(self.feedentries, 9)
+        page = request.GET.get('page')
+        try:
+            feedentries = paginator.page(page)
+        except (PageNotAnInteger, EmptyPage):
+            feedentries = paginator.page(1)
+
+        context['feedentries'] = feedentries
         return context
 
     class Meta:
