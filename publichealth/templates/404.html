@@ -1,11 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}404 - Page not found{% endblock %}
+{% block title %}404 - Seite nicht gefunden{% endblock %}
 
 {% block body_class %}template-404{% endblock %}
 
 {% block content %}
-    <h1>Page not found</h1>
+<section>
+  <div class="container">
 
-    <h2>Sorry, this page could not be found.</h2>
+    <h1>Nicht gefunden/Introuvable</h1>
+
+    <center>
+    <!-- Search form -->
+		<form action="/search/" method="get">
+			<input type="text" name="query" value="" id="search-form-404" class="form-control">
+			<button type="submit" title="Search">
+				<span class="glyphicon glyphicon-search" aria-hidden="false"></span>
+			</button>
+		</form>
+
+    <em><p>
+      <br>Diese Seite konnte nicht gefunden werden. Möchten Sie eine Suche starten?
+      <br>Désolé, cette page est introuvable. Voulez-vous faire une recherche sur le site?
+      <br>Sorry, this page could not be found. Would you like to do a search of the site?
+    </p></em>
+
+    </center>
+  </div>
+</section>
+
+<script>
+  document.getElementById('search-form-404').value = document.location.pathname.split('/')[2];
+</script>
 {% endblock %}

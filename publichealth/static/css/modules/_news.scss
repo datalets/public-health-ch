@@ -46,6 +46,12 @@
         margin: 10px 0 0 15px;
         text-align: center;
       }
+      em {
+        display: block;
+        font-size: 95%;
+        margin: 0.5em 0;
+        font-weight: 500;
+      }
     }
 
     // expand link over the thumbnail
@@ -74,6 +80,29 @@
     &:hover .panel-body {
       transform: rotateY(0);
     }
+  }
+
+  .news-entry {
+    // height: 8em;
+    .panel {
+      background: none;
+      box-shadow: none;
+      border: none;
+    }
+    .panel-body {
+      // height: 50%;
+      background-color: #ffffff;
+      border-radius: 4px;
+      border-top: 3px solid $brand-primary;
+      // border: 2px solid rgba(38, 67, 169, 0.8);
+      *,a { color: black !important; }
+    }
+  }
+
+  .partner-news {
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 1em;
   }
 }
 

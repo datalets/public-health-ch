@@ -1,10 +1,12 @@
 {% load wagtailcore_tags wagtailimages_tags puput_tags %}
 
+<!-- Front page news -->
 <section id="news">
 	<div class="container">
 		<div class="row">
       {% for entry in blogentries %}
-			<div class="col-md-4 col-sm-6 col-xs-12">
+			<!-- Blog post {{ entry.id }} -->
+			<div class="col-md-4 col-sm-6 col-xs-12 blog-entry">
 				<div class="panel panel-default">
 					{% if entry.header_image %}
 						{% image entry.header_image fill-360x270 %}
@@ -18,9 +20,33 @@
 							{{ entry.body|striptags|truncatewords_html:40 }}
 						{% endif %}
 						</p>
-						<a href="{% pageurl entry %}" class="btn btn-default btn-xs">Mehr erfahren</a>
+						<a href="{% pageurl entry %}" class="btn btn-default btn-xs"> 🡆 </a>
 					</div>
 					<a href="{% pageurl entry %}" class="fill"></a>
+				</div>
+			</div>
+		{% empty %}
+				<!-- No blogs today -->
+		{% endfor %}
+			<!-- <h4 class="partner-news"><a href="/aktuelles/">Partner news</a></h4> -->
+		{% for entry in newsentries %}
+			<!-- News entry {{ entry.id }} -->
+			<div class="col-md-4 col-sm-6 col-xs-12 news-entry">
+				{% if entry.visual %}
+				<div class="panel panel-default">
+					<img src="{{ entry.visual }}">
+				{% else %}
+				<div class="panel panel-fulltext">
+				{% endif %}
+					<div class="panel-body">
+						<h3><span>{{ entry.title|striptags|truncatewords_html:10 }}</span></h3>
+						<p>
+							{{ entry.content|striptags|truncatewords_html:25 }}
+							<em><span>{{ entry.author }}</span></em>
+						</p>
+					</div>
+					<a href="/aktuelles/" class="fill"></a>
+					<!-- <a href="{{ entry.link }}" target="_blank" class="fill"></a> -->
 				</div>
 			</div>
 		{% empty %}

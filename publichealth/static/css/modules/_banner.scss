@@ -80,8 +80,11 @@
   }
 }
 
-
-
+/* Home page banner background */
+body.template-frontpage {
+  background: $gray-lighter;
+  .home_page section:nth-child(even) { background: white; }
+}
 
 /* Page header */
 $banner-height: 700px;
