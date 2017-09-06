@@ -25,4 +25,27 @@ $(document).ready(function() {
 	// 	$(this).css('border-top', '3px solid ' + pastel);
 	// });
 
+	// Carousel gallery component (article_page)
+	var si = $('#article_page-gallery').royalSlider({
+		addActiveClass: true,
+		arrowsNav: true,
+		controlNavigation: 'none',
+		autoScaleSlider: true,
+		autoScaleSliderWidth: 900,
+		autoScaleSliderHeight: 250,
+		loop: true,
+		fadeinLoadedSlide: false,
+		globalCaption: true,
+		keyboardNavEnabled: true,
+		globalCaptionInside: false,
+		visibleNearby: {
+			enabled: true,
+			centerArea: 0.4,
+			center: true,
+			breakpoint: 650,
+			breakpointCenterArea: 0.64,
+			navigateByCenterClick: true
+		}
+	}).data('royalSlider');
+
 });

@@ -1,0 +1,20 @@
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+<!-- Gallery Template -->
+<link rel="stylesheet" href="{% static "/css/sw_carousel.min.css" %}" />
+<div class="container-carousel">
+
+  <div id="article_page-gallery" class="royalSlider rsDefault visibleNearby">
+  {% for block in page.gallery %}
+    {% for val in block.value %}
+
+    {% image val.image height-400 as carouselimagedata %}
+    <a class="rsImg" data-caption="{{ val.caption }}" data-rsw="{{ carouselimagedata.width }}" data-rsh="{{ carouselimagedata.height }}"  href="{{ carouselimagedata.url }}">
+      {% image val.image height-400 %}
+    </a>
+
+    {% endfor %}
+  {% endfor %}
+  </div>
+
+</div>
