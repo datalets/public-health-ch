@@ -1,62 +1,12 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags static block_tags %}
+{% load wagtailcore_tags %}
 
 {% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
 
 {% block content %}
 <section id="news-details" class="article-page">
   <div class="container">
-
     {% include 'home/page_content.html' %}
-
   </div>
-
-    <!-- Gallery Template -->
-
-  <link rel="stylesheet" href="{% static "/css/sw_carousel.min.css" %}" />
-  <div class="container-carousel">
-
-      <div id="{{ id_prefix }}-gallery" class="royalSlider rsDefault visibleNearby">
-
-     {% for item in self %}
-
-            {% image item.image height-400 as carouselimagedata %}
-            <a class="rsImg" data-rsw="{{ carouselimagedata.width }}" data-rsh="{{ carouselimagedata.height }}"  href="{{ carouselimagedata.url }}">
-                    {{ item.caption }}
-            </a>
-
-     {% endfor %}
-
-      </div>
-
-  </div>
-
-<script>
-  // Important note! If you're adding CSS3 transition to slides, fadeInLoadedSlide should be disabled to avoid fade-conflicts.
-  jQuery(document).ready(function($) {
-    var si = $('#{{ id_prefix }}-gallery').royalSlider({
-      addActiveClass: true,
-      arrowsNav: true,
-      controlNavigation: 'none',
-      autoScaleSlider: true,
-      autoScaleSliderWidth: 900,
-      autoScaleSliderHeight: 250,
-      loop: true,
-      fadeinLoadedSlide: false,
-      globalCaption: true,
-      keyboardNavEnabled: true,
-      globalCaptionInside: false,
-      visibleNearby: {
-        enabled: true,
-        centerArea: 0.4,
-        center: true,
-        breakpoint: 650,
-        breakpointCenterArea: 0.64,
-        navigateByCenterClick: true
-      }
-    }).data('royalSlider');
-
-  });
-</script>
 </section>
 {% endblock %}
