@@ -1,20 +1,38 @@
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load compress static wagtailcore_tags wagtailimages_tags %}
+{% compress js %}
+<script src="{% static 'libs/jquery/dist/jquery.js' %}"></script>
+<script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
+<script src="{% static 'libs/slick-lightbox/dist/slick-lightbox.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{% endcompress %}
+
+{% block extra_css %}
+		<link rel="stylesheet" type="text/x-scss" href="{% static 'libs/slick-carousel/slick/slick.scss' %}">
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'libs/slick-carousel/slick/slick-theme.scss' %}">
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'libs/slick-lightbox/src/styles/slick-lightbox.sass' %}">
+{% endblock %}
 
 <!-- Gallery Template -->
-<link rel="stylesheet" href="{% static "/css/sw_carousel.min.css" %}" />
-<div class="container-carousel">
 
-  <div id="article_page-gallery" class="royalSlider rsDefault visibleNearby">
-  {% for block in page.gallery %}
-    {% for val in block.value %}
+<div id="lazy" class="row">
+{% for block in page.gallery %}
+  {% for val in block.value %}
 
-    {% image val.image height-400 as carouselimagedata %}
-    <a class="rsImg" data-caption="{{ val.caption }}" data-rsw="{{ carouselimagedata.width }}" data-rsh="{{ carouselimagedata.height }}"  href="{{ carouselimagedata.url }}">
-      {% image val.image height-400 %}
-    </a>
+  {% image val.image height-400 as carouselimagedata %}
+  <a class="thumbnail" href="{{ carouselimagedata.url }}" data-caption="{{ val.caption }}">
+    {% image val.image height-400 %}
+  </a>
 
-    {% endfor %}
   {% endfor %}
-  </div>
-
+{% endfor %}
 </div>
+
+<script type="text/javascript">
+  $('#lazy').slickLightbox({
+    src: 'src',
+    itemSelector: 'img',
+    lazy: true,
+    useHistoryApi: 'true'
+  });
+  console.log($('#lazy').slickLightbox);
+</script>
