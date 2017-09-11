@@ -1,8 +1,8 @@
-# Updated: 4.9.2017
+# Updated: 11.9.2017
 
 # Core
 wagtail==1.12.1
-Django==1.11.4
+Django==1.11.5
 
 # Database
 psycopg2==2.7.3.1
@@ -13,7 +13,7 @@ puput==0.9
 guess-language-spirit==0.5.3
 
 # Search
-elasticsearch>=2.0.0,<3.0.0
+elasticsearch==2.0.0,<3.0.0
 
 # Caching
 django-redis==4.8.0
