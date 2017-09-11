@@ -6238,7 +6238,7 @@ button.close {
 .carousel {
   position: relative;
 }
-.carousel-inner {
+/*.carousel-inner {
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -6313,7 +6313,7 @@ button.close {
 }
 .carousel-inner > .active.right {
   left: 100%;
-}
+}*/
 .carousel-control {
   position: absolute;
   top: 0;

@@ -193,9 +193,10 @@ $banner-height: 700px;
 }
 
 // Carousel gallery
-$gallery-height: 400px;
+
+$gallery-height: 550px;
 .carousel-inner {
-  padding-bottom: 2.5em;
+  padding-bottom: 0;
 
   .item  {
     height: $gallery-height;

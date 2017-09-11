@@ -13,3 +13,14 @@
   {% endfor %}
 {% endfor %}
 </div>
+<div class="carousel-inner slider-nav">
+{% for block in page.gallery %}
+  {% for val in block.value %}
+		<div class="item">
+			{% image val.image fill-700x400 as entry_thumb %}
+			{% image val.image original as entry_photo %}
+			<image data-src="{{ entry_photo.url }}" style="background-image:url({{ entry_thumb.url }})">
+		</div>
+  {% endfor %}
+{% endfor %}
+</div>

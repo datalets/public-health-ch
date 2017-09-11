@@ -22,14 +22,11 @@ $(document).ready(function() {
 	} else if ($('.carousel-gallery').length) {
 		// Load gallery component
 		$('.carousel-gallery').slick({
-			autoplay: false,
-			dots: false,
-			fade: false,
-			infinite: true,
-		  slidesToShow: 1,
-		  centerMode: true,
-			prevArrow: '<span class="arrow left glyphicon glyphicon-chevron-left" aria-hidden="true">Previous</span>',
-			nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			arrows: false,
+			fade: true,
+			asNavFor: '.slider-nav'
 		}).slickLightbox({
 		  src: 'data-src',
 		  itemSelector: 'img',
@@ -37,7 +34,16 @@ $(document).ready(function() {
 		  // useHistoryApi: 'true'
 		});
 	}
-
+	$('.slider-nav').slick({
+		slidesToShow: 3,
+		slidesToScroll: 1,
+		asNavFor: '.carousel-gallery',
+		dots: true,
+		centerMode: true,
+		focusOnSelect: true,
+		prevArrow: '<span class="arrow left glyphicon glyphicon-chevron-left" aria-hidden="true">Previous</span>',
+		nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
+	});
 
 
 	// Pastel colors on live news
