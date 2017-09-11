@@ -1,38 +1,15 @@
 {% load compress static wagtailcore_tags wagtailimages_tags %}
-{% compress js %}
-<script src="{% static 'libs/jquery/dist/jquery.js' %}"></script>
-<script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
-<script src="{% static 'libs/slick-lightbox/dist/slick-lightbox.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-{% endcompress %}
-
-{% block extra_css %}
-		<link rel="stylesheet" type="text/x-scss" href="{% static 'libs/slick-carousel/slick/slick.scss' %}">
-    <link rel="stylesheet" type="text/x-scss" href="{% static 'libs/slick-carousel/slick/slick-theme.scss' %}">
-    <link rel="stylesheet" type="text/x-scss" href="{% static 'libs/slick-lightbox/src/styles/slick-lightbox.sass' %}">
-{% endblock %}
 
 <!-- Gallery Template -->
 
-<div id="lazy" class="row">
+<div class="carousel-inner carousel-gallery slick" role="listbox">
 {% for block in page.gallery %}
   {% for val in block.value %}
-
-  {% image val.image height-400 as carouselimagedata %}
-  <a class="thumbnail" href="{{ carouselimagedata.url }}" data-caption="{{ val.caption }}">
-    {% image val.image height-400 %}
-  </a>
-
+		<div class="item">
+			{% image val.image fill-700x400 as entry_thumb %}
+			{% image val.image original as entry_photo %}
+			<image data-src="{{ entry_photo.url }}" style="background-image:url({{ entry_thumb.url }})">
+		</div>
   {% endfor %}
 {% endfor %}
 </div>
-
-<script type="text/javascript">
-  $('#lazy').slickLightbox({
-    src: 'src',
-    itemSelector: 'img',
-    lazy: true,
-    useHistoryApi: 'true'
-  });
-  console.log($('#lazy').slickLightbox);
-</script>

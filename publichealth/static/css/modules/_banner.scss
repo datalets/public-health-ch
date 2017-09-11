@@ -93,49 +93,6 @@ $banner-height: 700px;
   padding-top: 0 !important;
   padding-bottom: 0em;
 
-  .carousel-inner {
-    padding-bottom: 2.5em;
-
-    .item  {
-      height: $banner-height;
-      position: relative;
-      background-color: white;
-
-      img {
-        width: 100%;
-        height: $banner-height;
-        overflow: hidden;
-        display: block;
-        background-size: cover;
-        background-position: center;
-        opacity: 1;
-
-      }
-      .carousel-caption {
-        background-color: white;
-        padding: 2em;
-        bottom: -2em;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-
-        h3 {
-          margin-top: 0;
-        }
-        p:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
-    .slick-dots {
-      bottom: 50px;
-
-      li {
-        margin: 0;
-        button {
-          box-shadow: none;
-        }
-      }
-    }
-  }
   h3, p, button {
     color: #333;
     text-shadow: none;
@@ -153,6 +110,49 @@ $banner-height: 700px;
     text-align: left;
     font-size: 110%;
     margin-top: 2em;
+  }
+}
+.carousel-inner {
+  padding-bottom: 2.5em;
+
+  .item  {
+    height: $banner-height;
+    position: relative;
+    background-color: white;
+
+    img {
+      width: 100%;
+      height: $banner-height;
+      overflow: hidden;
+      display: block;
+      background-size: cover;
+      background-position: center;
+      opacity: 1;
+
+    }
+    .carousel-caption {
+      background-color: white;
+      padding: 2em;
+      bottom: -2em;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+
+      h3 {
+        margin-top: 0;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .slick-dots {
+    bottom: 50px;
+
+    li {
+      margin: 0;
+      button {
+        box-shadow: none;
+      }
+    }
   }
 }
 .arrow {
@@ -190,6 +190,21 @@ $banner-height: 700px;
 }
 .slick-prev::before, .slick-next::before {
   color: inherit;
+}
+
+// Carousel gallery
+$gallery-height: 400px;
+.carousel-inner {
+  padding-bottom: 2.5em;
+
+  .item  {
+    height: $gallery-height;
+
+    img {
+      width: 100%; // TODO: reduce width to try to use the Variable Width slick configuration
+      height: $gallery-height;
+    }
+  }
 }
 
 @include max-screen(1000px) {
