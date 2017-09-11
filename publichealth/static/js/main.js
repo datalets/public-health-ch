@@ -5,18 +5,46 @@ $(document).ready(function() {
 		return this.hostname && this.hostname !== location.hostname;
 	}).attr('target', '_blank');
 
-	// Initialise front page carousel component
-	$('.carousel-inner.slick').slick({
-		autoplay: true,
-		autoplaySpeed: '10000',
+	if ($('#carousel-banner').length) {
+		// Initialise front page carousel component
+		$('.carousel-inner').slick({
+			autoplay: true,
+			autoplaySpeed: '10000',
+			dots: true,
+			infinite: true,
+			speed: 1000,
+			fade: true,
+			cssEase: 'linear',
+			prevArrow: '<span class="arrow left glyphicon glyphicon-chevron-left" aria-hidden="true">Previous</span>',
+			nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
+		});
+
+	} else if ($('.carousel-gallery').length) {
+		// Load gallery component
+		$('.carousel-gallery').slick({
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			arrows: false,
+			fade: true,
+			asNavFor: '.slider-nav'
+		}).slickLightbox({
+		  src: 'data-src',
+		  itemSelector: 'img',
+		  // lazy: true,
+		  // useHistoryApi: 'true'
+		});
+	}
+	$('.slider-nav').slick({
+		slidesToShow: 3,
+		slidesToScroll: 1,
+		asNavFor: '.carousel-gallery',
 		dots: true,
-		infinite: true,
-		speed: 1000,
-		fade: true,
-		cssEase: 'linear',
+		centerMode: true,
+		focusOnSelect: true,
 		prevArrow: '<span class="arrow left glyphicon glyphicon-chevron-left" aria-hidden="true">Previous</span>',
 		nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
 	});
+
 
 	// Pastel colors on live news
 	// $('.feedpage-body .panel').each(function() {

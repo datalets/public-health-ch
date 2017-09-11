@@ -14,3 +14,16 @@ body {
 @include mid-screen($screen-sm-min, $screen-md-min) {
   body { margin-top: 200px; }
 }
+$slider-nav: 200px;
+.slider-nav {
+  padding-bottom: 2.5em;
+
+  .item  {
+    height: $slider-nav;
+
+    img {
+      width: 90%;
+      height: $slider-nav;
+    }
+  }
+}

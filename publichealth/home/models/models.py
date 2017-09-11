@@ -7,7 +7,7 @@ from django.utils import translation
 
 from modelcluster.fields import ParentalKey
 
-from wagtail.wagtailcore.blocks import StructBlock, CharBlock, URLBlock, RichTextBlock
+from wagtail.wagtailcore.blocks import StructBlock, CharBlock, URLBlock, RichTextBlock, ListBlock, TextBlock, ChoiceBlock
 from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailcore.fields import StreamField, RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
@@ -77,6 +77,13 @@ class ArticleIndexPage(Page):
     class Meta:
         verbose_name = "Rubrik"
 
+class ImageCarouselBlock(StructBlock):
+    image = ImageChooserBlock()
+    caption = TextBlock(required=False)
+
+    class Meta:
+        icon = 'image'
+
 class ArticlePage(Page):
     title_fr = models.CharField(max_length=255, default="")
     trans_title = TranslatedField(
@@ -91,17 +98,28 @@ class ArticlePage(Page):
         'intro_fr',
     )
 
+    gallery = StreamField([
+        ('image', ListBlock(ImageCarouselBlock(), icon="image")),
+    ], blank=True)
+    # documents = StreamField([
+    #     ('documents', ListBlock(DocumentChooserBlock(), icon="document")),
+    # ])
+
     body_de = StreamField([
         ('paragraph', RichTextBlock()),
-        ('image', ImageChooserBlock()),
         ('section', CharBlock(classname="full title")),
         ('info', InfoBlock()),
+        ('placer', ChoiceBlock(choices=[
+            ('gallery', 'Image gallery'),
+        ], icon='user'))
     ], null=True, blank=True)
     body_fr = StreamField([
         ('paragraph', RichTextBlock()),
-        ('image', ImageChooserBlock()),
         ('section', CharBlock(classname="full title")),
         ('info', InfoBlock()),
+        ('placer', ChoiceBlock(choices=[
+            ('gallery', 'Image gallery'),
+        ], icon='user'))
     ], null=True, blank=True)
     trans_body = TranslatedField(
         'body_de',
@@ -142,6 +160,7 @@ class ArticlePage(Page):
         MultiFieldPanel([
             ImageChooserPanel('feed_image'),
         ], heading="Images"),
+        StreamFieldPanel('gallery'),
     ]
     promote_panels = [
         InlinePanel('related_links', label="Links"),
