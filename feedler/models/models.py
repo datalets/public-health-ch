@@ -44,9 +44,9 @@ class Entry(models.Model):
         verbose_name='Original stream')
 
     @property
-    def no_image(self):
-        if not self.visual: return 'X'
-        return ''
+    def with_image(self):
+        if not self.visual: return u''
+        return u'✔'
 
     class Meta:
         verbose_name_plural = 'Entries'

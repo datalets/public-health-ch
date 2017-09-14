@@ -11,8 +11,8 @@ class EntryModelAdmin(ModelAdmin):
     menu_order = 200
     add_to_settings_menu = False
     exclude_from_explorer = True
-    list_display = ('published', 'title', 'no_image', 'lang')
     list_filter = ('author', 'tags')
+    list_display = ('published', 'title', 'with_image', 'lang')
     search_fields = ('title', 'author', 'content', 'tags')
 
 modeladmin_register(EntryModelAdmin)
