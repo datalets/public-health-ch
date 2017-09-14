@@ -49,7 +49,10 @@ def parse(obj, raw, stream):
             obj.content = ''
 
     # Detect language
-    obj.lang = guess_language(obj.content) or ''
+    try:
+        obj.lang = guess_language(obj.content) or ''
+    except:
+        obj.lang = ''
 
     # Collect tags
     tags = []

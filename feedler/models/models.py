@@ -40,8 +40,13 @@ class Entry(models.Model):
     tags = models.TextField(blank=True)
 
     stream = models.ForeignKey(Stream,
-        blank=True, on_delete=models.CASCADE,
+        blank=False, on_delete=models.CASCADE,
         verbose_name='Original stream')
+
+    @property
+    def no_image(self):
+        if not self.visual: return 'X'
+        return ''
 
     class Meta:
         verbose_name_plural = 'Entries'
