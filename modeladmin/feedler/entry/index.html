@@ -1,0 +1,7 @@
+{% extends "modeladmin/index.html %}
+
+{% block header_extra %}
+    {% include 'modeladmin/includes/button.html' with button=view.button_helper.export_button %}
+    <a href="#">My New Button</a>
+    {{ block.super }}{% comment %}Display the original buttons {% endcomment %}
+{% endblock %}
