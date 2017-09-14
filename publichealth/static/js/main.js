@@ -30,9 +30,12 @@ $(document).ready(function() {
 		}).slickLightbox({
 		  src: 'data-src',
 		  itemSelector: 'img',
-    	caption: 'caption'
+    	caption: 'caption',
+			captionPosition: 'bottom'
 		});
 	}
+
+	// Slider navigation
 	$('.slider-nav').slick({
 		slidesToShow: 3,
 		slidesToScroll: 1,
@@ -40,6 +43,7 @@ $(document).ready(function() {
 		asNavFor: '.carousel-gallery',
 		centerMode: true,
 		focusOnSelect: true,
+		// Responsive settings
 		responsive: [
 		{
 			breakpoint: 768,
@@ -62,6 +66,10 @@ $(document).ready(function() {
 	],
 		prevArrow: '<span class="arrow left glyphicon glyphicon-chevron-left" aria-hidden="true">Previous</span>',
 		nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
+	}).slickLightbox({
+		src: 'data-src',
+		itemSelector: 'img',
+		caption: 'caption'
 	});
 
 
