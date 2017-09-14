@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import translation
+from django.conf import settings
 
 from modelcluster.fields import ParentalKey
 
@@ -246,7 +247,7 @@ class HomePage(Page):
         posts = EntryPage.objects.live().descendant_of(parent[0])
         # Order by most recent date first
         posts = posts.order_by('-date')
-        return posts[:3]
+        return posts[:settings.BLOG_ENTRIES_HOME_PAGE]
 
     @property
     def newsentries(self):
@@ -265,7 +266,8 @@ class HomePage(Page):
         if Stream2: events = entries.filter(stream=Stream2)
         Stream3 = Stream.objects.filter(title='Jobs')
         if Stream3: jobs = entries.filter(stream=Stream3)
-        return list(chain(news[:5], events[:5], jobs[:5]))
+        i = settings.NEWS_ENTRIES_HOME_PAGE
+        return list(chain(news[:i], events[:i], jobs[:i]))
 
     def get_context(self, request):
         # Update template context
@@ -273,11 +275,7 @@ class HomePage(Page):
         context['featured'] = self.featured
         context['blogentries'] = self.blogentries
         context['newsentries'] = self.newsentries
-        context['entryfeeds'] = [
-            { 'name': 'News', 'title': 'News', 'icon': 'glyphicon-eye-open' },
-            { 'name': 'Events', 'title': 'Events', 'icon': 'glyphicon-time' },
-            { 'name': 'Jobs', 'title': 'Jobs', 'icon': 'glyphicon-briefcase' },
-        ]
+        context['entryfeeds'] = settings.STREAMS_ON_HOME_PAGE
         return context
 
     parent_page_types = ['wagtailcore.Page']
