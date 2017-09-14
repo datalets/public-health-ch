@@ -14,9 +14,21 @@ body {
 @include mid-screen($screen-sm-min, $screen-md-min) {
   body { margin-top: 200px; }
 }
+@include max-screen(1000px) {
+  .carousel-inner .item {
+    margin-bottom: 0px;
+    height: auto;
+  }
+  .slick-dots { display: none !important; }
+}
+@include max-screen(480px) {
+  #responsive { display: none !important; }
+  .arrow:before { display: none; }
+}
+
 $slider-nav: 200px;
 .slider-nav {
-  padding-bottom: 2.5em;
+  margin-top: 2.5em;
 
   .item  {
     height: $slider-nav;
@@ -26,4 +38,12 @@ $slider-nav: 200px;
       height: $slider-nav;
     }
   }
+}
+
+.arrow:before {
+    font-size: 45px;
+    /* border: 2px solid grey; */
+    padding: 58px 0 88px 0;
+    background-color: rgba(128, 128, 128, 0.57);
+    margin: 0;
 }
