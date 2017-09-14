@@ -30,17 +30,36 @@ $(document).ready(function() {
 		}).slickLightbox({
 		  src: 'data-src',
 		  itemSelector: 'img',
-		  // lazy: true,
-		  // useHistoryApi: 'true'
+    	caption: 'caption'
 		});
 	}
 	$('.slider-nav').slick({
 		slidesToShow: 3,
 		slidesToScroll: 1,
+		infinite: true,
 		asNavFor: '.carousel-gallery',
-		dots: true,
 		centerMode: true,
 		focusOnSelect: true,
+		responsive: [
+		{
+			breakpoint: 768,
+			settings: {
+				arrows: false,
+				centerMode: true,
+				centerPadding: '30px',
+				slidesToShow: 3
+			}
+		},
+		{
+			breakpoint: 480,
+			settings: {
+				arrows: false,
+				centerMode: true,
+				centerPadding: '30px',
+				slidesToShow: 1
+			}
+		}
+	],
 		prevArrow: '<span class="arrow left glyphicon glyphicon-chevron-left" aria-hidden="true">Previous</span>',
 		nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
 	});
