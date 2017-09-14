@@ -28,30 +28,33 @@
 		{% empty %}
 				<!-- No blogs today -->
 		{% endfor %}
-			<!-- <h4 class="partner-news"><a href="/aktuelles/">Partner news</a></h4> -->
-		{% for entry in newsentries %}
-			<!-- News entry {{ entry.id }} -->
-			<div class="col-md-4 col-sm-6 col-xs-12 news-entry">
-				{% if entry.visual %}
-				<div class="panel panel-default">
-					<img src="{{ entry.visual }}">
-				{% else %}
-				<div class="panel panel-fulltext">
-				{% endif %}
-					<div class="panel-body">
-						<h3><span>{{ entry.title|striptags|truncatewords_html:10 }}</span></h3>
-						<p>
-							{{ entry.content|striptags|truncatewords_html:25 }}
-							<em><span>{{ entry.author }}</span></em>
-						</p>
-					</div>
-					<a href="/aktuelles/" class="fill"></a>
-					<!-- <a href="{{ entry.link }}" target="_blank" class="fill"></a> -->
+
+		{% for feedType in entryfeeds %}
+		<div class="col-md-4 col-sm-6 col-xs-12 news-entry">
+			<h4 class="partner-news"><a href="/aktuelles/" title="{{ feedType.title }}">
+				<span class="glyphicon {{ feedType.icon }}" aria-hidden="true"></span>
+			</a></h4>
+			<div class="panel panel-fulltext">
+				<div class="panel-body">
+					<ul>
+						{% for entry in newsentries %}
+							{% if feedType.name in entry.stream.title %}
+							<li><!-- News entry {{ entry.id }} -->
+								<a href="{{ entry.link }}" target="_blank">
+									{{ entry.title|striptags|truncatewords_html:10 }}
+								</a>
+								<br><small>{{ entry.published }}</small>
+							</li>
+							{% endif %}
+						{% empty %}
+						    <!-- No news today -->
+				    {% endfor %}
+					<ul>
 				</div>
 			</div>
-		{% empty %}
-		    <!-- No news today -->
-    {% endfor %}
+		</div><!-- /news-entry -->
+		{% endfor %}
+
 		</div>
 	</div>
 </section>

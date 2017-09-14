@@ -96,6 +96,8 @@
       border-top: 3px solid $brand-primary;
       // border: 2px solid rgba(38, 67, 169, 0.8);
       *,a { color: black !important; }
+      a { margin: 0px; font-size: 15pt; }
+      li { margin-top: 1em; line-height: 20pt; }
     }
   }
 

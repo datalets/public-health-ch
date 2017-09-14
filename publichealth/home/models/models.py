@@ -16,7 +16,7 @@ from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
 
 from puput.models import EntryPage, BlogPage
-from feedler.models import Entry
+from feedler.models import Entry, Stream
 from itertools import chain
 
 from ..util import TranslatedField
@@ -250,7 +250,7 @@ class HomePage(Page):
 
     @property
     def newsentries(self):
-        # Get the last few news entries
+        # Get the last few news entries for the home page
         entries = Entry.objects.all().order_by('-published')
         # Filter out by current language
         curlang = translation.get_language()
@@ -258,7 +258,14 @@ class HomePage(Page):
             entries = entries.exclude(lang='fr')
         elif curlang in ['fr']:
             entries = entries.exclude(lang='de')
-        return entries[:3]
+        news = events = jobs = []
+        Stream1 = Stream.objects.filter(title='News')
+        if Stream1: news = entries.filter(stream=Stream1)
+        Stream2 = Stream.objects.filter(title='Events')
+        if Stream2: events = entries.filter(stream=Stream2)
+        Stream3 = Stream.objects.filter(title='Jobs')
+        if Stream3: jobs = entries.filter(stream=Stream3)
+        return list(chain(news[:5], events[:5], jobs[:5]))
 
     def get_context(self, request):
         # Update template context
@@ -266,6 +273,11 @@ class HomePage(Page):
         context['featured'] = self.featured
         context['blogentries'] = self.blogentries
         context['newsentries'] = self.newsentries
+        context['entryfeeds'] = [
+            { 'name': 'News', 'title': 'News', 'icon': 'glyphicon-eye-open' },
+            { 'name': 'Events', 'title': 'Events', 'icon': 'glyphicon-time' },
+            { 'name': 'Jobs', 'title': 'Jobs', 'icon': 'glyphicon-briefcase' },
+        ]
         return context
 
     parent_page_types = ['wagtailcore.Page']
