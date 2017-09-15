@@ -40,9 +40,14 @@ $slider-nav: 200px;
   }
 }
 
-.arrow:before {
-    font-size: 45px;
-    padding: 58px 0 88px 0;
-    background-color: rgba(128, 128, 128, 0.57);
-    margin: 0;
+// Slideshow navigation arrows
+.arrow {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+
+  &:before {
+      font-size: 45px;
+      padding: 58px 0 88px 0;
+      // background-color: rgba(128, 128, 128, 0.57);
+      margin: 0;
+  }
 }
