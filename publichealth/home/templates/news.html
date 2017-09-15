@@ -31,8 +31,8 @@
 
 		{% for feedType in entryfeeds %}
 		<div class="col-md-4 col-sm-6 col-xs-12 news-entry">
-			<h4 class="partner-news"><a href="/aktuelles/" title="{{ feedType.title }}">
-				<span class="glyphicon {{ feedType.icon }}" aria-hidden="true"></span>
+			<h4 class="partner-news"><a href="/{{ feedType.link }}">{{ feedType.name }}
+				<!-- <span class="glyphicon {{ feedType.icon }}" aria-hidden="true"></span> -->
 			</a></h4>
 			<div class="panel panel-fulltext">
 				<div class="panel-body">

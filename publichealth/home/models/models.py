@@ -109,18 +109,18 @@ class ArticlePage(Page):
     body_de = StreamField([
         ('paragraph', RichTextBlock()),
         ('section', CharBlock(classname="full title")),
-        ('info', InfoBlock()),
-        ('placer', ChoiceBlock(choices=[
+        ('info', InfoBlock(icon='help')),
+        ('media', ChoiceBlock(choices=[
             ('gallery', 'Image gallery'),
-        ], icon='user'))
+        ], icon='media'))
     ], null=True, blank=True)
     body_fr = StreamField([
         ('paragraph', RichTextBlock()),
         ('section', CharBlock(classname="full title")),
-        ('info', InfoBlock()),
-        ('placer', ChoiceBlock(choices=[
+        ('info', InfoBlock(icon='help')),
+        ('media', ChoiceBlock(choices=[
             ('gallery', 'Image gallery'),
-        ], icon='user'))
+        ], icon='media'))
     ], null=True, blank=True)
     trans_body = TranslatedField(
         'body_de',

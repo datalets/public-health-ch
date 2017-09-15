@@ -24,9 +24,9 @@ NEWS_ENTRIES_HOME_PAGE = 2
 BLOG_ENTRIES_HOME_PAGE = 3
 
 STREAMS_ON_HOME_PAGE = [
-    { 'name': 'News', 'title': 'News', 'icon': 'glyphicon-eye-open' },
-    { 'name': 'Events', 'title': 'Events', 'icon': 'glyphicon-time' },
-    { 'name': 'Jobs', 'title': 'Jobs', 'icon': 'glyphicon-briefcase' },
+    { 'name': 'News', 'link': 'top-news', 'icon': 'glyphicon-eye-open' },
+    { 'name': 'Events', 'link': 'top-events', 'icon': 'glyphicon-time' },
+    { 'name': 'Jobs', 'link': 'top-jobs', 'icon': 'glyphicon-briefcase' },
 ]
 
 # Application definition
