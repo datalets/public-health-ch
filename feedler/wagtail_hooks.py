@@ -4,6 +4,7 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register)
 
 from .models import Entry, Stream
+from .models.admin import ExportModelAdminMixin
 
 class EntryModelAdmin(ModelAdmin):
     model = Entry
@@ -26,3 +27,9 @@ class StreamModelAdmin(ModelAdmin):
     list_display = ('title', 'ident')
 
 modeladmin_register(StreamModelAdmin)
+
+class EntryModelAdmin(ExportModelAdminMixin, ModelAdmin):
+    model = Entry
+    index_template_name = 'templates/modeladmin/feedler/entry/index.html'
+
+modeladmin_register(EntryModelAdmin)
