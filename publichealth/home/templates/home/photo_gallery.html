@@ -18,7 +18,7 @@
   {% for val in block.value %}
 		<div class="item">
 			{% image val.image fill-700x400 as entry_thumb %}
-			<image data-src="{{ entry_thumb.url }}" data-caption="{{ val.caption }}" style="background-image:url({{ entry_thumb.url }})">
+			<image style="background-image:url({{ entry_thumb.url }})">
 		</div>
   {% endfor %}
 {% endfor %}
