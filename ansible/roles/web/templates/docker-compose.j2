@@ -18,7 +18,7 @@ web:
     - MAILGUN_KEY={{ django_email_key }}
     - MAILGUN_DOMAIN={{ django_email_domain }}
     - MAILGUN_FROM={{ django_email_from }}
-    - DATABASE_URL=postgres://postgres:@postgres:5432/postgres
+    - DATABASE_URL={{ django_postgres_url }}
     - ELASTICSEARCH_URL=http://elasticsearch:9200
     - REDIS_URL=redis://redis:6379
     - LOG_DIR=/var/log/wagtail

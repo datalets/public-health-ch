@@ -16,3 +16,6 @@ django_email_domain: "{{ vault_django_email_domain }}"
 django_email_from: "{{ vault_django_email_from }}"
 
 django_secret_key: "{{ vault_django_secret_key }}"
+
+# Default: postgres://postgres:@postgres:5432/postgres
+django_postgres_url: "{{ vault_django_postgres_url }}"
