@@ -99,6 +99,6 @@ pg-restore:
 
 pg-surefire-drop-restore-db:
 	# drop existing database, recreate it, and then restore its content from backup.
-	-docker-compose exec postgres bash -c 'dropdb -h localhost -U postgres postgres'
+	docker-compose exec postgres bash -c 'dropdb -h localhost -U postgres postgres'
 	docker-compose exec postgres bash -c 'createdb -h localhost -U postgres postgres'
 	make pg-restore
