@@ -29,10 +29,11 @@ class FeedlySettings(BaseSetting):
             (2, '5'),
             (3, '10'),
             (4, '50'),
-        ), blank=True, null=True,
+        ), blank=True, null=True, editable=False,
         help_text='How many pages to fetch?'
     )
-    feedly_stream = models.ManyToManyField(Stream)
+    feedly_stream = models.ManyToManyField(Stream,
+        help_text='Which streams to update')
     class Meta:
         verbose_name = 'Feedly'
 

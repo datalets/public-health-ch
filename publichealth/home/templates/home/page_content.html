@@ -19,7 +19,7 @@
 {% for block in page.trans_body %}
   {% if block.block_type == 'heading' %}
     <h3>{{ block.value }}</h3>
-  {% elif block.block_type == 'placer' %}
+  {% elif block.block_type == 'media' %}
     {% if block.value == 'gallery' %}
       {% include 'home/photo_gallery.html' %}
     {% endif %}
