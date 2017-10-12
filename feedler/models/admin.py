@@ -10,6 +10,7 @@ from django.dispatch import receiver
 from django.core.mail import send_mail
 
 from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.wagtailadmin import messages
 
 from .models import Entry, Stream
 import feedler.feedparser as feedparser
@@ -52,7 +53,13 @@ def handle_save_settings(sender, instance, *args, **kwargs):
             }
             contents = requests.get(url, headers=headers).json()
             if 'errorMessage' in contents:
-                raise PermissionError(contents['errorMessage'])
+                # Usually this is a token expired
+                if 'token expired' in contents['errorMessage']:
+                    # TODO: request new token
+                    pass
+                logger.error(contents['errorMessage'])
+                messages.error(sender, "Failed to fetch items: %s" % contents['errorMessage'])
+                return
             for raw_entry in contents['items']:
                 eid = raw_entry['id']
                 # Create or update data
