@@ -29,7 +29,7 @@ class Entry(models.Model):
     raw = models.TextField(blank=True, editable=False)
     updated = models.DateTimeField(auto_now=True, editable=False)
     published = models.DateTimeField(auto_now_add=True, editable=False)
-    entry_id = models.CharField(max_length=255, unique=True, blank=True, editable=False)
+    entry_id = models.CharField(max_length=255, blank=True, editable=False)
 
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255, blank=True)
