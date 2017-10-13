@@ -65,11 +65,11 @@ def refresh_stream(stream, settings, retry=False):
         # Create or update data
         try:
             entry = Entry.objects.get(entry_id=eid)
-            logger.info("Updating entry '%s'" % eid)
+            logger.info("Skipping entry '%s'" % eid)
         except Entry.DoesNotExist:
             logger.info("Adding entry '%s'" % eid)
             entry = Entry()
-        # Parse the Feedly object
-        entry = feedparser.parse(entry, raw_entry, stream)
-        # Persist resulting object
-        entry.save()
+            # Parse the Feedly object
+            entry = feedparser.parse(entry, raw_entry, stream)
+            # Persist resulting object
+            entry.save()
