@@ -10,7 +10,8 @@ from wagtail.wagtailcore.fields import RichTextField
 
 class Stream(models.Model):
     title = models.CharField(max_length=255)
-    ident = models.CharField(max_length=255)
+    ident = models.CharField(max_length=255,
+        help_text='Example: enterprise/myuser/tag/abcd...')
 
     def __str__(self):
         return self.title

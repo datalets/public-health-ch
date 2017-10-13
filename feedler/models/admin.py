@@ -17,8 +17,10 @@ from feedler.refresh import refresh_streams
 class FeedlySettings(BaseSetting):
     streams = models.ManyToManyField(Stream,
         help_text='Which streams to update')
-    token = models.CharField(max_length=255, blank=True,
-        help_text='Access Token from developer.feedly.com')
+    token = models.CharField(max_length=1024, blank=True,
+        help_text='Access Token from feedly.com/v3/auth/dev')
+    refresh = models.CharField(max_length=1024, blank=True,
+        help_text='Refresh Token for automatic update (pro account)')
     class Meta:
         verbose_name = 'Feedly'
 
