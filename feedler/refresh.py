@@ -4,7 +4,6 @@ import requests, json, codecs
 
 import logging
 logger = logging.getLogger('feedler')
-logger.setLevel(logging.DEBUG)
 
 from .models import Entry
 from feedler import feedparser
