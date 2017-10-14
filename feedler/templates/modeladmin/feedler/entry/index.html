@@ -1,4 +1,4 @@
-{% extends "modeladmin/index.html %}
+{% extends "modeladmin/index.html" %}
 
 {% block header_extra %}
   {% if user_can_create %}
@@ -8,4 +8,5 @@
            </div>
        </div>
    {% endif %}
+   {{ block.super }}{% comment %}Show original buttons{% endcomment %}
 {% endblock %}
