@@ -72,3 +72,4 @@ def refresh_stream(stream, settings, retry=False):
             entry = feedparser.parse(entry, raw_entry, stream)
             # Persist resulting object
             entry.save()
+    return True

@@ -3,10 +3,10 @@
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register)
 
-from .admin import ExportModelAdminMixin
+from .admin import EntryModelAdminMixin
 from .models import Entry, Stream
 
-class EntryModelAdmin(ExportModelAdminMixin, ModelAdmin):
+class EntryModelAdmin(EntryModelAdminMixin, ModelAdmin):
     model = Entry
     menu_icon = 'date'
     menu_order = 200
