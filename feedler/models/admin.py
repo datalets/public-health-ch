@@ -24,6 +24,6 @@ class FeedlySettings(BaseSetting):
     class Meta:
         verbose_name = 'Feedly'
 
-@receiver(pre_save, sender=FeedlySettings)
-def handle_save_settings(sender, instance, *args, **kwargs):
-    if instance.token: refresh_streams(instance)
+# @receiver(pre_save, sender=FeedlySettings)
+# def handle_save_settings(sender, instance, *args, **kwargs):
+#     if instance.token: refresh_streams(instance)
