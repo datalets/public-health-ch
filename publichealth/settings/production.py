@@ -156,6 +156,12 @@ LOGGING = {
         }
     },
     'loggers': {
+        'feedler': {
+            'handlers':     [],
+            'level':        'INFO',
+            'propagate':    False,
+            'formatter':    'verbose',
+        },
         'publichealth': {
             'handlers':     [],
             'level':        'INFO',

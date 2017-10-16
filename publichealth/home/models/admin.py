@@ -9,23 +9,24 @@ from wagtail.contrib.settings.models import BaseSetting, register_setting
 
 # A simple feedback module built into the site admin
 
-@register_setting
+@register_setting(icon='help')
 class DataletsSettings(BaseSetting):
-    feedback_question = models.TextField(
-        help_text='Send us a question', blank=True)
-    feedback_status = models.IntegerField(
+    feedback_question = models.TextField(verbose_name='Name',
+        help_text='Who should we reply to for questions?', blank=True)
+    feedback_status = models.IntegerField(verbose_name='Rating',
         choices=(
-            (1, ':-('),
-            (2, ':-|'),
-            (3, ':-)'),
-            (4, ':-D'),
+            (1, u'★'),
+            (2, u'★'*2),
+            (3, u'★'*3),
+            (4, u'★'*4),
+            (5, u'★'*5),
         ), blank=True, null=True,
         help_text='How are you enjoying Wagtail?'
     )
-    feedback_comment = models.TextField(
-        help_text='Any general feedback', blank=True)
+    feedback_comment = models.TextField(verbose_name='Comments..',
+        help_text='Any questions or general feedback', blank=True)
     class Meta:
-        verbose_name = 'Get support'
+        verbose_name = 'Datalets'
 
 @receiver(pre_save, sender=DataletsSettings)
 def handle_save_settings(sender, instance, *args, **kwargs):
@@ -41,3 +42,4 @@ def handle_save_settings(sender, instance, *args, **kwargs):
         instance.feedback_status = None
         instance.feedback_question = ""
         instance.feedback_comment = ""
+        instance.save()

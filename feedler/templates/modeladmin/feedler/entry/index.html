@@ -1,0 +1,12 @@
+{% extends "modeladmin/index.html" %}
+
+{% block header_extra %}
+  {% if user_can_create %}
+      <div class="right">
+          <div style="position: relative; top: -1px;">
+            {% include 'modeladmin/includes/button.html' with button=view.button_helper.refresh_button %}
+          </div>
+       </div>
+   {% endif %}
+   {{ block.super }}{% comment %}Show original buttons{% endcomment %}
+{% endblock %}

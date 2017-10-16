@@ -21,6 +21,10 @@ DATABASES = {
     }
 }
 
+INSTALLED_APPS = INSTALLED_APPS + [
+    'wagtail.contrib.wagtailstyleguide',
+]
+
 try:
     from .local import *
 except ImportError:
