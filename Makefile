@@ -67,7 +67,7 @@ logs:
 
 backup:
 	docker-compose start postgres
-	docker-compose exec web ./manage.py dumpdata --natural-foreign -e contenttypes -e sessions -e feedler -e auth.Permission -e wagtailcore.groupcollectionpermission > ~/publichealth.home.json
+	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
 	zip ~/publichealth.home.json.`date +"%d%m%Y-%H%M"`.zip ~/publichealth.home.json
 	rm ~/publichealth.home.json
 
