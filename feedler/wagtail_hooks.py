@@ -21,7 +21,7 @@ modeladmin_register(EntryModelAdmin)
 class StreamModelAdmin(ModelAdmin):
     model = Stream
     menu_icon = 'date'
-    menu_order = 1000
+    menu_order = 900
     add_to_settings_menu = True
     exclude_from_explorer = True
     list_display = ('title', 'ident')
