@@ -68,7 +68,7 @@ class RefreshView(IndexView):
         super().dispatch(request, *args, **kwargs)
         if not refresh_streams(FeedlySettings.for_site(request.site)):
             messages.error(
-                request, _('Sorry, could not refresh streams. Please contact your administrator.'))
+                request, _('Sorry, could not refresh streams. Please try again in a few minutes, then contact support if the issue persists.'))
         return redirect('/admin/feedler/entry/')
 
 
