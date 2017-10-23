@@ -31,6 +31,7 @@ server {
 		alias {{ release_dir }}/static/CACHE/;
 	}
 
+	# Serve favorites icon from the root
 	location /favicon.ico {
 		access_log off; expires max;
 		alias {{ release_dir }}/static/images/favicon.ico;
