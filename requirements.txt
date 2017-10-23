@@ -1,7 +1,7 @@
-# Updated: 20.9.2017
+# Updated: 23.10.2017
 
 # Core
-wagtail==1.12.2
+wagtail==1.13
 Django==1.11.6
 
 # Database
