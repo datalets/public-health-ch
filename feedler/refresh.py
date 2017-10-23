@@ -49,16 +49,21 @@ def refresh_stream(stream, settings, retry=False):
     headers = { 'Authorization': 'OAuth ' + settings.token }
     contents = requests.get(url, headers=headers).json()
     if 'errorMessage' in contents:
+        errmsg = contents['errorMessage']
         # Usually this is a token expired
-        if 'token expired' in contents['errorMessage'] or 'unauthorized' in contents['errorMessage']:
-            logger.debug(contents['errorMessage'])
+        if 'expired' in errmsg or 'unauthorized' in errmsg:
+            logger.debug(errmsg)
             if not refresh_token(settings): return False
             # Make another attempt
-            if retry or not refresh_stream(stream, settings, True):
-                return False
+            if retry or not refresh_stream(stream, settings, True): return False
         else:
-            logger.error(contents['errorMessage'])
+            # Otherwise log the issue
+            logger.error(errmsg)
             return False
+    if not 'items' in contents:
+        logger.error("Could not obtain contents after retrying")
+        logger.debug(contents)
+        return False
     for raw_entry in contents['items']:
         eid = raw_entry['id']
         # Create or update data
