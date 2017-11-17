@@ -37,18 +37,20 @@ def parse(obj, raw, stream):
         obj.visual = ''
 
     # Collect text in nested JSON content
-    if 'content' in obj.raw:
-        obj.content = obj.raw['content']
+    if 'summary' in obj.raw:
+        if 'content' in obj.raw['summary']:
+            obj.content = obj.raw['summary']['content']
+        else:
+            obj.content = obj.raw['summary']
+    elif 'content' in obj.raw:
+        if 'content' in obj.raw['content']:
+            obj.content = obj.raw['content']['content']
+        else:
+            obj.content = obj.raw['content']
     elif 'fullContent' in obj.raw:
         obj.content = obj.raw['fullContent']
     else:
-        if 'summary' in obj.raw:
-            if 'content' in obj.raw['summary']:
-                obj.content = obj.raw['summary']['content']
-            else:
-                obj.content = obj.raw['summary']
-        else:
-            obj.content = ''
+        obj.content = ''
 
     # Detect language
     try:
