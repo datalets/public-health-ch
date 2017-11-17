@@ -14,6 +14,7 @@ class EntryModelAdmin(EntryModelAdminMixin, ModelAdmin):
     exclude_from_explorer = True
     list_filter = ('author', 'tags')
     list_display = ('published', 'title', 'with_image', 'lang')
+    list_per_page = 10
     search_fields = ('title', 'author', 'content', 'tags')
 
 modeladmin_register(EntryModelAdmin)

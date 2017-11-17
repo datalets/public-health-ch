@@ -16,23 +16,23 @@ def parse(obj, raw, stream):
     obj.published = datetime.fromtimestamp(ts)
 
     # Authorship and title
-    obj.title = raw['title']
+    obj.title = raw['title'][:250]
     if 'author' in raw['origin']:
-        obj.author = raw['author']
+        obj.author = raw['author'][:250]
     elif 'title' in raw['origin']:
-        obj.author = raw['origin']['title']
+        obj.author = raw['origin']['title'][:250]
 
     # Parse links and references
     if len(raw['alternate']) > 0:
-        obj.link = raw['alternate'][0]['href']
+        obj.link = raw['alternate'][0]['href'][:500]
     if 'thumbnail' in raw and len(raw['thumbnail']) > 0:
         if 'url' in raw['thumbnail'][0]:
-            obj.visual = raw['thumbnail'][0]['url']
+            obj.visual = raw['thumbnail'][0]['url'][:500]
     elif 'enclosure' in raw and len(raw['enclosure']) > 0:
         if 'href' in raw['enclosure'][0]:
-            obj.visual = raw['enclosure'][0]['href']
+            obj.visual = raw['enclosure'][0]['href'][:500]
     elif 'visual' in raw and 'url' in raw['visual']:
-        obj.visual = raw['visual']['url']
+        obj.visual = raw['visual']['url'][:500]
     if obj.visual.lower().strip() == 'none':
         obj.visual = ''
 

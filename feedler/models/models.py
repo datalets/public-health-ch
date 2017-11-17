@@ -34,8 +34,8 @@ class Entry(models.Model):
 
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255, blank=True)
-    link = models.URLField()
-    visual = models.URLField(blank=True)
+    link = models.URLField(max_length=500)
+    visual = models.URLField(max_length=500, blank=True)
     lang = models.CharField(max_length=2, blank=True, default='', choices=LANGUAGE_CHOICES)
     content = models.TextField()
     tags = models.TextField(blank=True)
@@ -51,6 +51,8 @@ class Entry(models.Model):
 
     class Meta:
         verbose_name_plural = 'Entries'
+    def __str__(self):
+        return self.title
 
 class FeedPage(Page):
     intro = RichTextField(default='', blank=True)
