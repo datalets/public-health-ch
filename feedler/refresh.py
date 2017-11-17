@@ -67,10 +67,9 @@ def refresh_stream(stream, settings, retry=False):
     for raw_entry in contents['items']:
         eid = raw_entry['id']
         # Create or update data
-        try:
-            entry = Entry.objects.get(entry_id=eid)
+        if Entry.objects.filter(entry_id=eid).exists():
             logger.info("Skipping entry '%s'" % eid)
-        except Entry.DoesNotExist:
+        else:
             logger.info("Adding entry '%s'" % eid)
             entry = Entry()
             # Parse the Feedly object

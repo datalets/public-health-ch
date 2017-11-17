@@ -39,6 +39,8 @@ def parse(obj, raw, stream):
     # Collect text in nested JSON content
     if 'content' in obj.raw:
         obj.content = obj.raw['content']
+    elif 'fullContent' in obj.raw:
+        obj.content = obj.raw['fullContent']
     else:
         if 'summary' in obj.raw:
             if 'content' in obj.raw['summary']:
