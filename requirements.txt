@@ -1,4 +1,4 @@
-# Updated: 17.11.2017
+# Updated: 16.5.2018
 
 # Core
 wagtail>=1.13.1,<2.0.0

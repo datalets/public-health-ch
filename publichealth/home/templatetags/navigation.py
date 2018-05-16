@@ -17,6 +17,7 @@ def language_switcher(context):
         'languages': [
             { 'code': 'de', 'title': 'De', 'url': url.replace('$lang$','de') },
             { 'code': 'fr', 'title': 'Fr', 'url': url.replace('$lang$','fr') }
+            # { 'code': 'en', 'title': 'En', 'url': url.replace('$lang$','en') }
         ],
         'currentlangcode': translation.get_language(),
         'request': context['request'],

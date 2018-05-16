@@ -38,9 +38,11 @@ class ArticleIndexPage(Page):
 
     intro_de = RichTextField(default='', blank=True)
     intro_fr = RichTextField(default='', blank=True)
+    intro_en = RichTextField(default='', blank=True)
     trans_intro = TranslatedField(
         'intro_de',
         'intro_fr',
+        'intro_en',
     )
 
     feed_image = models.ForeignKey(
@@ -54,6 +56,8 @@ class ArticleIndexPage(Page):
         FieldPanel('intro_de'),
         FieldPanel('title_fr'),
         FieldPanel('intro_fr'),
+        FieldPanel('title_en'),
+        FieldPanel('intro_en'),
         ImageChooserPanel('feed_image'),
     ]
 
@@ -87,16 +91,20 @@ class ImageCarouselBlock(StructBlock):
 
 class ArticlePage(Page):
     title_fr = models.CharField(max_length=255, default="")
+    title_en = models.CharField(max_length=255, default="")
     trans_title = TranslatedField(
         'title',
         'title_fr',
+        'title_en',
     )
 
     intro_de = RichTextField(default='', blank=True)
     intro_fr = RichTextField(default='', blank=True)
+    intro_en = RichTextField(default='', blank=True)
     trans_intro = TranslatedField(
         'intro_de',
         'intro_fr',
+        'intro_en',
     )
 
     gallery = StreamField([
@@ -122,9 +130,18 @@ class ArticlePage(Page):
             ('gallery', 'Image gallery'),
         ], icon='media'))
     ], null=True, blank=True)
+    body_en = StreamField([
+        ('paragraph', RichTextBlock()),
+        ('section', CharBlock(classname="full title")),
+        ('info', InfoBlock(icon='help')),
+        ('media', ChoiceBlock(choices=[
+            ('gallery', 'Image gallery'),
+        ], icon='media'))
+    ], null=True, blank=True)
     trans_body = TranslatedField(
         'body_de',
         'body_fr',
+        'body_en',
     )
 
     date = models.DateField("Date", null=True, blank=True)
@@ -142,10 +159,13 @@ class ArticlePage(Page):
     search_fields = Page.search_fields + [
         index.SearchField('title',    partial_match=True, boost=10),
         index.SearchField('title_fr', partial_match=True, boost=10),
+        index.SearchField('title_en', partial_match=True, boost=10),
         index.SearchField('body_de',  partial_match=True),
         index.SearchField('body_fr',  partial_match=True),
+        index.SearchField('body_en',  partial_match=True),
         index.SearchField('intro_de', partial_match=True),
         index.SearchField('intro_fr', partial_match=True),
+        index.SearchField('intro_en', partial_match=True),
     ]
     content_panels = [
         MultiFieldPanel([
@@ -158,6 +178,11 @@ class ArticlePage(Page):
             FieldPanel('intro_fr'),
         ], heading="Français"),
         StreamFieldPanel('body_fr'),
+        MultiFieldPanel([
+            FieldPanel('title_en'),
+            FieldPanel('intro_en'),
+        ], heading="Français"),
+        StreamFieldPanel('body_en'),
         MultiFieldPanel([
             ImageChooserPanel('feed_image'),
         ], heading="Images"),
@@ -241,7 +266,7 @@ class HomePage(Page):
     def blogentries(self):
         # Get list of latest news
         curlang = translation.get_language()
-        if not curlang in ['de', 'fr']: curlang = 'de' # Default language
+        if not curlang in ['de', 'fr', 'en', 'it']: curlang = 'de' # Default language
         parent = BlogPage.objects.filter(slug='news-%s' % curlang)
         if not parent: return []
         posts = EntryPage.objects.live().descendant_of(parent[0])
@@ -257,8 +282,9 @@ class HomePage(Page):
         curlang = translation.get_language()
         if curlang in ['de']:
             entries = entries.exclude(lang='fr')
-        elif curlang in ['fr']:
+        else:
             entries = entries.exclude(lang='de')
+        # TODO: English news?
         news = events = jobs = []
         Stream1 = Stream.objects.filter(title='News')
         if Stream1: news = entries.filter(stream=Stream1)
