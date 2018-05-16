@@ -31,9 +31,11 @@ class InfoBlock(StructBlock):
 
 class ArticleIndexPage(Page):
     title_fr = models.CharField(max_length=255, default="")
+    title_en = models.CharField(max_length=255, default="")
     trans_title = TranslatedField(
         'title',
         'title_fr',
+        'title_en',
     )
 
     intro_de = RichTextField(default='', blank=True)
