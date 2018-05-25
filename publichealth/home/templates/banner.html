@@ -3,6 +3,7 @@
 <div id="carousel-banner" class="slide">
 	<div class="carousel-inner slick" role="listbox">
     {% for entry in featured %}
+		{% if entry.feed_image %}
 		<div class="item">
 			{% image entry.feed_image original as entry_photo %}
 			<image style="background-image:url({{ entry_photo.url }})">
@@ -13,6 +14,7 @@
 				</div>
 			</a>
 		</div>
+		{% endif %}
 		{% empty %}
 		  <i style="background-color:yellow">Please add articles to the front page using the "Featured" option.</i>
     {% endfor %}
