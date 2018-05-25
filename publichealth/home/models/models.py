@@ -183,7 +183,7 @@ class ArticlePage(Page):
         MultiFieldPanel([
             FieldPanel('title_en'),
             FieldPanel('intro_en'),
-        ], heading="Français"),
+        ], heading="English"),
         StreamFieldPanel('body_en'),
         MultiFieldPanel([
             ImageChooserPanel('feed_image'),

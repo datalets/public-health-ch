@@ -1,4 +1,4 @@
-#news, #footer { display: none; }
+#news, #footer, .contact-nav .link { display: none; }
 
 .navbar-brand span, .navbar-brand img { display:none; }
 a.navbar-brand {
