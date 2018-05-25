@@ -271,8 +271,9 @@ class HomePage(Page):
     @property
     def featured(self):
         # Get list of live pages that are descendants of this page
-        articles = ArticlePage.objects.live() #.descendant_of(self)
+        articles = ArticlePage.objects.live().descendant_of(self)
         articles = articles.filter(on_homepage=True)
+        articles = articles.filter(feed_image__isnull=False)
         # Order by most recent date first
         #articles = articles.order_by('-date')
         return articles[:4]
