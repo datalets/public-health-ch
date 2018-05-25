@@ -31,7 +31,7 @@ class InfoBlock(StructBlock):
 
 class ArticleIndexPage(Page):
     title_fr = models.CharField(max_length=255, default="")
-    title_en = models.CharField(max_length=255, default="")
+    title_en = models.CharField(max_length=255, default="", blank=True)
     trans_title = TranslatedField(
         'title',
         'title_fr',
@@ -93,7 +93,7 @@ class ImageCarouselBlock(StructBlock):
 
 class ArticlePage(Page):
     title_fr = models.CharField(max_length=255, default="")
-    title_en = models.CharField(max_length=255, default="")
+    title_en = models.CharField(max_length=255, default="", blank=True)
     trans_title = TranslatedField(
         'title',
         'title_fr',
@@ -219,7 +219,7 @@ class ArticleRelatedLink(Orderable):
 class HomePage(Page):
     intro_de = RichTextField(default='')
     intro_fr = RichTextField(default='')
-    intro_en = RichTextField(default='')
+    intro_en = RichTextField(default='', blank=True)
     trans_intro = TranslatedField(
         'intro_de',
         'intro_fr',
