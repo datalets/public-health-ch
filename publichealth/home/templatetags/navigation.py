@@ -9,18 +9,23 @@ register = template.Library()
 def language_switcher(context):
     url = '/$lang$'
     if 'page' in context:
-        url = context['page'].url.split('/')
-        if len(url) > 2 and len(url[1]) >= 2:
-            url[1] = '$lang$'
-            url = '/'.join(url)
-        else:
-            url = context['page'].url
+        urlparts = context['page'].get_url_parts()
+        if urlparts is not None:
+            s, r, page_url_relative_to_site_root = urlparts
+            url = page_url_relative_to_site_root.split('/')
+            if len(url) > 0 and len(url[1]) == 2:
+                url[1] = '$lang$'
+                url = '/'.join(url)
+            else:
+                url = '/$lang$'
+    language_array = [
+        { 'code': 'de', 'title': 'De', 'url': url.replace('$lang$','de') },
+        { 'code': 'fr', 'title': 'Fr', 'url': url.replace('$lang$','fr') }
+    ]
+    if context['page'].get_site().root_page.slug == "sphc":
+        language_array.append({ 'code': 'en', 'title': 'En', 'url': url.replace('$lang$','en') })
     return {
-        'languages': [
-            { 'code': 'de', 'title': 'De', 'url': url.replace('$lang$','de') },
-            { 'code': 'fr', 'title': 'Fr', 'url': url.replace('$lang$','fr') }
-            # { 'code': 'en', 'title': 'En', 'url': url.replace('$lang$','en') }
-        ],
+        'languages': language_array,
         'currentlangcode': translation.get_language(),
         'request': context['request'],
     }
