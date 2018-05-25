@@ -13,6 +13,8 @@ def language_switcher(context):
         if len(url) > 2 and len(url[1]) >= 2:
             url[1] = '$lang$'
             url = '/'.join(url)
+        else:
+            url = context['page'].url
     return {
         'languages': [
             { 'code': 'de', 'title': 'De', 'url': url.replace('$lang$','de') },

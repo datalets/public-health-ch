@@ -219,16 +219,20 @@ class ArticleRelatedLink(Orderable):
 class HomePage(Page):
     intro_de = RichTextField(default='')
     intro_fr = RichTextField(default='')
+    intro_en = RichTextField(default='')
     trans_intro = TranslatedField(
         'intro_de',
         'intro_fr',
+        'intro_en',
     )
 
     body_de = RichTextField(default='', blank=True)
     body_fr = RichTextField(default='', blank=True)
+    body_en = RichTextField(default='', blank=True)
     trans_body = TranslatedField(
         'body_de',
         'body_fr',
+        'body_en',
     )
 
     infos_de = StreamField([
@@ -237,9 +241,13 @@ class HomePage(Page):
     infos_fr = StreamField([
         ('info', InfoBlock())
     ], null=True, blank=True)
+    infos_en = StreamField([
+        ('info', InfoBlock())
+    ], null=True, blank=True)
     trans_infos = TranslatedField(
         'infos_de',
         'infos_fr',
+        'infos_en',
     )
 
     content_panels = Page.content_panels + [
@@ -253,6 +261,11 @@ class HomePage(Page):
             FieldPanel('body_fr', classname="full"),
             StreamFieldPanel('infos_fr'),
         ], heading="Français"),
+        MultiFieldPanel([
+            FieldPanel('intro_en', classname="full"),
+            FieldPanel('body_en', classname="full"),
+            StreamFieldPanel('infos_en'),
+        ], heading="English"),
     ]
 
     @property
