@@ -1,4 +1,4 @@
-{% load wagtailcore_tags navigation information %}
+{% load static wagtailcore_tags navigation information %}
 {% get_site_root as site_root %}
 
 <!-- Footer -->
@@ -32,3 +32,7 @@
 <div class="copyright">
 	&copy; 2017 Public Health Schweiz
 </div>
+
+{% if site_root.slug == "sphc" %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/sphc.css' %}">
+{% endif %}

@@ -1,0 +1,12 @@
+#footer { display: none; }
+
+.navbar-brand span, .navbar-brand img { display:none; }
+a.navbar-brand {
+  height: 64px;
+  padding-right: 62px;
+  background: url('/static/images/ssph-logo.jpg') center right no-repeat;
+  background-size: auto 75%;
+}
+.navbar-brand:after {
+  content: 'Swiss Public Health Conference';
+}
