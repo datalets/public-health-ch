@@ -46,6 +46,7 @@ server {
 
 	# Disable English home page (for now)
 	location ^/en$ { return 301 $scheme://$host/de/; }
+	location ^/privacy$ { return 301 $scheme://$host/de/privacy; }
 
 	location / {
 		proxy_set_header  X-Real-IP $remote_addr;
