@@ -18,6 +18,11 @@ footer#footer {
   color: white;
   text-align: center;
   font-size: 70%;
+
+  a {
+    color: lighten($brand-secondary, 25%);
+    font-weight: 600;
+  }
 }
 
 article footer .btn {

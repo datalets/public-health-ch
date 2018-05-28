@@ -146,6 +146,7 @@ PASSWORD_REQUIRED_TEMPLATE = 'password.html'
 LANGUAGES = (
    ('de', u'Deutsch'),
    ('fr', u'Français'),
+   ('en', u'English'),
 )
 LANGUAGE_CODE = 'de' # default language
 

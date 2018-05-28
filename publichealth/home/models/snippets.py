@@ -52,9 +52,11 @@ class Contact(models.Model):
     """
     title = models.CharField(max_length=255, default="")
     title_fr = models.CharField(max_length=255, default="")
+    title_en = models.CharField(max_length=255, default="")
     trans_title = TranslatedField(
         'title',
         'title_fr',
+        'title_en',
     )
     address = models.TextField(default="", blank=True)
     phone = models.CharField(max_length=40, default="")
@@ -75,6 +77,7 @@ class Contact(models.Model):
 
     panels = Page.content_panels + [
         FieldPanel('title_fr'),
+        FieldPanel('title_en'),
         FieldPanel('address'),
         FieldPanel('phone'),
         FieldPanel('email'),

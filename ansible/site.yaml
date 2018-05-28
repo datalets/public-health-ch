@@ -5,6 +5,7 @@
     release_dir: /opt/publichealth
     archive_dir: /opt/www-old
     django_log_dir: /var/log/publichealth
+    redis_data_dir: /opt/redis/data
     ipv4_addresses: "{{ ansible_all_ipv4_addresses }}"
   environment:
     COMPOSE_FILE: "{{ release_dir }}/docker-compose.yml"
