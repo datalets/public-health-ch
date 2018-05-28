@@ -68,6 +68,25 @@ $(document).ready(function() {
 		nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
 	});
 
+	// Cookie notice via insites.com
+	window.cookieconsent.initialise({
+	  "palette": {
+	    "popup": {
+	      "background": "#edeff5",
+	      "text": "#838391"
+	    },
+	    "button": {
+	      "background": "#4b81e8"
+	    }
+	  },
+	  "theme": "edgeless",
+	  "content": {
+	    "message": "Diese Website verwendet Cookies, um Ihnen eine optimale Nutzung unserer Website zu ermöglichen.",
+	    "dismiss": "Zustimmen",
+	    "link": "Weitere informationen",
+	    "href": "/privacy/"
+	  }
+	});
 
 	// Pastel colors on live news
 	// $('.feedpage-body .panel').each(function() {
