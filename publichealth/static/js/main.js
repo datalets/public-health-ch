@@ -68,6 +68,32 @@ $(document).ready(function() {
 		nextArrow: '<span class="arrow right glyphicon glyphicon-chevron-right" aria-hidden="true">Next</span>',
 	});
 
+	// Cookie notice via insites.com
+	var langbase = $('.language-nav a.active').text().toLowerCase();
+	window.cookieconsent.initialise({
+	  "palette": {
+	    "popup": {
+	      "background": "#edeff5",
+	      "text": "#838391"
+	    },
+	    "button": {
+	      "background": "#4b81e8"
+	    }
+	  },
+	  "theme": "edgeless",
+	  "content": {
+	    "message": langbase == 'fr' ?
+			  "Ce site Web utilise des cookies pour vous permettre une utilisation optimale de notre site Web."
+				: "Diese Website verwendet Cookies, um Ihnen eine optimale Nutzung unserer Website zu ermöglichen.",
+	    "dismiss": langbase == 'fr' ?
+				"D'accord"
+				: "Zustimmen",
+	    "link": langbase == 'fr' ?
+				"Pour plus d'informations"
+				: "Weitere informationen",
+	    "href": "/" + langbase + "/privacy/"
+	  }
+	});
 
 	// Pastel colors on live news
 	// $('.feedpage-body .panel').each(function() {

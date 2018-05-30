@@ -24,9 +24,39 @@ server {
 	}
 }
 
-# TODO: parameterize
+# Conference site
 server {
 	listen 80;
-	server_name sphc.ch;
-	return 301 $scheme://sph17.organizers-congress.org;
+	server_name ph-gamma-kzql0g21.datalets.ch;
+
+	client_max_body_size 16M;
+
+	gzip on;
+	gzip_types text/plain text/css application/x-javascript image/svg+xml;
+	gzip_comp_level 1;
+	gzip_disable msie6;
+	gzip_http_version 1.0;
+	gzip_proxied any;
+	gzip_vary on;
+
+	location /static/ {
+		return 301 $scheme://public-health.ch$request_uri;
+	}
+	location /static/CACHE/ {
+		return 301 $scheme://public-health.ch$request_uri;
+	}
+	location /favicon.ico {
+		return 301 $scheme://public-health.ch$request_uri;
+	}
+	location /media/images {
+		return 301 $scheme://public-health.ch$request_uri;
+	}
+
+	location / {
+		proxy_set_header  X-Real-IP $remote_addr;
+		proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header Host $http_host;
+		proxy_redirect off;
+		proxy_pass http://wagtail-site;
+	}
 }

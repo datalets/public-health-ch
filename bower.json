@@ -16,6 +16,7 @@
   "dependencies": {
     "bootstrap-sass": "bootstrap-sass-official#^3.3.7",
     "slick-carousel": "^1.4.1",
-    "slick-lightbox": "^0.2.10"
+    "slick-lightbox": "^0.2.10",
+    "cookieconsent": "cookieconsent2#^3.0.6"
   }
 }
