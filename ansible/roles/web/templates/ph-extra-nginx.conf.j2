@@ -7,12 +7,23 @@ server {
 	server_name www-old.{{ domain }};
 	index index.html index.htm;
 	root {{ archive_dir }};
+	add_after_body /archive-message.html;
+	location = /archive-message.html {
+		root {{ release_dir }}/static/org/;
+	}
 	location / {
 		try_files $uri $uri/ =404;
 	}
-	add_after_body /archive-message.html;
-	location = /archive-message.html {
-		root {{ release_dir }}/static/org/archive-message.html;
+	# Enable secure site support
+	listen [::]:443;
+	listen 443 ssl;
+	ssl on;
+	ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+	include /etc/letsencrypt/options-ssl-nginx.conf;
+
+	if ($scheme != "https") {
+		return 301 https://$host$request_uri;
 	}
 }
 
@@ -25,4 +36,11 @@ server {
 	location / {
 		return 301 $scheme://sph17.organizers-congress.org;
 	}
+	# Enable secure site support
+	listen [::]:443;
+	listen 443 ssl;
+	ssl on;
+	ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+	include /etc/letsencrypt/options-ssl-nginx.conf;
 }

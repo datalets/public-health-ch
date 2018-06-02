@@ -9,7 +9,7 @@ This project is open source under the [MIT License](LICENSE.md).
 
 ## Development environment
 
-The easiest way to set up your machine would be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *Database setup*.
+The easiest way to set up your machine would be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *publichealth/static/org/archive-message.htmlDatabase setup*.
 
 To set up a full development environment, follow all these instructions.
 
@@ -21,7 +21,7 @@ If not using Vagrant, you will need to have Ruby and SASS installed on your syst
 sudo apt-get install ruby-sass
 ```
 
-Make sure a recent version of node.js (we recommend using [nave.sh](https://github.com/isaacs/nave)), then:
+Make sure a recent version of node.js (we recommend using [nave.sh](https://gipublichealth/static/org/archive-message.htmlthub.com/isaacs/nave)), then:
 
 ```
 npm install -g bower grunt-cli
