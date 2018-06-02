@@ -1,6 +1,6 @@
 #{{ ansible_managed }}
 
-# Web archive and other special configurations for public-health.ch
+# Web archive and other special configurations
 
 server {
 	listen 80;
@@ -10,9 +10,12 @@ server {
 	location / {
 		try_files $uri $uri/ =404;
 	}
+	add_after_body /archive-message.html;
+	location = /archive-message.html {
+		root {{ release_dir }}/static/org/archive-message.html;
+	}
 }
 
-# TODO: parameterize
 server {
 	listen 80;
 	server_name conference.{{ domain }};
@@ -21,42 +24,5 @@ server {
 	}
 	location / {
 		return 301 $scheme://sph17.organizers-congress.org;
-	}
-}
-
-# Conference site
-server {
-	listen 80;
-	server_name sphc.ch www.sphc.ch;
-
-	client_max_body_size 16M;
-
-	gzip on;
-	gzip_types text/plain text/css application/x-javascript image/svg+xml;
-	gzip_comp_level 1;
-	gzip_disable msie6;
-	gzip_http_version 1.0;
-	gzip_proxied any;
-	gzip_vary on;
-
-	location /static/ {
-		return 301 $scheme://public-health.ch$request_uri;
-	}
-	location /static/CACHE/ {
-		return 301 $scheme://public-health.ch$request_uri;
-	}
-	location /favicon.ico {
-		return 301 $scheme://public-health.ch$request_uri;
-	}
-	location /media/images {
-		return 301 $scheme://public-health.ch$request_uri;
-	}
-
-	location / {
-		proxy_set_header  X-Real-IP $remote_addr;
-		proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header Host $http_host;
-		proxy_redirect off;
-		proxy_pass http://wagtail-site;
 	}
 }
