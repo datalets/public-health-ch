@@ -2,7 +2,6 @@
 
 @import 'paper/variables';
 @import '../libs/bootstrap-sass/assets/stylesheets/bootstrap';
-@import '../libs/cookieconsent/build/cookieconsent.min.css';
 @import 'paper/bootswatch';
 
 // Modules
@@ -25,6 +24,7 @@ body {
 @include max-screen(480px) {
   #responsive { display: none !important; }
   .arrow:before { display: none; }
+  a.navbar-brand { max-width: 80%; }
 }
 
 $slider-nav: 200px;
