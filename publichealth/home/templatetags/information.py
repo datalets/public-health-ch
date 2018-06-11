@@ -6,33 +6,43 @@ from ..models.snippets import Contact, SocialContact
 
 register = template.Library()
 
+def get_contacts(site_root):
+    if not site_root: return {}
+    site_id = site_root.id
+    top_contact = Contact.objects.filter(home_site=site_id)
+    if top_contact.exists():
+        top_contact = top_contact.last()
+    else:
+        top_contact = Contact.objects.last()
+    social_contacts = SocialContact.objects.filter(home_site=site_id)
+    if social_contacts.exists():
+        social_contacts = social_contacts.all()
+    else:
+        social_contacts = SocialContact.objects.all()
+    return {
+        'contact': top_contact,
+        'socials': social_contacts
+    }
+
 # Contact information (footer)
 @register.inclusion_tag('tags/contact_info.html')
-def contact_info():
-    return {
-        'contact': Contact.objects.last(),
-        'socials': SocialContact.objects.all()
-    }
+def contact_info(site_root):
+    return get_contacts(site_root)
 
 # Contact form (footer)
 @register.inclusion_tag('tags/footer_form.html')
-def footer_form():
-    if Contact.objects.last():
-        return {
-            'form': Contact.objects.last().contact_form,
-        }
+def footer_form(site_root):
+    cc = get_contacts(site_root)
+    if cc['contact']:
+        return { 'form': cc['contact'].contact_form }
+    return None
 
 # Contact links (header)
 @register.inclusion_tag('tags/contact_links.html')
-def contact_links():
-    return {
-        'contact': Contact.objects.last(),
-        'socials': SocialContact.objects.all()
-    }
+def contact_links(site_root):
+    return get_contacts(site_root)
 
 # Styled contact name (header)
 @register.inclusion_tag('tags/contact_name.html')
-def contact_name():
-    return {
-        'contact': Contact.objects.last(),
-    }
+def contact_name(site_root):
+    return { 'contact': get_contacts(site_root)['contact'] }
