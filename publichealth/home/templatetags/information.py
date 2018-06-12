@@ -8,13 +8,13 @@ register = template.Library()
 
 def get_contacts(site_root):
     if not site_root: return {}
-    site_id = site_root.id
-    top_contact = Contact.objects.filter(home_site=site_id)
+    site = site_root.get_site()
+    top_contact = Contact.objects.filter(home_site=site)
     if top_contact.exists():
         top_contact = top_contact.last()
     else:
         top_contact = Contact.objects.last()
-    social_contacts = SocialContact.objects.filter(home_site=site_id)
+    social_contacts = SocialContact.objects.filter(home_site=site)
     if social_contacts.exists():
         social_contacts = social_contacts.all()
     else:
