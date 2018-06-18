@@ -109,7 +109,7 @@
 }
 
 // News detail article
-#news-details {
+.content-page {
   background: white;
   padding-top: 0;
 
@@ -129,10 +129,6 @@
     text-transform: uppercase;
     margin-bottom: .5em;
   }
-  hr {
-    margin-left: 0;
-    width: 100px;
-  }
   .author {
     color: lighten($text-color, 20%);
     font-size: 90%;
@@ -144,7 +140,7 @@
   }
 
   .img-responsive {
-    width: 100%;
+    max-width: 100%;
   }
 
   .links {
