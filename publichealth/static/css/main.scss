@@ -12,7 +12,7 @@ $hr-border: $gray-light;
 body { margin-top: 104px; }
 
 @include mid-screen($screen-sm-min, $screen-md-min) {
-  body { margin-top: 200px; }
+  body { margin-top: 168px; }
 }
 @include max-screen(1000px) {
   .carousel-inner .item {

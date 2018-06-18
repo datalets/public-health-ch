@@ -15,6 +15,11 @@ section {
   }
 }
 
+// Stretch the top image
+.content-page .container:first-child img.img-responsive {
+  width: 100%;
+}
+
 .article-body {
   h2 { font-size: 35px; }
   h3 { font-size: 30px; }
@@ -22,6 +27,7 @@ section {
   h5 { font-size: 22px; }
 
   line-height: 1.5;
+  background: white;
 
   img.full-width {
     width: 100%;
