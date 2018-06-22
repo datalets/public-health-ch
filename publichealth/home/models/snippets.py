@@ -107,7 +107,7 @@ class Contact(models.Model):
         return { 'server': sa[0], 'site': sa[1] }
     def trans_title_styled(self):
         v = self.trans_title.split(' ')
-        if len(v) != 3: return v
+        if len(v) != 3: return self.trans_title
         return "<strong>%s %s</strong> %s" % tuple(v)
     def __str__(self):
         return self.trans_title
