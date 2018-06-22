@@ -20,7 +20,7 @@
         <![endif]-->
     </head>
 
-    <body class="{% block body_class %}{% endblock %}">
+    <body class="{% block body_class %}{% endblock %} site-{{ site_root.slug }}">
         {% wagtailuserbar %}
 
         {% include 'header.html' %}
