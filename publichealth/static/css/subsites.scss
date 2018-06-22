@@ -1,10 +1,12 @@
 .site-sphc, .site-ngo-allianz-ebk {
 
-  #news, #footer, .contact-nav .link { display: none; }
+  #news { display: none; }
 
 }
 
 .site-sphc {
+
+  #footer, .contact-nav .link { display: none; }
 
   a.navbar-brand {
     height: 60px;
