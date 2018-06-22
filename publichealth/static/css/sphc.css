@@ -8,9 +8,6 @@ a.navbar-brand {
   background-size: auto 75%;
   overflow: hidden;
 }
-.navbar-brand:after {
-  content: 'Swiss Public Health Conference';
-}
 
 #carousel-banner  .carousel-caption > * { display: none; }
 #carousel-banner  .carousel-caption {
