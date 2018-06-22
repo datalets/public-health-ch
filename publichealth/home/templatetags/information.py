@@ -44,5 +44,6 @@ def contact_links(site_root):
 
 # Styled contact name (header)
 @register.inclusion_tag('tags/contact_name.html')
-def contact_name(site_root):
-    return { 'contact': get_contacts(site_root)['contact'] }
+def contact_name(site_root, html=True):
+    contactname = get_contacts(site_root)['contact']
+    return { 'contact': contactname, 'html': html }
