@@ -47,16 +47,17 @@
   .navbar-brand {
     width: 400px;
     height: 100px;
-    background-size: contain;
+    background-size: contain !important;
+    background-repeat: no-repeat;
 
-    font-size: 0px;
-    img { display: none; }
+    font-size: 0px !important;
+    img { display: none !important; }
   }
 }
 
-html[lang='de'] .site-ngo-allianz-ebk .navbar-brand {
-  background: url('/static/org/NGO-Allianz_Logo-de.jpg') no-repeat top left;
+.site-ngo-allianz-ebk .navbar-brand {
+  background-image: url('/static/org/NGO-Allianz_Logo-de.jpg');
 }
-html[lang='fr'] .navbar-brand {
-  background: url('/static/org/NGO-Allianz_Logo-fr.jpg') no-repeat top left;
+html[lang='fr'] .site-ngo-allianz-ebk .navbar-brand {
+  background-image: url('/static/org/NGO-Allianz_Logo-fr.jpg');
 }
