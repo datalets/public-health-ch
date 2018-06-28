@@ -11,7 +11,7 @@
   a.navbar-brand {
     height: 60px;
     padding-right: 62px;
-    background: url('/static/images/ssph-logo.jpg') center right no-repeat;
+    background: url('/static/org/ssph-logo.jpg') center right no-repeat;
     background-size: auto 75%;
     overflow: hidden;
   }
@@ -34,4 +34,29 @@
     content: 'Better Health Faster';
   }
 
+}
+
+.site-ngo-allianz-ebk {
+
+  footer#footer, .navbar-pre {
+     background-color: #c46f83;
+  }
+  #footer #contact-form textarea.form-control, #footer #contact-form input.form-control {
+    color:white;
+  }
+  .navbar-brand {
+    width: 400px;
+    height: 100px;
+    background-size: contain;
+
+    font-size: 0px;
+    img { display: none; }
+  }
+}
+
+html[lang='de'] .site-ngo-allianz-ebk .navbar-brand {
+  background: url('/static/org/NGO-Allianz_Logo-de.jpg') no-repeat top left;
+}
+html[lang='fr'] .navbar-brand {
+  background: url('/static/org/NGO-Allianz_Logo-fr.jpg') no-repeat top left;
 }
