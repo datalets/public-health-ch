@@ -38,11 +38,9 @@
 
 .site-ngo-allianz-ebk {
 
+  .navbar-pre .contact-nav { display: none; }
   footer#footer, .navbar-pre {
      background-color: #c46f83;
-  }
-  #footer #contact-form textarea.form-control, #footer #contact-form input.form-control {
-    color:white;
   }
   .navbar-brand {
     width: 400px;
