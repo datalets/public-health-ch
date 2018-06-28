@@ -61,8 +61,8 @@ class Contact(models.Model):
         'title_en',
     )
     address = models.TextField(default="", blank=True)
-    phone = models.CharField(max_length=40, default="")
-    email = models.EmailField(max_length=100, default="")
+    phone = models.CharField(max_length=40, blank=True, default="")
+    email = models.EmailField(max_length=100, blank=True, default="")
     www = models.URLField(null=True, blank=True)
 
     map_url = models.URLField(null=True, blank=True,
