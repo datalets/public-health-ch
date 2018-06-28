@@ -4,6 +4,10 @@ from django.utils import translation
 
 register = template.Library()
 
+@register.simple_tag()
+def language_cur():
+    return translation.get_language()
+
 # Language switcher
 @register.inclusion_tag('tags/language.html', takes_context=True)
 def language_switcher(context):
@@ -22,6 +26,7 @@ def language_switcher(context):
         { 'code': 'de', 'title': 'De', 'url': url.replace('$lang$','de') },
         { 'code': 'fr', 'title': 'Fr', 'url': url.replace('$lang$','fr') }
     ]
+    # TODO: make language list configurable
     if context['page'].get_site().root_page.slug == "sphc":
         language_array.append({ 'code': 'en', 'title': 'En', 'url': url.replace('$lang$','en') })
     return {
