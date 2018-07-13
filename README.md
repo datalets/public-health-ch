@@ -31,7 +31,7 @@ bower install
 
 The first command (`..install -g..`) may require `sudo` if you installed node.js as a system package.
 
-If you are only working on the frontend, you can start a local webserver and work on frontend assets without the backend setup described below. Mock content is at `mockup`, and there is a `grunt browser-sync` setup for working with frontend assets.
+If you are only working on the frontend, you can start a local webserver and work on frontend assets without the backend setup described below. There is a `grunt browser-sync` setup for working with frontend assets.
 
 **Backend setup**
 
