@@ -1,0 +1,61 @@
+.site-sphc, .site-ngo-allianz-ebk {
+
+  #news { display: none; }
+
+}
+
+.site-sphc {
+
+  #footer, .contact-nav .link { display: none; }
+
+  a.navbar-brand {
+    height: 60px;
+    padding-right: 62px;
+    background: url('/static/org/ssph-logo.jpg') center right no-repeat;
+    background-size: auto 75%;
+    overflow: hidden;
+  }
+
+  #carousel-banner  .carousel-caption > * { display: none; }
+  #carousel-banner  .carousel-caption {
+    width: 13em;
+    background: rgba(0,0,50,0.4);
+    border: 6px solid white;
+    font-size: 155%;
+    padding: 1em 1em;
+    left: 50%;
+    margin-left: -6.5em;
+    bottom: 2em;
+  }
+  #carousel-banner  .carousel-caption:before {
+    content: 'SPHC 2018'; display: block;
+  }
+  #carousel-banner .carousel-caption:after {
+    content: 'Better Health Faster';
+  }
+
+}
+
+.site-ngo-allianz-ebk {
+
+  .navbar-pre .contact-nav { display: none; }
+  footer#footer, .navbar-pre {
+     background-color: #c46f83;
+  }
+  .navbar-brand {
+    width: 400px;
+    height: 100px;
+    background-size: contain !important;
+    background-repeat: no-repeat;
+
+    font-size: 0px !important;
+    img { display: none !important; }
+  }
+}
+
+.site-ngo-allianz-ebk .navbar-brand {
+  background-image: url('/static/org/NGO-Allianz_Logo-de.jpg');
+}
+html[lang='fr'] .site-ngo-allianz-ebk .navbar-brand {
+  background-image: url('/static/org/NGO-Allianz_Logo-fr.jpg');
+}

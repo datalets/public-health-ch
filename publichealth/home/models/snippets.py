@@ -27,9 +27,11 @@ class SocialContact(models.Model):
         choices=SOCIAL_NETWORK_SUPPORTED)
     profile = models.CharField(max_length=255, default="",
         help_text="Name of the account, e.g. @myaccount, or full URL")
+    home_site = models.ForeignKey('wagtailcore.Site', null=True, blank=True, related_name='+')
     panels = [
         FieldPanel('network'),
         FieldPanel('profile'),
+        FieldPanel('home_site'),
     ]
     social_networks = dict(SOCIAL_NETWORK_SUPPORTED)
     def network_title(self):
@@ -59,8 +61,8 @@ class Contact(models.Model):
         'title_en',
     )
     address = models.TextField(default="", blank=True)
-    phone = models.CharField(max_length=40, default="")
-    email = models.EmailField(max_length=100, default="")
+    phone = models.CharField(max_length=40, blank=True, default="")
+    email = models.EmailField(max_length=100, blank=True, default="")
     www = models.URLField(null=True, blank=True)
 
     map_url = models.URLField(null=True, blank=True,
@@ -75,9 +77,12 @@ class Contact(models.Model):
         related_name='+',
     )
 
+    home_site = models.ForeignKey('wagtailcore.Site', null=True, blank=True, related_name='+')
+
     panels = Page.content_panels + [
         FieldPanel('title_fr'),
         FieldPanel('title_en'),
+        FieldPanel('home_site'),
         FieldPanel('address'),
         FieldPanel('phone'),
         FieldPanel('email'),
@@ -102,7 +107,7 @@ class Contact(models.Model):
         return { 'server': sa[0], 'site': sa[1] }
     def trans_title_styled(self):
         v = self.trans_title.split(' ')
-        if len(v) != 3: return v
+        if len(v) != 3: return self.trans_title
         return "<strong>%s %s</strong> %s" % tuple(v)
     def __str__(self):
         return self.trans_title

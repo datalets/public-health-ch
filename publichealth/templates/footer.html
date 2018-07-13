@@ -20,22 +20,19 @@
 
 	<a name="contact-info"></a>
 	<div class="col-md-4" id="contact-info">
-		{% contact_info %}
+		{% contact_info site_root=site_root %}
 	</div>
 	<div class="col-md-4" id="contact-form">
-		{% footer_form %}
+		{% footer_form site_root=site_root %}
 	</div>
 </div><!-- /row -->
 </div><!-- /container -->
 </footer>
 
 <div class="copyright">
-	&copy; 2018 Public Health Schweiz
-	&bull; <a href="/privacy/">Privacy Terms</a>
-	&bull; Code by <a href="https://madewithwagtail.org/developers/dataletsch/" target="_blank">Datalets</a>
+	&copy; 2018 {% contact_name site_root=site_root %}
+	&bull; <a href="/privacy/">Privacy</a>
+	&bull; <a href="/impressum/">Impressum</a>
 </div>
 
-{% if site_root.slug == "sphc" %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/sphc.css' %}">
-{% endif %}
 <link rel="stylesheet" type="text/css" href="{% static 'libs/cookieconsent/build/cookieconsent.min.css' %}">

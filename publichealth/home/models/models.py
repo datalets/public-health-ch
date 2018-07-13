@@ -173,17 +173,20 @@ class ArticlePage(Page):
         MultiFieldPanel([
             FieldPanel('title'),
             FieldPanel('intro_de'),
-        ], heading="Deutsch"),
+        ], heading="Deutsch",
+           classname="collapsible collapsed"),
         StreamFieldPanel('body_de'),
         MultiFieldPanel([
             FieldPanel('title_fr'),
             FieldPanel('intro_fr'),
-        ], heading="Français"),
+        ], heading="Français",
+           classname="collapsible collapsed"),
         StreamFieldPanel('body_fr'),
         MultiFieldPanel([
             FieldPanel('title_en'),
             FieldPanel('intro_en'),
-        ], heading="English"),
+        ], heading="English",
+           classname="collapsible collapsed"),
         StreamFieldPanel('body_en'),
         MultiFieldPanel([
             ImageChooserPanel('feed_image'),
@@ -255,17 +258,20 @@ class HomePage(Page):
             FieldPanel('intro_de', classname="full"),
             FieldPanel('body_de', classname="full"),
             StreamFieldPanel('infos_de'),
-        ], heading="Deutsch"),
+        ], heading="Deutsch",
+           classname="collapsible collapsed"),
         MultiFieldPanel([
             FieldPanel('intro_fr', classname="full"),
             FieldPanel('body_fr', classname="full"),
             StreamFieldPanel('infos_fr'),
-        ], heading="Français"),
+        ], heading="Français",
+           classname="collapsible collapsed"),
         MultiFieldPanel([
             FieldPanel('intro_en', classname="full"),
             FieldPanel('body_en', classname="full"),
             StreamFieldPanel('infos_en'),
-        ], heading="English"),
+        ], heading="English",
+           classname="collapsible collapsed"),
     ]
 
     @property

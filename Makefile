@@ -70,6 +70,8 @@ backup:
 	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
 	zip ~/publichealth.home.json.`date +"%d%m%Y-%H%M"`.zip ~/publichealth.home.json
 	rm ~/publichealth.home.json
+	echo "Backing up images ..."
+	zip -ruq ~/media.zip media
 
 django-loaddata:
 	gunzip ~/publichealth.home.json.gz

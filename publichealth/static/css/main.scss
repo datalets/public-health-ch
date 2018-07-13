@@ -1,18 +1,18 @@
 @charset 'utf-8';
 
 @import 'paper/variables';
+$hr-border: $gray-light;
+
 @import '../libs/bootstrap-sass/assets/stylesheets/bootstrap';
 @import 'paper/bootswatch';
 
 // Modules
 @import "modules/modules";
 
-body {
-  margin-top: 104px;
-}
+body { margin-top: 104px; }
 
 @include mid-screen($screen-sm-min, $screen-md-min) {
-  body { margin-top: 200px; }
+  body { margin-top: 168px; }
 }
 @include max-screen(1000px) {
   .carousel-inner .item {
@@ -52,3 +52,5 @@ $slider-nav: 200px;
       margin: 0;
   }
 }
+
+@import "subsites";
