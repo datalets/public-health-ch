@@ -6,25 +6,24 @@ upstream wagtail-site {
 	server localhost:5000;
 }
 server {
-	listen [::]:80 default_server;
-	listen 80 default_server;
-	server_name {{ domain }};
-	return 301 https://$server_name$request_uri;
-}
-server {
-	listen 80;
-	server_name sphc.ch ngo-allianz-ebk.ch;
-	return 301 https://$server_name$request_uri;
-}
-server {
-	listen [::]:443;
-	listen 443 ssl;
-	server_name {{ domain }} sphc.ch ngo-allianz-ebk.ch;
+  listen 80 default_server;
+	server_name _;
 
+	location / {
+		proxy_set_header  X-Real-IP $remote_addr;
+		proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header Host $http_host;
+		proxy_redirect off;
+		proxy_pass http://wagtail-site;
+	}
+}
+server {
+	listen 443 ssl default_server;
+	server_name _;
+	
 	ssl on;
-	ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
-	include /etc/letsencrypt/options-ssl-nginx.conf;
+	ssl_certificate /etc/certs/public-health.ch/cloudflare.pem;
+	ssl_certificate_key /etc/certs/public-health.ch/cloudflare.key;
 
 	client_max_body_size 16M;
 

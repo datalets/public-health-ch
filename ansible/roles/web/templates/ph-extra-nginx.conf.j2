@@ -3,18 +3,14 @@
 # Web archive and other special configurations
 
 server {
-	listen 80;
 	server_name www-old.{{ domain }};
-	return 301 https://$server_name$request_uri;
-}
-server {
 	listen 443 ssl;
-	server_name www-old.{{ domain }};
-	ssl on;
-	ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
-	include /etc/letsencrypt/options-ssl-nginx.conf;
+	return 301 http://$server_name$request_uri;
+}
 
+server {
+	server_name www-old.{{ domain }};
+	listen 80;
 	index index.html index.htm;
 	root {{ archive_dir }};
 	add_after_body /archive-message.html;
@@ -23,32 +19,5 @@ server {
 	}
 	location / {
 		try_files $uri $uri/ =404;
-	}
-}
-
-server {
-	listen 80;
-	server_name conference.{{ domain }};
-
-	location /fr {
-		return 301 $scheme://sph17.organizers-congress.org/frontend/index.php?sub=89;
-	}
-	location / {
-		return 301 $scheme://sph17.organizers-congress.org;
-	}
-}
-server {
-	listen 443 ssl;
-	server_name conference.{{ domain }};
-	ssl on;
-	ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
-	ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
-	include /etc/letsencrypt/options-ssl-nginx.conf;
-
-	location /fr {
-		return 301 $scheme://sph17.organizers-congress.org/frontend/index.php?sub=89;
-	}
-	location / {
-		return 301 $scheme://sph17.organizers-congress.org;
 	}
 }
