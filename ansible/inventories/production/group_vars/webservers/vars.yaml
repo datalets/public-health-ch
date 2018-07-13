@@ -11,7 +11,7 @@ nginx_worker_connections: 1024
 
 domain: "{{ vault_domain }}"
 
-allowed_domains: "public-health.ch,www.public-health.ch,sphc.ch,www.sphc.ch"
+allowed_domains: "public-health.ch,www.public-health.ch,sphc.ch,www.sphc.ch,ngo-allianz-ebk.ch,www.ngo-allianz-ebk.ch"
 
 django_email_key: "{{ vault_django_email_key }}"
 django_email_domain: "{{ vault_django_email_domain }}"
