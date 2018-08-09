@@ -9,16 +9,28 @@ register = template.Library()
 def get_contacts(site_root):
     if not site_root: return {}
     site = site_root.get_site()
+
+    # Selected or default contact snippet
     top_contact = Contact.objects.filter(home_site=site)
     if top_contact.exists():
         top_contact = top_contact.last()
     else:
-        top_contact = Contact.objects.last()
+        default_contact = Contact.objects.filter(home_site=None)
+        if default_contact.exists():
+            top_contact = default_contact.last()
+        else:
+            top_contact = Contact.objects.last()
+
+    # Selected or default social contact snippet
     social_contacts = SocialContact.objects.filter(home_site=site)
     if social_contacts.exists():
         social_contacts = social_contacts.all()
     else:
-        social_contacts = SocialContact.objects.all()
+        default_contacts = SocialContact.objects.filter(home_site=None)
+        if default_contacts.exists():
+            social_contacts = default_contacts.all()
+        else:
+            social_contacts = SocialContact.objects.all()
     return {
         'contact': top_contact,
         'socials': social_contacts
