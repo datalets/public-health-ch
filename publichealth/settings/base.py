@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'publichealth.home.templatetags',
     'publichealth.search',
 
-    'wagtail.contrib.wagtailsearchpromotions',
     'wagtail.contrib.wagtailroutablepage',
     'wagtail.contrib.wagtailsitemaps',
     'wagtail.contrib.modeladmin',

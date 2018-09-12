@@ -1,8 +1,8 @@
 # Updated: 16.5.2018
 
 # Core
-wagtail>=1.13.1
-Django>=1.11.7
+wagtail>=1.13.1,<2.2.0
+Django>=1.11.7,<2.1.0
 elasticsearch>=2.0.0,<3.0.0
 
 # Database
