@@ -23,6 +23,7 @@ django-anymail = ">=2.2"
 guess_language-spirit = ">=0.5.3"
 Pillow = ">=5.1.0"
 ConcurrentLogHandler = ">=0.9.1"
+django-crispy-forms = "*"
 
 [requires]
 python_version = "3.6"
