@@ -55,6 +55,7 @@ INSTALLED_APPS = [
 
     'wagtail.api.v2',
     'rest_framework',
+    'crispy_forms', # required by rest_framework
 
     'modelcluster',
     'compressor',
