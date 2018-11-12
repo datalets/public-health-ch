@@ -25,4 +25,4 @@ Pillow = ">=5.1.0"
 ConcurrentLogHandler = ">=0.9.1"
 
 [requires]
-python_version = "3.5"
+python_version = "3.6"
