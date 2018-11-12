@@ -17,6 +17,9 @@
   }
 
   #carousel-banner  .carousel-caption > * { display: none; }
+  #carousel-banner .carousel-caption { display: none; }
+
+  /*
   #carousel-banner  .carousel-caption {
     width: 13em;
     background: rgba(0,0,50,0.4);
@@ -33,6 +36,7 @@
   #carousel-banner .carousel-caption:after {
     content: 'Better Health Faster';
   }
+  */
 
 }
 
