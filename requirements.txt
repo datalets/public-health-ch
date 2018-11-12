@@ -1,4 +1,4 @@
-# Updated: 16.5.2018
+# Updated: 11.11.2018
 
 # Core
 wagtail>=1.13.1,<2.0.0
@@ -6,8 +6,8 @@ Django>=1.11.7,<2.0.0
 elasticsearch>=2.0.0,<3.0.0
 
 # Database
-psycopg2==2.7.5
-psycopg2-binary==2.7.5
+psycopg2==2.7.6.1
+psycopg2-binary==2.7.6.1
 dj-database-url==0.5.0
 
 # Content
@@ -19,14 +19,14 @@ django-redis==4.9.0
 
 # Frontend
 django-libsass==0.7
-libsass==0.14.5
-Pillow==5.2.0
+libsass==0.15.1
+Pillow==5.3.0
 
 # Development tools
 stellar==0.4.5
 
 # Production dependencies
 gunicorn==19.9.0
-whitenoise==3.3.1
+whitenoise==4.1
 ConcurrentLogHandler==0.9.1
-django-anymail==3.0
+django-anymail==5.0
