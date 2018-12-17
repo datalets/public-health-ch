@@ -1,5 +1,5 @@
 ---
-# Set the version of Node.js to install ("0.10", "0.12", "4.x", "5.x", "6.x").
+# Set the version of Node.js to install ("0.12", "4.x", "5.x", "6.x", "8.x", "9.x").
 # Version numbers from Nodesource: https://github.com/nodesource/distributions
 nodejs_version: "6.x"
 
@@ -19,6 +19,8 @@ nodejs_npm_global_packages: []
 #    version: 0.9.3
 #  # Install the latest stable release of a package.
 #  - name: node-sass
+#  # This shorthand syntax also works (same as previous example).
+#  - node-sass
 
 # The path of a package.json file used to install packages globally.
 nodejs_package_json_path: ""
