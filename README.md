@@ -96,6 +96,12 @@ ansible-galaxy install \
    geerlingguy.nodejs geerlingguy.certbot
 ```
 
+To check that the scripts and roles are correctly installed, use this command to do a "dry run":
+
+```
+ansible-playbook -s ansible/*.yaml -i ansible/inventories/production --syntax-check --list-tasks
+```
+
 To do production deployments, you need to obtain SSH and vault keys from your system administrator (who has followed the Ansible guide to set up a vault..), and place these in a `.keys` folder. To deploy a site:
 
 ```
