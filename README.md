@@ -147,6 +147,10 @@ ansible-playbook -s ansible/site.yaml -i ansible/inventories/production --tags r
 ssh -i .keys/ansible.pem ansible@<server-ip> "cd <release_dir> && make release"
 ```
 
+This is already part of the normal release cycle, but if you wish to update the Docker images to the latest versions separately, use:
+
+`make upgrade`
+
 ### Restoring a data backup
 
 For development, it's handy to have access to a copy of the production data. To delete your local database and restore from a file backup, run:
