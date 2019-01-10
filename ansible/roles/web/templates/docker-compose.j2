@@ -25,6 +25,7 @@ web:
 redis:
   image: redis
   command: ["redis-server", "--appendonly", "yes"]
+  restart: on-failure
   volumes:
     - {{ redis_data_dir }}:/data
   ports:
