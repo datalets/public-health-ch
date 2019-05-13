@@ -25,7 +25,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = INSTALLED_APPS + [
-    'wagtail.contrib.wagtailstyleguide',
+    'wagtail.contrib.styleguide',
 ]
 
 try:

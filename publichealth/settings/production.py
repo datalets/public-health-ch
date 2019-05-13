@@ -48,10 +48,10 @@ if 'SERVER_EMAIL' in env:
     SERVER_EMAIL = env['SERVER_EMAIL']
 
 if 'CACHE_PURGE_URL' in env:
-    INSTALLED_APPS += ( 'wagtail.contrib.wagtailfrontendcache', )
+    INSTALLED_APPS += ( 'wagtail.contrib.frontend_cache', )
     WAGTAILFRONTENDCACHE = {
         'default': {
-            'BACKEND': 'wagtail.contrib.wagtailfrontendcache.backends.HTTPBackend',
+            'BACKEND': 'wagtail.contrib.frontend_cache.backends.HTTPBackend',
             'LOCATION': env['CACHE_PURGE_URL'],
         },
     }
@@ -131,7 +131,7 @@ if REDIS_LOCATION is not None:
 if 'ELASTICSEARCH_URL' in env:
     WAGTAILSEARCH_BACKENDS = {
         'default': {
-            'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch2',
+            'BACKEND': 'wagtail.search.backends.elasticsearch2',
             'URLS': [env['ELASTICSEARCH_URL']],
             'INDEX': APP_NAME,
             'ATOMIC_REBUILD': True,

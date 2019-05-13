@@ -12,7 +12,7 @@ from django.shortcuts import redirect
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin
 from wagtail.contrib.modeladmin.views import IndexView
-from wagtail.wagtailadmin import messages
+from wagtail.admin import messages
 
 from feedler.models import Entry
 from feedler.refresh import refresh_streams
