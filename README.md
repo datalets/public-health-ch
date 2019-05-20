@@ -9,7 +9,7 @@ This project is open source under the [MIT License](LICENSE.md).
 
 ## Development environment
 
-The easiest way to set up your machine would be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *publichealth/static/org/archive-message.htmlDatabase setup*.
+The easiest way to set up your machine would be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *publichealth/static/org/archive-message.html#Database setup*.
 
 To set up a full development environment, follow all these instructions.
 
@@ -86,7 +86,21 @@ Now access the admin panel with the user account you created earlier: http://loc
 
 We use [Ansible](https://www.ansible.com) and [Docker Compose](https://docs.docker.com/compose/reference/overview/) for automated deployment.
 
-To use Docker Compose to deploy the site, copy `ansible/roles/web/templates/docker-compose.j2` to `/docker-compose.yml` and fill in all `{{ variables }}`. This is done automatically in Ansible.
+To use Docker Compose to manually deploy the site, copy `ansible/roles/web/templates/docker-compose.j2` to `/docker-compose.yml` and fill in all `{{ variables }}`. This can also be done automatically in Ansible.
+
+Install or update the following roles from [Ansible Galaxy](https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html) to use our scripts:
+
+```
+ansible-galaxy install \
+   dev-sec.nginx-hardening dev-sec.ssh-hardening dev-sec.os-hardening \
+   geerlingguy.nodejs geerlingguy.certbot
+```
+
+To check that the scripts and roles are correctly installed, use this command to do a "dry run":
+
+```
+ansible-playbook -s ansible/*.yaml -i ansible/inventories/production --syntax-check --list-tasks
+```
 
 To do production deployments, you need to obtain SSH and vault keys from your system administrator (who has followed the Ansible guide to set up a vault..), and place these in a `.keys` folder. To deploy a site:
 
@@ -132,6 +146,10 @@ For further deployment and system maintenance we have a `Makefile` which automat
 ansible-playbook -s ansible/site.yaml -i ansible/inventories/production --tags release
 ssh -i .keys/ansible.pem ansible@<server-ip> "cd <release_dir> && make release"
 ```
+
+This is already part of the normal release cycle, but if you wish to update the Docker images to the latest versions separately, use:
+
+`make upgrade`
 
 ### Restoring a data backup
 

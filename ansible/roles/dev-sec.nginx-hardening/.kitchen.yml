@@ -2,6 +2,9 @@
 driver:
   name: docker
   use_sudo: false
+  privileged: true
+  http_proxy: <%= ENV['http_proxy'] || nil %>
+  https_proxy: <%= ENV['https_proxy'] || nil %>
 
 transport:
   max_ssh_sessions: 5
@@ -10,51 +13,104 @@ provisioner:
   name: ansible_playbook
   hosts: all
   require_ansible_repo: false
-  require_ansible_omnibus: true
   require_chef_for_busser: false
   require_ruby_for_busser: false
   ansible_verbose: true
   ansible_diff: true
-  requirements_path: requirements.yml
+
   roles_path: ../ansible-nginx-hardening/
-  playbook: default.yml
+  http_proxy: <%= ENV['http_proxy'] || nil %>
+  https_proxy: <%= ENV['https_proxy'] || nil %>
+  playbook: tests/test.yml
+  requirements_path: requirements.yml
+  galaxy_ignore_certs: true
 
 platforms:
-- name: ubuntu-12.04
+- name: centos6-ansible-latest
   driver:
-    image: ubuntu:12.04
-- name: ubuntu-14.04
+    image: rndmh3ro/docker-centos6-ansible:latest
+    platform: centos
+- name: centos7-ansible-latest
   driver:
-    image: ubuntu:14.04
-- name: ubuntu-16.04
+    image: rndmh3ro/docker-centos7-ansible:latest
+    platform: centos
+    run_command: /sbin/init
+    provision_command:
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
+- name: oracle6-ansible-latest
   driver:
-    image: ubuntu:16.04
-- name: centos-6.7
+    image: rndmh3ro/docker-oracle6-ansible:latest
+    platform: centos
+- name: oracle7-ansible-latest
   driver:
-    image: centos:6.7
-- name: centos-6.8
+    image: rndmh3ro/docker-oracle7-ansible:latest
+    run_command: /sbin/init
+    platform: centos
+    provision_command:
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
+- name: ubuntu1404-ansible-latest
   driver:
-    image: centos:6.8
-- name: centos-7
+    image: rndmh3ro/docker-ubuntu1404-ansible:latest
+    platform: ubuntu
+- name: ubuntu1604-ansible-latest
   driver:
-    image: centos:7
-    privileged: true
-    run_command: /usr/sbin/init
-- name: debian-7
+    image: rndmh3ro/docker-ubuntu1604-ansible:latest
+    platform: ubuntu
+    run_command: /sbin/init
+    provision_command:
+      - systemctl enable ssh.service
+- name: ubuntu1804-ansible-latest
   driver:
-    image: debian:7
-- name: debian-8
+    image: rndmh3ro/docker-ubuntu1804-ansible:latest
+    platform: ubuntu
+    run_command: /sbin/init
+    provision_command:
+      - systemctl enable ssh.service
+- name: debian8-ansible-latest
   driver:
-    image: debian:8
+    image: rndmh3ro/docker-debian8-ansible:latest
+    platform: debian
+- name: debian9-ansible-latest
+  driver:
+    image: rndmh3ro/docker-debian9-ansible:latest
+    platform: debian
+    run_command: /sbin/init
+    provision_command:
+      - apt install -y systemd-sysv
+      - systemctl enable ssh.service
+- name: amazon-ansible-latest
+  driver:
+    image: rndmh3ro/docker-amazon-ansible:latest
+    platform: centos
+    run_command: /sbin/init
+    provision_command:
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
 
 verifier:
   name: inspec
   sudo: true
   inspec_tests:
-    - https://github.com/dev-sec/tests-nginx-hardening
+    - ../nginx-baseline
+    #- https://github.com/dev-sec/nginx-baseline
+  controls:
+    - nginx-01
+    - nginx-02
+    - nginx-03
+    - nginx-04
+    - nginx-05
+    - nginx-06
+    - nginx-07
+    - nginx-08
+    - nginx-09
+    - nginx-10
+    - nginx-12
+    - nginx-13
+    - nginx-14
+    - nginx-15
+    - nginx-17
 
 suites:
-- name: nginx-ansible_1.9
-  provisioner:
-    ansible_version: 1.9.4
-- name: nginx-ansible_latest
+- name: nginx

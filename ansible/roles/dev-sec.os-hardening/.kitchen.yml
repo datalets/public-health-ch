@@ -21,9 +21,7 @@ provisioner:
   roles_path: ../ansible-os-hardening/
   http_proxy: <%= ENV['http_proxy'] || nil %>
   https_proxy: <%= ENV['https_proxy'] || nil %>
-  playbook: default.yml
-  ansible_extra_flags:
-    - "--skip-tags=sysctl"
+  playbook: tests/test.yml
 
 platforms:
 - name: centos6-ansible-latest
@@ -34,6 +32,10 @@ platforms:
   driver:
     image: rndmh3ro/docker-centos7-ansible:latest
     platform: centos
+    run_command: /sbin/init
+    provision_command:
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
 - name: oracle6-ansible-latest
   driver:
     image: rndmh3ro/docker-oracle6-ansible:latest
@@ -41,11 +43,11 @@ platforms:
 - name: oracle7-ansible-latest
   driver:
     image: rndmh3ro/docker-oracle7-ansible:latest
+    run_command: /sbin/init
     platform: centos
-- name: ubuntu1204-ansible-latest
-  driver:
-    image: rndmh3ro/docker-ubuntu1204-ansible:latest
-    platform: ubuntu
+    provision_command:
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
 - name: ubuntu1404-ansible-latest
   driver:
     image: rndmh3ro/docker-ubuntu1404-ansible:latest
@@ -54,6 +56,16 @@ platforms:
   driver:
     image: rndmh3ro/docker-ubuntu1604-ansible:latest
     platform: ubuntu
+    run_command: /sbin/init
+    provision_command:
+      - systemctl enable ssh.service
+- name: ubuntu1804-ansible-latest
+  driver:
+    image: rndmh3ro/docker-ubuntu1804-ansible:latest
+    platform: ubuntu
+    run_command: /sbin/init
+    provision_command:
+      - systemctl enable ssh.service
 - name: debian7-ansible-latest
   driver:
     image: rndmh3ro/docker-debian7-ansible:latest
@@ -66,6 +78,18 @@ platforms:
   driver:
     image: rndmh3ro/docker-debian9-ansible:latest
     platform: debian
+    run_command: /sbin/init
+    provision_command:
+      - apt install -y systemd-sysv
+      - systemctl enable ssh.service
+- name: amazon-ansible-latest
+  driver:
+    image: rndmh3ro/docker-amazon-ansible:latest
+    platform: centos
+    run_command: /sbin/init
+    provision_command:
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
 
 verifier:
   name: inspec

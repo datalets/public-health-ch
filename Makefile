@@ -3,6 +3,9 @@ export COMPOSE_PROJECT_NAME=publichealth
 
 default: build
 
+upgrade:
+	docker-compose pull
+
 build-cached:
 	docker-compose build
 
@@ -38,6 +41,7 @@ setup:
 	docker-compose exec web ./manage.py collectstatic
 
 release:
+	docker-compose pull
 	sudo docker-compose build web
 	docker-compose stop web
 	docker-compose kill web

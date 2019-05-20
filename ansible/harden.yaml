@@ -1,8 +1,11 @@
 - hosts: webservers
   become: True
   gather_facts: True
+  vars:
+    ssh_server_ports: "{{ vault_ssh_server_ports }}"
+    nginx_add_header: []
   roles:
     - role: dev-sec.os-hardening
     - role: dev-sec.ssh-hardening
       become: yes
-    - dev-sec.nginx-hardening
+    - role: dev-sec.nginx-hardening

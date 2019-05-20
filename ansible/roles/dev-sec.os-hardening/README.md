@@ -6,7 +6,7 @@
 
 ## Description
 
-This roles provides numerous security-related configurations, providing all-round base protection.
+This role provides numerous security-related configurations, providing all-round base protection.  It is intended to be compliant with the [DevSec Linux Baseline](https://github.com/dev-sec/linux-baseline).
 
 It configures:
 
@@ -16,9 +16,10 @@ It configures:
  * Shadow password suite configuration
  * Configures system path permissions
  * Disable core dumps via soft limits
- * Restrict Root Logins to System Console
+ * Restrict root Logins to System Console
  * Set SUIDs
  * Configures kernel parameters via sysctl
+ * Install and configure auditd
 
 It will not:
 
@@ -27,7 +28,12 @@ It will not:
 
 ## Requirements
 
-* Ansible 2.2.1
+* Ansible 2.5.0
+
+## Warning
+
+If you're using inspec to test your machines after applying this role, please make sure to add the connecting user to the `os_ignore_users`-variable.
+Otherwise inspec will fail. For more information, see [issue #124](https://github.com/dev-sec/ansible-os-hardening/issues/124).
 
 ## Variables
 
@@ -46,7 +52,6 @@ It will not:
 | `os_auth_pam_passwdqc_options`| "min=disabled,disabled,16,12,8" | set to any option line (as a string) that you want to pass to passwdqc|
 | `os_security_users_allow`| [] | list of things, that a user is allowed to do. May contain `change_user`.
 | `os_security_kernel_enable_module_loading`| true | true if you want to allowed to change kernel modules once the system is running (eg `modprobe`, `rmmod`)|
-| `os_security_kernel_enable_sysrq`| false | sysrq is a 'magical' key combo you can hit which the kernel will respond to regardless of whatever else it is doing, unless it is completely locked up. |
 | `os_security_kernel_enable_core_dump`| false | kernel is crashing or otherwise misbehaving and a kernel core dump is created |
 | `os_security_suid_sgid_enforce`| true | true if you want to reduce SUID/SGID bits. There is already a list of items which are searched for configured, but you can also add your own|
 | `os_security_suid_sgid_blacklist`| [] | a list of paths which should have their SUID/SGID bits removed|
@@ -57,7 +62,8 @@ It will not:
 | `ufw_ipt_sysctl` | '' | by default it disables IPT_SYSCTL in /etc/default/ufw. If you want to overwrite /etc/sysctl.conf values using ufw - set it to your sysctl dictionary, for example `/etc/ufw/sysctl.conf`
 | `ufw_default_input_policy` | DROP | set default input policy of ufw to `DROP` |
 | `ufw_default_output_policy` | ACCEPT | set default output policy of ufw to `ACCEPT` |
-| `ufw_default_forward_policy` | DROP| set default forward policy of ufw to `DROP` |
+| `ufw_default_forward_policy` | DROP | set default forward policy of ufw to `DROP` |
+| `os_auditd_enabled` | true | Set to false to disable installing and configuring auditd. |
 
 ## Packages
 
@@ -69,68 +75,44 @@ We remove the following packages:
  * ypserv ([NSA](http://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf), Chapter 3.2.4)
  * telnet-server ([NSA](http://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf), Chapter 3.2.2)
  * rsh-server ([NSA](http://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf), Chapter 3.2.3)
+ * prelink ([open-scap](https://static.open-scap.org/ssg-guides/ssg-sl7-guide-ospp-rhel7-server.html#xccdf_org.ssgproject.content_rule_disable_prelink))
+
+## Disabled filesystems
+
+We disable the following filesystems, because they're most likely not used:
+
+ * "cramfs"
+ * "freevxfs"
+ * "jffs2"
+ * "hfs"
+ * "hfsplus"
+ * "squashfs"
+ * "udf"
+ * "vfat" # only if uefi is not in use
+
+To prevent some of the filesystems from being disabled, add them to the `os_filesystem_whitelist` variable.
 
 ## Example Playbook
 
-    - hosts: localhost
-      roles:
-        - dev-sec.os-hardening
-
+```yaml
+- hosts: localhost
+  roles:
+    - dev-sec.os-hardening
+```
 
 ## Changing sysctl variables
 
-If you want to overwrite sysctl-variables, you have to overwrite the *whole* dict, or else only the single overwritten will be actually used.
-So for example if you want to change the IPv4 traffic forwarding variable to `1`, you must pass the whole dict like this:
+If you want to override sysctl-variables, you can use the `sysctl_overwrite` variable (in older versions you had to override the whole `sysctl_dict`).
+So for example if you want to change the IPv4 traffic forwarding variable to `1`, do it like this:
 
-```
-    - hosts: localhost
-      roles:
-        - dev-sec.os-hardening
-      vars:
-        sysctl_config:
-          # Disable IPv4 traffic forwarding.
-          net.ipv4.ip_forward: 1
-
-          # Disable IPv6 traffic forwarding.
-          net.ipv6.conf.all.forwarding: 0
-
-          # ignore RAs on Ipv6.
-          net.ipv6.conf.all.accept_ra: 0
-          net.ipv6.conf.default.accept_ra: 0
-
-          # Enable RFC-recommended source validation feature.
-          net.ipv4.conf.all.rp_filter: 1
-          net.ipv4.conf.default.rp_filter: 1
-
-          # Reduce the surface on SMURF attacks.
-          # Make sure to ignore ECHO broadcasts, which are only required in broad network analysis.
-          net.ipv4.icmp_echo_ignore_broadcasts: 1
-
-          # There is no reason to accept bogus error responses from ICMP, so ignore them instead.
-          net.ipv4.icmp_ignore_bogus_error_responses: 1
-
-          # Limit the amount of traffic the system uses for ICMP.
-          net.ipv4.icmp_ratelimit: 100
-
-          # Adjust the ICMP ratelimit to include ping, dst unreachable,
-          # source quench, ime exceed, param problem, timestamp reply, information reply
-          net.ipv4.icmp_ratemask: 88089
-
-          # Disable IPv6
-          net.ipv6.conf.all.disable_ipv6: 1
-
-          # Protect against wrapping sequence numbers at gigabit speeds
-          net.ipv4.tcp_timestamps: 0
-
-          # Define restriction level for announcing the local source IP
-          net.ipv4.conf.all.arp_ignore: 1
-
-          # Define mode for sending replies in response to
-          # received ARP requests that resolve local target IP addresses
-          net.ipv4.conf.all.arp_announce: 2
-
-          # RFC 1337 fix F1
-          net.ipv4.tcp_rfc1337: 1
+```yaml
+- hosts: localhost
+  roles:
+    - dev-sec.os-hardening
+  vars:
+    sysctl_overwrite:
+      # Enable IPv4 traffic forwarding.
+      net.ipv4.ip_forward: 1
 ```
 
 Alternatively you can change Ansible's [hash-behaviour](https://docs.ansible.com/ansible/intro_configuration.html#hash-behaviour) to `merge`, then you only have to overwrite the single hash you need to. But please be aware that changing the hash-behaviour changes it for all your playbooks and is not recommended by Ansible.
@@ -152,27 +134,27 @@ bundle install
 ### Testing with Docker
 ```
 # fast test on one machine
-bundle exec kitchen test default-ubuntu-1204
+bundle exec kitchen test default-ubuntu-1404
 
 # test on all machines
 bundle exec kitchen test
 
 # for development
-bundle exec kitchen create default-ubuntu-1204
-bundle exec kitchen converge default-ubuntu-1204
+bundle exec kitchen create default-ubuntu-1404
+bundle exec kitchen converge default-ubuntu-1404
 ```
 
 ### Testing with Virtualbox
 ```
 # fast test on one machine
-KITCHEN_YAML=".kitchen.vagrant.yml" bundle exec kitchen test default-ubuntu-1204
+KITCHEN_YAML=".kitchen.vagrant.yml" bundle exec kitchen test default-ubuntu-1404
 
 # test on all machines
 KITCHEN_YAML=".kitchen.vagrant.yml" bundle exec kitchen test
 
 # for development
-KITCHEN_YAML=".kitchen.vagrant.yml" bundle exec kitchen create default-ubuntu-1204
-KITCHEN_YAML=".kitchen.vagrant.yml" bundle exec kitchen converge default-ubuntu-1204
+KITCHEN_YAML=".kitchen.vagrant.yml" bundle exec kitchen create default-ubuntu-1404
+KITCHEN_YAML=".kitchen.vagrant.yml" bundle exec kitchen converge default-ubuntu-1404
 ```
 For more information see [test-kitchen](http://kitchen.ci/docs/getting-started)
 
@@ -185,7 +167,7 @@ This role is mostly based on guides by:
 * [Arch Linux wiki, Sysctl hardening](https://wiki.archlinux.org/index.php/Sysctl)
 * [NSA: Guide to the Secure Configuration of Red Hat Enterprise Linux 5](http://www.nsa.gov/ia/_files/os/redhat/rhel5-guide-i731.pdf)
 * [Ubuntu Security/Features](https://wiki.ubuntu.com/Security/Features)
-* [Deutsche Telekom, Group IT Security, Security Requirements (German)](http://www.telekom.com/static/-/155996/7/technische-sicherheitsanforderungen-si)
+* [Deutsche Telekom, Group IT Security, Security Requirements (German)](https://www.telekom.com/psa)
 
 Thanks to all of you!
 ## Contributing
@@ -194,7 +176,7 @@ See [contributor guideline](CONTRIBUTING.md).
 
 ## License and Author
 
-* Author:: Sebastian Gumprich <sebastian.gumprich@38.de>
+* Author:: Sebastian Gumprich
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

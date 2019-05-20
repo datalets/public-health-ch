@@ -6,17 +6,17 @@
 
 ## Description
 
-This role provides secure nginx configuration.
+This role provides secure nginx configuration. It is intended to be compliant with the [DevSec Nginx Baseline](https://github.com/dev-sec/nginx-baseline).
 
 It works with the following nginx-roles, including, but not limited to:
-* [geerlinggux.nginx](https://galaxy.ansible.com/geerlingguy/nginx/)
+* [geerlingguy.nginx](https://galaxy.ansible.com/geerlingguy/nginx/)
 * [jdauphant.nginx](https://galaxy.ansible.com/jdauphant/nginx/)
 * [franklinkim.nginx](https://galaxy.ansible.com/franklinkim/nginx/)
 
 **NOTE: This role does not work with nginx 1.0.15 or older! Please use the latest version from the official nginx repositories!**
 ## Requirements
 
-* Ansible
+* Ansible >= 2.5
 
 ## Role Variables
 
@@ -35,10 +35,10 @@ It works with the following nginx-roles, including, but not limited to:
 | [nginx_limit_conn_zone][] | `$binary_remote_addr zone=default:10m` | Sets parameters for a shared memory zone that will keep states for various keys.  |
 | [nginx_limit_conn][] | `default 5` | Sets the shared memory zone and the maximum allowed number of connections for a given key value. |
 | [nginx_add_header][] | `[ "X-Frame-Options SAMEORIGIN", "X-Content-Type-Options nosniff", "X-XSS-Protection \"1; mode=block\"" ]` |Adds the specified field to a response header provided that the response code equals 200, 201, 204, 206, 301, 302, 303, 304, or 307. |
-| [nginx_ssl_protocols][] | `TLSv1 TLSv1.1 TLSv1.2` | Specifies the SSL protocol which should be used. |
+| [nginx_ssl_protocols][] | `TLSv1.2` | Specifies the SSL protocol which should be used. |
 | [nginx_ssl_ciphers][] | *see defaults.yml* | Specifies the TLS ciphers which should be used. |
 | [nginx_ssl_prefer_server_ciphers][] | `on` | Specifies that server ciphers should be preferred over client ciphers when using the TLS protocols. Set to false to disable it. |
-| [nginx_dh-size][] | `2048` | Specifies the length of DH parameters for EDH ciphers. |
+| [nginx_dh_size][] | `2048` | Specifies the length of DH parameters for EDH ciphers. |
 
 ## Example Playbook
 
@@ -96,7 +96,7 @@ See [contributor guideline](CONTRIBUTING.md).
 
 ## License and Author
 
-* Author:: Sebastian Gumprich <sebastian.gumprich@38.de>
+* Author:: Sebastian Gumprich
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -130,4 +130,4 @@ limitations under the License.
 [nginx_ssl_protocols]: http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_protocols
 [nginx_ssl_ciphers]: http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ciphers
 [nginx_ssl_prefer_server_ciphers]: http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_prefer_server_ciphers
-[nginx_dh-size]: http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_dhparam
+[nginx_dh_size]: http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_dhparam
