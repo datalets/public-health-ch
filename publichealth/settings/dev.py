@@ -27,7 +27,7 @@ DATABASES = {
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
 ] + INSTALLED_APPS + [
-    'wagtail.contrib.wagtailstyleguide',
+    'wagtail.contrib.styleguide',
 ]
 
 try:

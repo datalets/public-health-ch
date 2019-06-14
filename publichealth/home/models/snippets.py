@@ -27,7 +27,10 @@ class SocialContact(models.Model):
         choices=SOCIAL_NETWORK_SUPPORTED)
     profile = models.CharField(max_length=255, default="",
         help_text="Name of the account, e.g. @myaccount, or full URL")
-    home_site = models.ForeignKey('wagtailcore.Site', null=True, blank=True, related_name='+')
+    home_site = models.ForeignKey(
+        'wagtailcore.Site', null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+')
     panels = [
         FieldPanel('network'),
         FieldPanel('profile'),
@@ -77,7 +80,12 @@ class Contact(models.Model):
         related_name='+',
     )
 
-    home_site = models.ForeignKey('wagtailcore.Site', null=True, blank=True, related_name='+')
+    home_site = models.ForeignKey(
+        'wagtailcore.Site',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
 
     panels = Page.content_panels + [
         FieldPanel('title_fr'),

@@ -309,11 +309,11 @@ class HomePage(Page):
         # TODO: English news?
         news = events = jobs = []
         Stream1 = Stream.objects.filter(title='News')
-        if Stream1: news = entries.filter(stream=Stream1)
+        if Stream1: news = entries.filter(stream=Stream1.first())
         Stream2 = Stream.objects.filter(title='Events')
-        if Stream2: events = entries.filter(stream=Stream2)
+        if Stream2: events = entries.filter(stream=Stream2.first())
         Stream3 = Stream.objects.filter(title='Jobs')
-        if Stream3: jobs = entries.filter(stream=Stream3)
+        if Stream3: jobs = entries.filter(stream=Stream3.first())
         i = settings.NEWS_ENTRIES_HOME_PAGE
         return list(chain(news[:i], events[:i], jobs[:i]))
 

@@ -19,7 +19,7 @@ INSTALLED_APPS = (
 INSTALLED_APPS += PUPUT_APPS
 INSTALLED_APPS += FEEDLER_APPS
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

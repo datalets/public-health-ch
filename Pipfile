@@ -4,10 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
+pytest = "*"
+pytest-splinter = "*"
+tox = "*"
+django-debug-toolbar = "*"
 
 [packages]
 ConcurrentLogHandler = "*"
-Django = ">=2.0,<2.2"
+Django = "*"
 django-anymail = "*"
 django-libsass = "*"
 django-redis = "*"
@@ -16,12 +20,11 @@ elasticsearch = "*"
 guess_language-spirit = "*"
 gunicorn = "*"
 libsass = "*"
-Pillow = ">=4.0.0,<6.0"
+Pillow = ">=4.0.0"
 "psycopg2-binary" = "*"
-puput = ">=1.0.0,<1.5"
+puput = ">=1.0.0"
 stellar = "*"
-wagtail = ">=2.0,<2.4"
+wagtail = ">=2.0"
 whitenoise = "*"
-
-[requires]
-python_version = "3.6.8"
+django-crispy-forms = "*"
+python-dotenv = "*"

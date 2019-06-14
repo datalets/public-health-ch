@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.conf.urls import url
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.shortcuts import redirect
