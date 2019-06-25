@@ -11,7 +11,7 @@ django-debug-toolbar = "*"
 
 [packages]
 ConcurrentLogHandler = "*"
-Django = "*"
+Django = "~=2.1"
 django-anymail = "*"
 django-libsass = "*"
 django-redis = "*"
