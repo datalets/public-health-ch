@@ -11,7 +11,6 @@ django-debug-toolbar = "*"
 
 [packages]
 ConcurrentLogHandler = "*"
-Django = "~=2.1"
 django-anymail = "*"
 django-libsass = "*"
 django-redis = "*"
@@ -28,3 +27,4 @@ wagtail = ">=2.0"
 whitenoise = "*"
 django-crispy-forms = "*"
 python-dotenv = "*"
+django = "==2.1.9"
