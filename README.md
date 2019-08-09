@@ -28,6 +28,8 @@ The first command (`..install -g..`) may require `sudo` if you installed node.js
 
 If you are only working on the frontend, you can start a local webserver and work on frontend assets without the backend setup described below. There is a `grunt browser-sync` setup for working with frontend assets.
 
+(In a Vagrant shell, use the alias `watch`)
+
 **Backend setup**
 
 If not using Vagrant: after installing Python 3, from the project folder, deploy system packages and create a virtual environment as detailed (for Ubuntu users) below:
