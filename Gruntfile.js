@@ -1,3 +1,5 @@
+const sass = require('node-sass');
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -21,12 +23,11 @@ module.exports = function(grunt) {
       }
     },
 
-    // TODO: switch to https://github.com/sindresorhus/grunt-sass
     sass: {                              // Task
       dev: {                            // Target
         options: {                       // Target options
-          style: 'expanded',
-          sourcemap: 'none'
+          implementation: sass,
+          sourcemap: false
         },
         files: {                         // Dictionary of files
           "./assets/css/main.css": "publichealth/static/css/main.scss"
@@ -34,8 +35,9 @@ module.exports = function(grunt) {
       },
       dist: {
         options: {
-          style: 'compressed',
-          sourcemap: 'none'
+          outputStyle: 'compressed',
+          implementation: sass,
+          sourcemap: true
         },
         files: {
           "./assets/css/main.min.css": "publichealth/static/css/main.scss"
@@ -71,10 +73,10 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-browser-sync');
+  grunt.loadNpmTasks('grunt-sass');
   grunt.registerTask('default', ['imagemin', 'sass']);
   grunt.registerTask('browser-sync', [
     'bgShell',

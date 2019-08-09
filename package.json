@@ -1,21 +1,26 @@
 {
   "name": "public-health-ch",
   "version": "1.0.0",
-  "description": "Public Health Schweiz",
+  "description": "THIS FILE IS NO LONGER USED: SEE README",
   "directories": {
     "doc": "docs"
   },
   "dependencies": {
-    "bower": "latest"
+    "@bower_components/bootstrap-sass": "twbs/bootstrap-sass#^3.3.7",
+    "@bower_components/cookieconsent": "silktide/cookieconsent2#^3.0.6",
+    "@bower_components/jquery": "jquery/jquery-dist#~1",
+    "@bower_components/slick-carousel": "kenwheeler/slick#~1.4.1",
+    "@bower_components/slick-lightbox": "mreq/slick-lightbox#^0.2.10"
   },
   "devDependencies": {
     "grunt": "^1.0.2",
     "grunt-bg-shell": "^2.3.3",
-    "grunt-bowercopy": "^1.2.4",
     "grunt-browser-sync": "^2.2.0",
     "grunt-contrib-imagemin": "^2.0.1",
     "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-watch": "^1.1.0"
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-sass": "^3.0.2",
+    "node-sass": "^4.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,5 +31,8 @@
   },
   "author": "Oleg Lavrovsky <oleg@datalets.ch>",
   "license": "MIT",
-  "homepage": "https://github.com/datalets/public-health-ch#readme"
+  "homepage": "https://github.com/datalets/public-health-ch#readme",
+  "engines": {
+    "yarn": ">= 1.0.0"
+  }
 }
