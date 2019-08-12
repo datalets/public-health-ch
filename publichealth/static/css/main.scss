@@ -52,18 +52,48 @@ $slider-nav: 200px;
   }
 }
 
-// Language menu hack, until this is configurable
-nav .language-nav a[lang='en'] { display: none; }
+// Home page intro link as button
+#banner .rich-text h4 a:active {
+  border: none;
+  opacity: 1.0;
+  background: #eee;
+  border-bottom: 0px;
+  border-right: 0px;
+  border-top: 2px solid lightgrey;
+  border-left: 2px solid lightgrey;
+}
+#banner .rich-text h4 a:hover {
+  color: #2643C9;
+  opacity: 0.9;
+  background: white;
+  text-shadow: 2px 2px 4px lightgrey;
+}
+#banner .rich-text h4 a {
+text-decoration: none;
+  font-weight: 600;
+  background: whitesmoke;
+  padding: 1em;
+  text-shadow: 2px 2px 4px white;
+  border-bottom: 1px solid darkblue;
+  border-right: 1px solid darkblue;
+  border-top: 1px solid lightgrey;
+  border-left: 1px solid lightgrey;
+  color: darkblue;
+}
 
-// Disable meta infos in blog sidepanels
-.blog-header a { color: white !important;
-  text-shadow: 1px 1px 2px black; }
+// Language menu hack, until this is configurable
+.language-nav a[lang='en'] { display: none; }
+
+// Disable metas and override blog styles
 .blog-page .sidebar .meta { display: none; }
 .blog-page section { padding: 0; }
 .blog-page .blog-tags ul { padding: 0; }
+.blog-page ul.sidebar { min-height: 12em; }
 .blog-page .social-item {
   font-size: 70%; background: #2643A9 !important;
 }
-.blog-page ul.sidebar { min-height: 12em; }
+.blog-header a {
+  color: white !important; text-shadow: 1px 1px 2px black;
+}
 
 @import "subsites";
