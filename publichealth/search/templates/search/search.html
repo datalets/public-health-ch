@@ -22,8 +22,10 @@
          <ul>
             {% for pick in search_picks %}
                 <li>
-                    <h2><a href="{{ pick.page.url }}">{{ pick.page }}</a></h2>
-                    <p>{{ pick.description }}</p>
+                    <h4><a href="{% pageurl pick.page %}">{{ pick.page.title }}</a></h4>
+                    {% if pick.description %}
+                        <p>{{ pick.description }}</p>
+                    {% endif %}
                 </li>
              {% endfor %}
          </ul>
