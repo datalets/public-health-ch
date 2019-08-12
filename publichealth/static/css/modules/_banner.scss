@@ -217,3 +217,36 @@ $gallery-height: 550px;
     .carousel-inner { margin-bottom: 0px; }
   }
 }
+
+
+// Home page intro link as button
+#banner .rich-text h4 {
+  text-align: center;
+}
+#banner .rich-text h4 a:active {
+  border: none;
+  opacity: 1.0;
+  background: #eee;
+  border-bottom: 0px;
+  border-right: 0px;
+  border-top: 2px solid lightgrey;
+  border-left: 2px solid lightgrey;
+}
+#banner .rich-text h4 a:hover {
+  color: #2643C9;
+  opacity: 0.9;
+  background: white;
+  text-shadow: 2px 2px 4px lightgrey;
+}
+#banner .rich-text h4 a {
+text-decoration: none;
+  font-weight: 600;
+  background: whitesmoke;
+  padding: 1em;
+  text-shadow: 2px 2px 4px white;
+  border-bottom: 1px solid darkblue;
+  border-right: 1px solid darkblue;
+  border-top: 1px solid lightgrey;
+  border-left: 1px solid lightgrey;
+  color: darkblue;
+}
