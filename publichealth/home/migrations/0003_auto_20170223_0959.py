@@ -5,9 +5,9 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.wagtailcore.blocks
-import wagtail.wagtailcore.fields
-import wagtail.wagtailimages.blocks
+import wagtail.core.blocks
+import wagtail.core.fields
+import wagtail.images.blocks
 
 
 class Migration(migrations.Migration):
@@ -36,10 +36,10 @@ class Migration(migrations.Migration):
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
                 ('title_fr', models.CharField(default='', max_length=255)),
                 ('date', models.DateField(verbose_name='Date')),
-                ('intro_de', wagtail.wagtailcore.fields.RichTextField(default='')),
-                ('intro_fr', wagtail.wagtailcore.fields.RichTextField(default='')),
-                ('body_de', wagtail.wagtailcore.fields.StreamField([('paragraph', wagtail.wagtailcore.blocks.RichTextBlock()), ('image', wagtail.wagtailimages.blocks.ImageChooserBlock()), ('section', wagtail.wagtailcore.blocks.CharBlock(classname='full title'))], blank=True, null=True)),
-                ('body_fr', wagtail.wagtailcore.fields.StreamField([('paragraph', wagtail.wagtailcore.blocks.RichTextBlock()), ('image', wagtail.wagtailimages.blocks.ImageChooserBlock()), ('section', wagtail.wagtailcore.blocks.CharBlock(classname='full title'))], blank=True, null=True)),
+                ('intro_de', wagtail.core.fields.RichTextField(default='')),
+                ('intro_fr', wagtail.core.fields.RichTextField(default='')),
+                ('body_de', wagtail.core.fields.StreamField([('paragraph', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock()), ('section', wagtail.core.blocks.CharBlock(classname='full title'))], blank=True, null=True)),
+                ('body_fr', wagtail.core.fields.StreamField([('paragraph', wagtail.core.blocks.RichTextBlock()), ('image', wagtail.images.blocks.ImageChooserBlock()), ('section', wagtail.core.blocks.CharBlock(classname='full title'))], blank=True, null=True)),
                 ('feed_image', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),
             ],
             options={
@@ -64,31 +64,31 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='homepage',
             name='body_de',
-            field=wagtail.wagtailcore.fields.RichTextField(default=''),
+            field=wagtail.core.fields.RichTextField(default=''),
         ),
         migrations.AddField(
             model_name='homepage',
             name='body_fr',
-            field=wagtail.wagtailcore.fields.RichTextField(default=''),
+            field=wagtail.core.fields.RichTextField(default=''),
         ),
         migrations.AddField(
             model_name='homepage',
             name='infos_de',
-            field=wagtail.wagtailcore.fields.StreamField([('info', wagtail.wagtailcore.blocks.StructBlock([(b'title', wagtail.wagtailcore.blocks.CharBlock(required=True)), (b'photo', wagtail.wagtailimages.blocks.ImageChooserBlock()), (b'summary', wagtail.wagtailcore.blocks.RichTextBlock(required=True)), (b'action', wagtail.wagtailcore.blocks.CharBlock()), (b'url', wagtail.wagtailcore.blocks.URLBlock())]))], blank=True, null=True),
+            field=wagtail.core.fields.StreamField([('info', wagtail.core.blocks.StructBlock([(b'title', wagtail.core.blocks.CharBlock(required=True)), (b'photo', wagtail.images.blocks.ImageChooserBlock()), (b'summary', wagtail.core.blocks.RichTextBlock(required=True)), (b'action', wagtail.core.blocks.CharBlock()), (b'url', wagtail.core.blocks.URLBlock())]))], blank=True, null=True),
         ),
         migrations.AddField(
             model_name='homepage',
             name='infos_fr',
-            field=wagtail.wagtailcore.fields.StreamField([('info', wagtail.wagtailcore.blocks.StructBlock([(b'title', wagtail.wagtailcore.blocks.CharBlock(required=True)), (b'photo', wagtail.wagtailimages.blocks.ImageChooserBlock()), (b'summary', wagtail.wagtailcore.blocks.RichTextBlock(required=True)), (b'action', wagtail.wagtailcore.blocks.CharBlock()), (b'url', wagtail.wagtailcore.blocks.URLBlock())]))], blank=True, null=True),
+            field=wagtail.core.fields.StreamField([('info', wagtail.core.blocks.StructBlock([(b'title', wagtail.core.blocks.CharBlock(required=True)), (b'photo', wagtail.images.blocks.ImageChooserBlock()), (b'summary', wagtail.core.blocks.RichTextBlock(required=True)), (b'action', wagtail.core.blocks.CharBlock()), (b'url', wagtail.core.blocks.URLBlock())]))], blank=True, null=True),
         ),
         migrations.AddField(
             model_name='homepage',
             name='intro_de',
-            field=wagtail.wagtailcore.fields.RichTextField(default=''),
+            field=wagtail.core.fields.RichTextField(default=''),
         ),
         migrations.AddField(
             model_name='homepage',
             name='intro_fr',
-            field=wagtail.wagtailcore.fields.RichTextField(default=''),
+            field=wagtail.core.fields.RichTextField(default=''),
         ),
     ]

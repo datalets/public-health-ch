@@ -3,9 +3,9 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import wagtail.wagtailcore.blocks
-import wagtail.wagtailcore.fields
-import wagtail.wagtailimages.blocks
+import wagtail.core.blocks
+import wagtail.core.fields
+import wagtail.images.blocks
 
 
 class Migration(migrations.Migration):
@@ -22,17 +22,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='articlepage',
             name='gallery',
-            field=wagtail.wagtailcore.fields.StreamField((('image', wagtail.wagtailcore.blocks.ListBlock(wagtail.wagtailcore.blocks.StructBlock((('image', wagtail.wagtailimages.blocks.ImageChooserBlock()), ('caption', wagtail.wagtailcore.blocks.TextBlock(required=False)))), icon='image')),), blank=True),
+            field=wagtail.core.fields.StreamField((('image', wagtail.core.blocks.ListBlock(wagtail.core.blocks.StructBlock((('image', wagtail.images.blocks.ImageChooserBlock()), ('caption', wagtail.core.blocks.TextBlock(required=False)))), icon='image')),), blank=True),
         ),
         migrations.AlterField(
             model_name='articlepage',
             name='body_de',
-            field=wagtail.wagtailcore.fields.StreamField((('paragraph', wagtail.wagtailcore.blocks.RichTextBlock()), ('section', wagtail.wagtailcore.blocks.CharBlock(classname='full title')), ('info', wagtail.wagtailcore.blocks.StructBlock((('title', wagtail.wagtailcore.blocks.CharBlock(required=True)), ('photo', wagtail.wagtailimages.blocks.ImageChooserBlock(required=True)), ('summary', wagtail.wagtailcore.blocks.RichTextBlock(required=True)), ('action', wagtail.wagtailcore.blocks.CharBlock(required=False)), ('url', wagtail.wagtailcore.blocks.URLBlock(required=False))))), ('placer', wagtail.wagtailcore.blocks.ChoiceBlock(choices=[('gallery', 'Image gallery')], icon='user'))), blank=True, null=True),
+            field=wagtail.core.fields.StreamField((('paragraph', wagtail.core.blocks.RichTextBlock()), ('section', wagtail.core.blocks.CharBlock(classname='full title')), ('info', wagtail.core.blocks.StructBlock((('title', wagtail.core.blocks.CharBlock(required=True)), ('photo', wagtail.images.blocks.ImageChooserBlock(required=True)), ('summary', wagtail.core.blocks.RichTextBlock(required=True)), ('action', wagtail.core.blocks.CharBlock(required=False)), ('url', wagtail.core.blocks.URLBlock(required=False))))), ('placer', wagtail.core.blocks.ChoiceBlock(choices=[('gallery', 'Image gallery')], icon='user'))), blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='articlepage',
             name='body_fr',
-            field=wagtail.wagtailcore.fields.StreamField((('paragraph', wagtail.wagtailcore.blocks.RichTextBlock()), ('section', wagtail.wagtailcore.blocks.CharBlock(classname='full title')), ('info', wagtail.wagtailcore.blocks.StructBlock((('title', wagtail.wagtailcore.blocks.CharBlock(required=True)), ('photo', wagtail.wagtailimages.blocks.ImageChooserBlock(required=True)), ('summary', wagtail.wagtailcore.blocks.RichTextBlock(required=True)), ('action', wagtail.wagtailcore.blocks.CharBlock(required=False)), ('url', wagtail.wagtailcore.blocks.URLBlock(required=False))))), ('placer', wagtail.wagtailcore.blocks.ChoiceBlock(choices=[('gallery', 'Image gallery')], icon='user'))), blank=True, null=True),
+            field=wagtail.core.fields.StreamField((('paragraph', wagtail.core.blocks.RichTextBlock()), ('section', wagtail.core.blocks.CharBlock(classname='full title')), ('info', wagtail.core.blocks.StructBlock((('title', wagtail.core.blocks.CharBlock(required=True)), ('photo', wagtail.images.blocks.ImageChooserBlock(required=True)), ('summary', wagtail.core.blocks.RichTextBlock(required=True)), ('action', wagtail.core.blocks.CharBlock(required=False)), ('url', wagtail.core.blocks.URLBlock(required=False))))), ('placer', wagtail.core.blocks.ChoiceBlock(choices=[('gallery', 'Image gallery')], icon='user'))), blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='contactformfield',

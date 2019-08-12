@@ -9,7 +9,7 @@ This project is open source under the [MIT License](LICENSE.md).
 
 ## Development environment
 
-The easiest way to set up your machine would be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *publichealth/static/org/archive-message.htmlDatabase setup*.
+The easiest way to set up your machine would be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *publichealth/static/org/archive-message.html#Database setup*.
 
 To set up a full development environment, follow all these instructions.
 

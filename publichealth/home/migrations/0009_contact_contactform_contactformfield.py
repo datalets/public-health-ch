@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 
 
 class Migration(migrations.Migration):
@@ -35,10 +35,10 @@ class Migration(migrations.Migration):
                 ('from_address', models.CharField(blank=True, max_length=255, verbose_name='from address')),
                 ('subject', models.CharField(blank=True, max_length=255, verbose_name='subject')),
                 ('title_fr', models.CharField(default=b'', max_length=255)),
-                ('intro_de', wagtail.wagtailcore.fields.RichTextField(blank=True, default=b'')),
-                ('intro_fr', wagtail.wagtailcore.fields.RichTextField(blank=True, default=b'')),
-                ('thanks_de', wagtail.wagtailcore.fields.RichTextField(blank=True, default=b'')),
-                ('thanks_fr', wagtail.wagtailcore.fields.RichTextField(blank=True, default=b'')),
+                ('intro_de', wagtail.core.fields.RichTextField(blank=True, default=b'')),
+                ('intro_fr', wagtail.core.fields.RichTextField(blank=True, default=b'')),
+                ('thanks_de', wagtail.core.fields.RichTextField(blank=True, default=b'')),
+                ('thanks_fr', wagtail.core.fields.RichTextField(blank=True, default=b'')),
             ],
             options={
                 'verbose_name': 'Formular',

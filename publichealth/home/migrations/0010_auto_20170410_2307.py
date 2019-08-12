@@ -3,9 +3,9 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import wagtail.wagtailcore.blocks
-import wagtail.wagtailcore.fields
-import wagtail.wagtailimages.blocks
+import wagtail.core.blocks
+import wagtail.core.fields
+import wagtail.images.blocks
 
 
 class Migration(migrations.Migration):
@@ -23,22 +23,22 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='contactform',
             name='intro_de',
-            field=wagtail.wagtailcore.fields.RichTextField(blank=True, default=''),
+            field=wagtail.core.fields.RichTextField(blank=True, default=''),
         ),
         migrations.AlterField(
             model_name='contactform',
             name='intro_fr',
-            field=wagtail.wagtailcore.fields.RichTextField(blank=True, default=''),
+            field=wagtail.core.fields.RichTextField(blank=True, default=''),
         ),
         migrations.AlterField(
             model_name='contactform',
             name='thanks_de',
-            field=wagtail.wagtailcore.fields.RichTextField(blank=True, default=''),
+            field=wagtail.core.fields.RichTextField(blank=True, default=''),
         ),
         migrations.AlterField(
             model_name='contactform',
             name='thanks_fr',
-            field=wagtail.wagtailcore.fields.RichTextField(blank=True, default=''),
+            field=wagtail.core.fields.RichTextField(blank=True, default=''),
         ),
         migrations.AlterField(
             model_name='contactform',
@@ -48,11 +48,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='homepage',
             name='infos_de',
-            field=wagtail.wagtailcore.fields.StreamField((('info', wagtail.wagtailcore.blocks.StructBlock((('title', wagtail.wagtailcore.blocks.CharBlock(required=True)), ('photo', wagtail.wagtailimages.blocks.ImageChooserBlock()), ('summary', wagtail.wagtailcore.blocks.RichTextBlock(required=True)), ('action', wagtail.wagtailcore.blocks.CharBlock()), ('url', wagtail.wagtailcore.blocks.URLBlock())))),), blank=True, null=True),
+            field=wagtail.core.fields.StreamField((('info', wagtail.core.blocks.StructBlock((('title', wagtail.core.blocks.CharBlock(required=True)), ('photo', wagtail.images.blocks.ImageChooserBlock()), ('summary', wagtail.core.blocks.RichTextBlock(required=True)), ('action', wagtail.core.blocks.CharBlock()), ('url', wagtail.core.blocks.URLBlock())))),), blank=True, null=True),
         ),
         migrations.AlterField(
             model_name='homepage',
             name='infos_fr',
-            field=wagtail.wagtailcore.fields.StreamField((('info', wagtail.wagtailcore.blocks.StructBlock((('title', wagtail.wagtailcore.blocks.CharBlock(required=True)), ('photo', wagtail.wagtailimages.blocks.ImageChooserBlock()), ('summary', wagtail.wagtailcore.blocks.RichTextBlock(required=True)), ('action', wagtail.wagtailcore.blocks.CharBlock()), ('url', wagtail.wagtailcore.blocks.URLBlock())))),), blank=True, null=True),
+            field=wagtail.core.fields.StreamField((('info', wagtail.core.blocks.StructBlock((('title', wagtail.core.blocks.CharBlock(required=True)), ('photo', wagtail.images.blocks.ImageChooserBlock()), ('summary', wagtail.core.blocks.RichTextBlock(required=True)), ('action', wagtail.core.blocks.CharBlock()), ('url', wagtail.core.blocks.URLBlock())))),), blank=True, null=True),
         ),
     ]

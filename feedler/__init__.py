@@ -6,10 +6,10 @@ __version__ = '0.1'
 
 FEEDLER_APPS = (
     # Wagtail apps
-    'wagtail.wagtailcore',
-    'wagtail.wagtailadmin',
+    'wagtail.core',
+    'wagtail.admin',
     'wagtail.contrib.modeladmin',
-    'wagtail.contrib.wagtailroutablepage',
+    'wagtail.contrib.routable_page',
     'wagtail.api.v2',
 
     # Third-party apps

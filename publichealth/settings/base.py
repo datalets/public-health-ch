@@ -36,22 +36,21 @@ INSTALLED_APPS = [
     'publichealth.home.templatetags',
     'publichealth.search',
 
-    'wagtail.contrib.wagtailsearchpromotions',
-    'wagtail.contrib.wagtailroutablepage',
-    'wagtail.contrib.wagtailsitemaps',
+    'wagtail.contrib.routable_page',
+    'wagtail.contrib.sitemaps',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
-    'wagtail.wagtailforms',
-    'wagtail.wagtailredirects',
-    'wagtail.wagtailembeds',
-    'wagtail.wagtailsites',
-    'wagtail.wagtailusers',
-    'wagtail.wagtailsnippets',
-    'wagtail.wagtaildocs',
-    'wagtail.wagtailimages',
-    'wagtail.wagtailsearch',
-    'wagtail.wagtailadmin',
-    'wagtail.wagtailcore',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
 
     'wagtail.api.v2',
     'rest_framework',
@@ -72,7 +71,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
@@ -85,8 +84,8 @@ MIDDLEWARE_CLASSES = [
 
     'django.middleware.locale.LocaleMiddleware',
 
-    'wagtail.wagtailcore.middleware.SiteMiddleware',
-    'wagtail.wagtailredirects.middleware.RedirectMiddleware',
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'publichealth.urls'

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from wagtail.contrib.wagtailapi.endpoints import BaseAPIEndpoint
-from wagtail.contrib.wagtailapi.serializers import BaseSerializer
-from wagtail.contrib.wagtailapi.filters import FieldsFilter, OrderingFilter, SearchFilter
-from wagtail.contrib.wagtailapi.pagination import WagtailPagination
+from wagtail.api.v2.endpoints import BaseAPIEndpoint
+from wagtail.api.v2.serializers import BaseSerializer
+from wagtail.api.v2.filters import FieldsFilter, OrderingFilter, SearchFilter
+from wagtail.api.v2.pagination import WagtailPagination
 
 from .models import Entry
 

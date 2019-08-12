@@ -8,13 +8,13 @@ from django.conf import settings
 
 from modelcluster.fields import ParentalKey
 
-from wagtail.wagtailcore.blocks import StructBlock, CharBlock, URLBlock, RichTextBlock, ListBlock, TextBlock, ChoiceBlock
-from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailcore.fields import StreamField, RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.wagtailimages.blocks import ImageChooserBlock
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailsearch import index
+from wagtail.core.blocks import StructBlock, CharBlock, URLBlock, RichTextBlock, ListBlock, TextBlock, ChoiceBlock
+from wagtail.core.models import Page, Orderable
+from wagtail.core.fields import StreamField, RichTextField
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 
 from puput.models import EntryPage, BlogPage
 from feedler.models import Entry, Stream
@@ -309,11 +309,11 @@ class HomePage(Page):
         # TODO: English news?
         news = events = jobs = []
         Stream1 = Stream.objects.filter(title='News')
-        if Stream1: news = entries.filter(stream=Stream1)
+        if Stream1: news = entries.filter(stream=Stream1.first())
         Stream2 = Stream.objects.filter(title='Events')
-        if Stream2: events = entries.filter(stream=Stream2)
+        if Stream2: events = entries.filter(stream=Stream2.first())
         Stream3 = Stream.objects.filter(title='Jobs')
-        if Stream3: jobs = entries.filter(stream=Stream3)
+        if Stream3: jobs = entries.filter(stream=Stream3.first())
         i = settings.NEWS_ENTRIES_HOME_PAGE
         return list(chain(news[:i], events[:i], jobs[:i]))
 

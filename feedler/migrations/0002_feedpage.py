@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 
 
 class Migration(migrations.Migration):
@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='FeedPage',
             fields=[
                 ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.Page')),
-                ('intro', wagtail.wagtailcore.fields.RichTextField(blank=True, default='')),
+                ('intro', wagtail.core.fields.RichTextField(blank=True, default='')),
                 ('stream', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='feedler.Stream', verbose_name='Filter to stream (optional)')),
             ],
             options={
