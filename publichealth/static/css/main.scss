@@ -55,4 +55,15 @@ $slider-nav: 200px;
 // Language menu hack, until this is configurable
 nav .language-nav a[lang='en'] { display: none; }
 
+// Disable meta infos in blog sidepanels
+.blog-header a { color: white !important;
+  text-shadow: 1px 1px 2px black; }
+.blog-page .sidebar .meta { display: none; }
+.blog-page section { padding: 0; }
+.blog-page .blog-tags ul { padding: 0; }
+.blog-page .social-item {
+  font-size: 70%; background: #2643A9 !important;
+}
+.blog-page ul.sidebar { min-height: 12em; }
+
 @import "subsites";

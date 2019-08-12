@@ -52,7 +52,6 @@
         {% for entry in entries %}
             {% entry_url entry blog_page as post_url %}
             <article class="box page-content blog_grid">
-                {% include 'puput/entry_page_header.html' %}
                 <section>
                     {% if entry.header_image %}
                         <span class="img-responsive">
