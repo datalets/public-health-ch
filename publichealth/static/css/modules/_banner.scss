@@ -221,6 +221,8 @@ $gallery-height: 550px;
 
 // Home page intro link as button
 #banner .rich-text h4 {
+  float: right;
+  margin-left: 1em;
   text-align: center;
 }
 #banner .rich-text h4 a:active {
@@ -249,10 +251,12 @@ $gallery-height: 550px;
 
   background-color: #f0f0f0;
   color: $brand-primary;
-
+/*
+  // Outline logo
   padding-left: 100px;
   background-image: url(../images/logo-blueoutline.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: -20px;
+*/
 }

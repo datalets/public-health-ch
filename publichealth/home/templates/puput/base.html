@@ -65,6 +65,12 @@
       {% block extra_content %}{% endblock extra_content %}
 		</div>
 		<div class="row">
+    {% if blog_page.display_categories %}
+        <ul class="col-sm-4 col-md-3 sidebar">
+            <h4>{% trans 'Categories' %}</h4>
+            {% categories_list %}
+        </ul>
+    {% endif %}
     {% if blog_page.display_last_entries %}
         <ul class="col-sm-4 col-md-3 sidebar">
             <h4>{% trans 'Last Entries' %}</h4>
@@ -75,12 +81,6 @@
         <ul class="col-sm-4 col-md-3 sidebar">
             <h4>{% trans 'Popular Entries' %}</h4>
             {% popular_entries blog_page.num_popular_entries %}
-        </ul>
-    {% endif %}
-    {% if blog_page.display_categories %}
-        <ul class="col-sm-4 col-md-3 sidebar">
-            <h4>{% trans 'Categories' %}</h4>
-            {% categories_list %}
         </ul>
     {% endif %}
     {% if blog_page.display_tags %}
