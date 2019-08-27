@@ -1,12 +1,12 @@
 <address>
-  <p>{{ contact.trans_title }}<br>
+  <p>
   {% if contact.map_url %}
-    <a href="{{ contact.map_url }}">{{ contact.address }}</a>
+    <a href="{{ contact.map_url }}">{{ contact.address|linebreaks }}</a>
   {% else %}
-    {{ contact.address }}
+    {{ contact.address|linebreaks }}
   {% endif %}
   </p>
-  <p>Tel. <a href="{{ contact.phone_link }}">{{ contact.phone }}</a><br>
+  <p><small>Tel.</small> <a href="{{ contact.phone_link }}">{{ contact.phone }}</a><br>
   <a href="{{ contact.email_link }}">{{ contact.email }}</a><br>
   <a href="{{ contact.www }}">{{ contact.www_domain }}</a></p>
 </address>

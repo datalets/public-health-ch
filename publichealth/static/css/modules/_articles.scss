@@ -80,3 +80,19 @@ section {
     width: 100%;
     height: 100%;
 }
+
+// Document links
+a[href$=".docx"],
+a[href$=".pdf"] {
+  // &::after {
+  //   content: ' [PDF]';
+  //   color: #555;
+  //   font-size: 100%;
+  //   font-variant-position: super;
+  // }
+  &::before {
+    content: "🗎";
+    color: #555;
+    margin-right: 5pt;
+  }
+}
