@@ -10,22 +10,6 @@
     {% endif %}
 {% endblock title %}
 
-{% block meta_title %}
-    {% if search_term %}
-        {% trans 'Entries for' %} {{ search_type }} {{ search_term }}
-    {% else %}
-        {{ block.super }}
-    {% endif %}
-{% endblock meta_title %}
-
-{% block meta_description %}
-    {% if search_term %}
-        {% trans 'Entries for' %} {{ search_type }} {{ search_term }}
-    {% else %}
-        {{ block.super }}
-    {% endif %}
-{% endblock meta_description %}
-
 {% block social_share %}
     {% image blog_page.header_image fill-800x450 as share_image %}
     <meta property="og:title" content="{{ blog_page.title }}" />
@@ -47,7 +31,7 @@
         {# 'paginate' tag cannot render dotted variables, so we need to create a context var #}
         {% paginate per_page entries %}
         {% if search_term %}
-            <div class="searchTerm">{% trans 'Entries for' %} {{ search_type }} "{{ search_term }}"</div>
+            <div class="searchTerm">{{ search_term }}</div>
         {% endif %}
         {% for entry in entries %}
             {% entry_url entry blog_page as post_url %}
