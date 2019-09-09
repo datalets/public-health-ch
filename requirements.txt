@@ -3,7 +3,7 @@
 # Core
 wagtail==2.6.1
 Django==2.1.12
-elasticsearch==7.0.4
+elasticsearch>=5.0.0,<6.0.0
 
 # Database
 psycopg2-binary==2.8.3
