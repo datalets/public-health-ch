@@ -64,7 +64,9 @@ $slider-nav: 200px;
   font-size: 70%; background: #2643A9 !important;
 }
 .blog-header a {
-  color: white !important; text-shadow: 1px 1px 2px black;
+  color: white !important;
+  text-shadow: 1px 1px 2px black;
+  text-decoration: none;
 }
 
 @import "subsites";

@@ -54,14 +54,15 @@
             <article class="box page-content blog_grid">
                 <section>
                     {% if entry.header_image %}
-                        <span class="img-responsive">
+                        <span class="img-responsive"><a href="{{ post_url }}">
                             {% image entry.header_image fill-800x240 as header_image %}
                             <img alt="{{ entry.header_image.title }}" src="{{ header_image.url }}">
-                        </span>
+                        </a></span>
                     {% endif %}
-                    {% include 'puput/entry_links.html' %}
+                    <!--{% include 'puput/entry_links.html' %}-->
                 </section>
                 <section class="article">
+                    <h4><a href="{{ post_url }}">{{ entry.title }}</a></h4>
                     {% if entry.excerpt %}
                         {{ entry.excerpt|richtext }}
                     {% else %}
@@ -83,7 +84,7 @@
                             </li>
                         </ul>
                         <div class="col-md-3">
-                            <a class="blog_btn continue" href="{{ post_url }}">{% trans 'Continue reading' %} &raquo;</a>
+                            <a class="blog_btn continue" href="{{ post_url }}">/{{ entry.slug|truncatechars:25 }} &raquo;</a>
                         </div>
                     </div>
                 </section>
