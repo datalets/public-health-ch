@@ -42,7 +42,7 @@ setup:
 
 release:
 	docker-compose pull
-	sudo docker-compose build web --verbose
+	sudo docker-compose build web
 	docker-compose stop web
 	docker-compose kill web
 	docker-compose up -d web

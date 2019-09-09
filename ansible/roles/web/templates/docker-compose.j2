@@ -35,6 +35,8 @@ postgres:
   ports:
     - "5432:5432"
 elasticsearch:
-  image: elasticsearch:2
+  image: elasticsearch:5
   ports:
     - "9200:9200"
+  environment:
+    - ES_JAVA_OPTS="-Xms512m -Xmx512m"
