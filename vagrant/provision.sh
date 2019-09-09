@@ -42,17 +42,9 @@ cat << EOF >> /home/vagrant/.bashrc
 export PYTHONPATH=$PROJECT_DIR
 export DJANGO_SETTINGS_MODULE=$PROJECT_NAME.settings.dev
 
-
-alias dj="django-admin.py"
-alias djrun="dj runserver 0.0.0.0:8000"
-
 source $VIRTUALENV_DIR/bin/activate
 export PS1="[$PROJECT_NAME \W]\\$ "
 cd $PROJECT_DIR
-
-# Install Ruby SASS
-apt-get update
-apt-get install ruby-sass
 
 # Install node.js
 curl https://raw.githubusercontent.com/isaacs/nave/master/nave.sh > nave.sh
@@ -64,9 +56,12 @@ su - vagrant -c "/home/vagrant/nave.sh usemain stable"
 su - vagrant -c "/home/vagrant/nave.sh use stable"
 
 # Install Frontend dependencies
-su - vagrant -c "npm install -g bower grunt-cli"
+su - vagrant -c "npm install -g yarn grunt-cli"
 su - vagrant -c "npm install --no-bin-links"
-su - vagrant -c "bower install"
-alias bower="bower install"
+su - vagrant -c "yarn install"
+
+alias watch="grunt watch"
+alias dj="django-admin.py"
+alias djrun="dj runserver 0.0.0.0:8000"
 
 EOF

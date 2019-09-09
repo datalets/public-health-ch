@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static i18n wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags wagtailuserbar puput_tags %}
+
+{% block body_class %}blog{% endblock %}
+
+{% block extra_css %}
+	<meta name="title"
+		  content="{% block meta_title %}
+						{% if blog_page.seo_title %}
+							{{ blog_page.seo_title }}
+						{% else %}
+							{{ blog_page.title }}
+						{% endif %}
+				   {% endblock meta_title %}"/>
+	<meta name="description"
+		  content="{% block meta_description %}
+						{{ blog_page.search_description }}
+				   {% endblock meta_description %}"/>
+
+	{% block social_share %}{% endblock social_share %}
+	<link rel="canonical" href="{% block canonical %}{% canonical_url %}{% endblock canonical %}"/>
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="{% feeds_url blog_page %}">
+
+	<style>
+		body {
+			--main-color: {{blog_page.main_color}};
+		}
+		.content-page.blog-header {
+			background-color: {{blog_page.main_color}};
+		}
+		.content-page.blog-header h1 a { color: white; }
+		.blog-page section { background-color: transparent !important; }
+		.container .page-content, .blog_grid { background: white; }
+	</style>
+
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock %}
+
+{% block extra_js %}
+	<script src="{% static 'puput/js/puput.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+{% if blog_page.header_image %}
+	<span class="image featured">
+		{% image blog_page.header_image fill-1500x360 as header_image %}
+		<img alt="{{ blog_page.header_image.title }}" src="{{ header_image.url }}" width="100%">
+	</span>
+{% endif %}
+
+<div class="content-page blog-header">
+  <div class="container">
+  	<h2>
+			<a href="{% pageurl blog_page %}">{{ blog_page.title }}</a>
+		</h2>
+		<p class="lead">{{ blog_page.description }}</p>
+	</div>
+</div>
+
+<section class="content-page blog-page">
+<div class="container container-blog">
+    <div class="row">
+      {% block blog_content %}{% endblock blog_content %}
+      {% block extra_content %}{% endblock extra_content %}
+		</div>
+		<div class="row">
+    {% if blog_page.display_categories %}
+        <ul class="col-sm-4 col-md-3 sidebar">
+            <h4>{% trans 'Categories' %}</h4>
+            {% categories_list %}
+        </ul>
+    {% endif %}
+    {% if blog_page.display_last_entries %}
+        <ul class="col-sm-4 col-md-3 sidebar">
+            <h4>{% trans 'Last Entries' %}</h4>
+            {% recent_entries blog_page.num_last_entries %}
+        </ul>
+    {% endif %}
+    {% if blog_page.display_popular_entries %}
+        <ul class="col-sm-4 col-md-3 sidebar">
+            <h4>{% trans 'Popular Entries' %}</h4>
+            {% popular_entries blog_page.num_popular_entries %}
+        </ul>
+    {% endif %}
+    {% if blog_page.display_tags %}
+        <ul class="col-sm-4 col-md-3 sidebar blog-tags">
+            <h4>{% trans 'Tags' %}</h4>
+            {% tags_list %}
+        </ul>
+    {% endif %}
+    {% if blog_page.display_archive %}
+        <ul class="col-sm-4 col-md-3 sidebar widget menu">
+            <h4>{% trans 'Archive' %}</h4>
+            {% archives_list %}
+        </ul>
+    {% endif %}
+    </div>
+</div>
+</section>
+{% endblock %}

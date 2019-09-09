@@ -15,23 +15,20 @@ To set up a full development environment, follow all these instructions.
 
 **Frontend setup**
 
-If not using Vagrant, you will need to have Ruby and SASS installed on your system, e.g.:
-
-```
-sudo apt-get install ruby-sass
-```
-
 Make sure a recent version of node.js (we recommend using [nave.sh](https://gipublichealth/static/org/archive-message.htmlthub.com/isaacs/nave)), then:
 
 ```
-npm install -g bower grunt-cli
-npm install
-bower install
+npm install -g yarn grunt-cli
+yarn install
 ```
 
-The first command (`..install -g..`) may require `sudo` if you installed node.js as a system package.
+The first command (`..install -g..`) may require `sudo` if you installed node.js as a system package. Afterwards, to compile the frontend, you should be able to run:
+
+`grunt`
 
 If you are only working on the frontend, you can start a local webserver and work on frontend assets without the backend setup described below. There is a `grunt browser-sync` setup for working with frontend assets.
+
+(In a Vagrant shell, use the alias `watch`)
 
 **Backend setup**
 

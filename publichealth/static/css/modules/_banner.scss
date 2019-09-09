@@ -217,3 +217,47 @@ $gallery-height: 550px;
     .carousel-inner { margin-bottom: 0px; }
   }
 }
+
+
+// Home page intro link as button
+#banner .rich-text h4 {
+  float: right;
+  margin-left: 1em;
+  margin-right: 15px;
+  text-align: center;
+}
+#banner .rich-text h4 a:active {
+  border: none;
+  opacity: 1.0;
+  background-color: #eee;
+  border-bottom: 0px;
+  border-right: 0px;
+  border-top: 2px solid lightgrey;
+  border-left: 2px solid lightgrey;
+}
+#banner .rich-text h4 a:hover {
+  color: $brand-primary;
+  opacity: 0.9;
+  background-color: white;
+  text-shadow: 2px 2px 4px lightgrey;
+}
+#banner .rich-text h4 a {
+  text-decoration: none;
+  font-weight: 600;
+  padding: 1em;
+  border-bottom: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+
+  background-color: #f0f0f0;
+  color: $brand-primary;
+/*
+  // Outline logo
+  padding-left: 100px;
+  background-image: url(../images/logo-blueoutline.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: -20px;
+*/
+}

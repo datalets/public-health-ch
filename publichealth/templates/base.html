@@ -9,8 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="{% block description %}{% endblock %}">
 
+        {% block extra_css %}{% endblock %}
         {% compress css %}
-            {% block extra_css %}{% endblock %}
             <link rel="stylesheet" type="text/x-scss" href="{% static 'css/main.scss' %}">
         {% endcompress %}
 

@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'wagtail.contrib.settings',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
+    'wagtail.contrib.search_promotions',
+    
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -62,6 +64,7 @@ INSTALLED_APPS = [
     'puput',
     'anymail',
     'feedler',
+    'colorful',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -69,6 +72,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_social_share'
 ]
 
 MIDDLEWARE = [

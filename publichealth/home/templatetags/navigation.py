@@ -24,11 +24,9 @@ def language_switcher(context):
                 url = '/$lang$'
     language_array = [
         { 'code': 'de', 'title': 'De', 'url': url.replace('$lang$','de') },
-        { 'code': 'fr', 'title': 'Fr', 'url': url.replace('$lang$','fr') }
+        { 'code': 'fr', 'title': 'Fr', 'url': url.replace('$lang$','fr') },
+        { 'code': 'en', 'title': 'En', 'url': url.replace('$lang$','en') }
     ]
-    # TODO: make language list configurable
-    if context['page'].get_site().root_page.slug == "sphc":
-        language_array.append({ 'code': 'en', 'title': 'En', 'url': url.replace('$lang$','en') })
     return {
         'languages': language_array,
         'currentlangcode': translation.get_language(),

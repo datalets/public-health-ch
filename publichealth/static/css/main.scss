@@ -9,8 +9,8 @@ $hr-border: $gray-light;
 // Modules
 @import "modules/modules";
 
+// Improved responsive layout
 body { margin-top: 104px; }
-
 @include mid-screen($screen-sm-min, $screen-md-min) {
   body { margin-top: 168px; }
 }
@@ -27,13 +27,12 @@ body { margin-top: 104px; }
   a.navbar-brand { max-width: 80%; }
 }
 
+// Slideshow positioning
 $slider-nav: 200px;
 .slider-nav {
   margin-top: 2.5em;
-
   .item  {
     height: $slider-nav;
-
     img {
       width: 90%;
       height: $slider-nav;
@@ -51,6 +50,41 @@ $slider-nav: 200px;
       // background-color: rgba(128, 128, 128, 0.57);
       margin: 0;
   }
+}
+
+// Language menu hack, until this is configurable
+.language-nav a[lang='en'] { display: none; }
+
+// Disable metas and override blog styles
+.blog-page .sidebar .meta { display: none; }
+.blog-page section { padding: 0; }
+.blog-page .blog-tags ul { padding: 0; }
+.blog-page ul.sidebar { background: transparent; }
+.blog-page .searchTerm {
+  text-transform: uppercase;
+  font-weight: bold;
+  background: #fff;
+  margin-bottom: 0px;
+}
+.blog-page .searchDescription {
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 0 20px 20px;
+  line-height: normal;
+  color: #555;
+}
+.blog-page .social-item {
+  font-size: 70%;
+  background: #2643A9 !important;
+}
+.blog-header a {
+  color: white !important;
+  text-shadow: 1px 1px 2px black;
+  text-decoration: none;
+}
+.blog-header .lead {
+  color: white;
+  font-size: 100%;
 }
 
 @import "subsites";
