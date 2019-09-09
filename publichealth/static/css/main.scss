@@ -60,7 +60,19 @@ $slider-nav: 200px;
 .blog-page section { padding: 0; }
 .blog-page .blog-tags ul { padding: 0; }
 .blog-page ul.sidebar { background: transparent; }
-.blog-page .searchTerm { text-transform: uppercase; }
+.blog-page .searchTerm {
+  text-transform: uppercase;
+  font-weight: bold;
+  background: #fff;
+  margin-bottom: 0px;
+}
+.blog-page .searchDescription {
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 0 20px 20px;
+  line-height: normal;
+  color: #555;
+}
 .blog-page .social-item {
   font-size: 70%;
   background: #2643A9 !important;

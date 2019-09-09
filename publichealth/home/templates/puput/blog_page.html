@@ -35,6 +35,15 @@
         {% endif %}
         {% for entry in entries %}
             {% entry_url entry blog_page as post_url %}
+            {% if forloop.counter == 1 %}
+                {% for category in entry.categories.all %}
+                    {% if search_term|slugify == category.name|slugify %}
+                        <div class="searchDescription">
+                            {{ category.description }}
+                        </div>
+                    {% endif %}
+                {% endfor  %}
+            {% endif %}
             <article class="box page-content blog_grid">
                 <section>
                     {% if entry.header_image %}
