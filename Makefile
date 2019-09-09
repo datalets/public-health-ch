@@ -42,11 +42,11 @@ setup:
 
 release:
 	docker-compose pull
-	sudo docker-compose build web
+	sudo docker-compose build web --verbose
 	docker-compose stop web
 	docker-compose kill web
 	docker-compose up -d web
-	docker-compose exec web ./manage.py collectstatic --noinput
+	docker-compose exec web ./manage.py collectstatic --noinput -i media
 	docker-compose exec web ./manage.py compress
 
 reindex:
