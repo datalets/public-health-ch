@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.contrib.search_promotions',
-    
+
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -197,6 +197,12 @@ COMPRESS_PRECOMPILERS = [
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = "Public Health Schweiz"
+
+WAGTAILADMIN_RICH_TEXT_EDITORS = {
+    'default': {
+        'WIDGET': 'wagtail.admin.rich_text.HalloRichTextArea'
+    }
+}
 
 # Puput settings
 
