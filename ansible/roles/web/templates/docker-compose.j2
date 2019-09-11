@@ -13,7 +13,7 @@ web:
     - "5000:5000"
   environment:
     - DJANGO_SETTINGS_MODULE={{ django_project_name }}.settings.production
-    - ALLOWED_HOSTS=www.{{ allowed_domains|join(',www.') }},{{ allowed_domains }},{{ ipv4_addresses|join(':5000,') }}
+    - ALLOWED_HOSTS=www.{{ allowed_domains|split(',')|join(',www.') }},{{ allowed_domains }},{{ ipv4_addresses|join(':5000,') }}
     - SECRET_KEY={{ django_secret_key }}
     - MAILGUN_KEY={{ django_email_key }}
     - MAILGUN_DOMAIN={{ django_email_domain }}
