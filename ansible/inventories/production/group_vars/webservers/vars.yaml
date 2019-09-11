@@ -21,3 +21,9 @@ django_secret_key: "{{ vault_django_secret_key }}"
 
 # Default: postgres://postgres:@postgres:5432/postgres
 django_postgres_url: "{{ vault_django_postgres_url }}"
+
+# Default: http://elasticsearch:9200
+django_elasticsearch_url: "{{ vault_django_elasticsearch_url }}"
+
+# Default: redis://redis:6379
+django_redis_url: "{{ vault_django_redis_url }}"
