@@ -6,21 +6,14 @@ upstream wagtail-site {
 	server localhost:5000;
 }
 server {
-  listen 80 default_server;
 	server_name _;
-
-	location / {
-		proxy_set_header  X-Real-IP $remote_addr;
-		proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header Host $http_host;
-		proxy_redirect off;
-		proxy_pass http://wagtail-site;
-	}
+	listen 80 default_server;
+	return 301 https://$host$request_uri;
 }
 server {
-	listen 443 ssl default_server;
 	server_name _;
-	
+	listen 443 ssl default_server;
+
 	ssl on;
 	ssl_certificate /etc/certs/public-health.ch/cloudflare.pem;
 	ssl_certificate_key /etc/certs/public-health.ch/cloudflare.key;
@@ -39,7 +32,7 @@ server {
 		access_log off; expires 36000;
 		alias {{ release_dir }}/static/;
 		add_header Cache-Control "public";
-		add_header Access-Control-Allow-Origin https://{{ domain }};
+		add_header Access-Control-Allow-Origin *; #https://{{ domain }};
 	}
 
 	# Set a longer expiry for CACHE/, because the filenames are unique.
@@ -54,16 +47,28 @@ server {
 		alias {{ release_dir }}/static/images/favicon.ico;
 	}
 
-	# Only serve /media/images by default, not e.g. original_images/.
-	location /media/images {
-		alias {{ release_dir }}/media/images;
-		access_log off; expires max;
+	# Directly serve media with max caching
+	location /media {
+		root {{ release_dir }};
+		autoindex off;
+		access_log off;
+		expires max;
 		add_header Cache-Control "public";
 	}
 
+	# Only serve media by default, not e.g. original_images/.
+	#location ~* ^/media {
+	#	alias {{ release_dir }}/media;
+	#}
+
 	# Disable English home page (for now)
-	if ($host = 'public-health.ch') {
+	if ($host !~* 'sphc.ch') {
     rewrite ^/en/$ $scheme://$host/de/;
+	}
+
+	# Redirect French home page as appropriate
+	if ($host = 'manifestesante.ch') {
+		rewrite ^/$ $scheme://$host/fr/;
 	}
 
 	location / {

@@ -69,12 +69,17 @@ django-shell:
 logs:
 	docker-compose logs -f --tail=500
 
-backup:
+backup-data:
 	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
 	zip ~/publichealth.home.json.`date +"%d%m%Y-%H%M"`.zip ~/publichealth.home.json
 	rm ~/publichealth.home.json
+
+backup-images:
 	echo "Backing up images ..."
+	sudo chown -R ansible media
 	zip -ruq ~/media.zip media
+
+backup: backup-data backup-images
 
 django-loaddata:
 	gunzip ~/publichealth.home.json.gz
