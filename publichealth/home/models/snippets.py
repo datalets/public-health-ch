@@ -70,6 +70,7 @@ class Contact(models.Model):
     email = models.EmailField(max_length=100, blank=True, default="")
     www = models.URLField(null=True, blank=True)
 
+    style = models.TextField(default="", blank=True)
     color = models.CharField(max_length=40, blank=True, default="")
     logo = models.ForeignKey(
         'wagtailimages.Image',
@@ -107,6 +108,7 @@ class Contact(models.Model):
         FieldPanel('www'),
         ImageChooserPanel('logo'),
         FieldPanel('color'),
+        FieldPanel('style'),
         FieldPanel('map_url'),
         FieldPanel('analytics'),
         PageChooserPanel('contact_form', 'home.ContactForm'),
