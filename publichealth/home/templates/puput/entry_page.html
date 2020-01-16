@@ -1,5 +1,5 @@
 {% extends "puput/base.html" %}
-{% load i18n wagtailcore_tags wagtailimages_tags puput_tags social_share %}
+{% load i18n wagtailcore_tags wagtailimages_tags puput_tags wagtailroutablepage_tags social_share %}
 
 {% block title %}
     {{ self.title }} | {{ blog_page.title }}
@@ -43,47 +43,70 @@
 
 {% block blog_content %}
 
+<div class="entry-categories">
+    {% categories_list self.categories %}
+</div>
+
+<h1 class="title">{{ self.title }}</h1>
+
+<ul class="links">
+    <li>
+        {{ self.date|date:"d.m.Y" }}
+    </li>
+    {% if self.tags.count > 0 %}
+        <li>
+            <i class="fa fa-tag"></i> &nbsp;
+            {% tags_list blog_page.num_tags_entry_header self.tags %}
+        </li>
+    {% endif %}
+    {% if blog_page.display_comments %}
+        <li>
+            <i class="fa fa-comments"></i>
+            {{ self.num_comments }}
+        </li>
+    {% endif %}
+</ul>
+
+<p class="excerpt">
+{{ self.excerpt|safe }}
+</p>
+
 {% if self.header_image %}
 <div class="image">
     {% image self.header_image fill-940x400 class="img-responsive" %}
 </div>
 {% endif %}
 
-<h1 class="title">{{ self.title }}</h1>
-
-    <article class="box page-content"
-             {% if self.id %}data-entry-page-update-comments-url="{% url 'entry_page_update_comments' self.id %}{% endif %}">
-            {% include 'puput/entry_links.html' with entry=self %}
-        <section>
-            {{ self.body|richtext}}
-            <div class="row">
-                <div class="col-md-2">
-                    <a href="{% pageurl blog_page %}" class="blog_btn back">
-                        <i class="fa fa-angle-left"></i>
-                        <i class="fa fa-angle-left"></i>
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                </div>
-                {% entry_url self blog_page as post_url %}
-                <ul class="social-share-all text-right col-md-10">
-                    <li class="social-item">
-                       {% post_to_facebook post_url '<span><i class="fa fa-facebook"></i></span>' %}
-                    </li>
-                    <li class="social-item">
-                        {% post_to_twitter self.title post_url '<span><i class="fa fa-twitter"></i></span>' %}
-                    </li>
-                    <li class="social-item">
-                        {% post_to_linkendin post_url '<span><i class="fa fa-linkedin"></i></span>' %}
-                    </li>
-                    <li class="social-item">
-                        {% post_to_gplus post_url '<span><i class="fa fa-google-plus"></i></span>' %}
-                    </li>
-                </ul>
+<article class="box page-content"
+         {% if self.id %}data-entry-page-update-comments-url="{% url 'entry_page_update_comments' self.id %}{% endif %}">
+    <section>
+        {{ self.body|richtext}}
+        <div class="row">
+            <div class="col-md-2">
+                <a href="{% pageurl blog_page %}" class="blog_btn back">
+                    <i class="fa fa-home"></i>
+                </a>
             </div>
+            {% entry_url self blog_page as post_url %}
+            <ul class="social-share-all text-right col-md-10">
+                <li class="social-item">
+                   {% post_to_facebook post_url '<span><i class="fa fa-facebook"></i></span>' %}
+                </li>
+                <li class="social-item">
+                    {% post_to_twitter self.title post_url '<span><i class="fa fa-twitter"></i></span>' %}
+                </li>
+                <li class="social-item">
+                    {% post_to_linkendin post_url '<span><i class="fa fa-linkedin"></i></span>' %}
+                </li>
+                <li class="social-item">
+                    {% post_to_gplus post_url '<span><i class="fa fa-google-plus"></i></span>' %}
+                </li>
+            </ul>
+        </div>
 
-        </section>
-        {% show_comments %}
-    </article>
+    </section>
+    {% show_comments %}
+</article>
 {% endblock blog_content %}
 
 {% block extra_content %}
