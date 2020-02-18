@@ -20,8 +20,9 @@ web:
     - MAILGUN_FROM={{ django_email_from }}
     - DATABASE_URL={{ django_postgres_url }}
     - REDIS_URL={{ django_redis_url }}
-    - ELASTICSEARCH_URL={{ django_elasticsearch_url }}
     - LOG_DIR=/var/log/wagtail
+
+#    - ELASTICSEARCH_URL={{ django_elasticsearch_url }}
 # elasticsearch:
 #  image: elasticsearch:5
 #  ports:
