@@ -13,13 +13,13 @@ def get_contacts(site_root):
     # Selected or default contact snippet
     top_contact = Contact.objects.filter(home_site=site)
     if top_contact.exists():
-        top_contact = top_contact.last()
+        top_contact = top_contact.first()
     else:
         default_contact = Contact.objects.filter(home_site=None)
         if default_contact.exists():
-            top_contact = default_contact.last()
+            top_contact = default_contact.first()
         else:
-            top_contact = Contact.objects.last()
+            top_contact = Contact.objects.first()
 
     # Selected or default social contact snippet
     social_contacts = SocialContact.objects.filter(home_site=site)
