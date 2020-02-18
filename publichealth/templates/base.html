@@ -29,13 +29,13 @@
 
         {% include 'footer.html' %}
 
-        {% block extra_js %}
-            <script src="{% static 'libs/jquery/dist/jquery.js' %}"></script>
-            <script src="{% static 'libs/bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
-            <script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
-            <script src="{% static 'libs/slick-lightbox/dist/slick-lightbox.js' %}"></script>
-            <script src="{% static 'libs/cookieconsent/build/cookieconsent.min.js' %}"></script>
-        {% endblock %}
+        <script src="{% static 'libs/jquery/dist/jquery.js' %}"></script>
+        <script src="{% static 'libs/bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
+        <script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
+        <script src="{% static 'libs/slick-lightbox/dist/slick-lightbox.js' %}"></script>
+        <script src="{% static 'libs/cookieconsent/build/cookieconsent.min.js' %}"></script>
+
+        {% block extra_js %}{% endblock %}
 
         {% compress js %}
             <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
