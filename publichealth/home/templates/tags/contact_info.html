@@ -1,3 +1,5 @@
+{% load wagtailimages_tags %}
+
 <address>
   <p>
   {% if contact.map_url %}
@@ -18,6 +20,25 @@
      {{ sc.network_title }}</a>
 {% endfor %}
 </div>
+
+<style type="text/css">
+{{ contact.style }}
+{% if contact.color %}
+  footer#footer, .navbar-pre {
+     background-color: {{ contact.color }};
+  }
+{% endif %}
+{% if contact.logo %}
+  {% image contact.logo original as contact_logo %}
+  .navbar-brand {
+    background-size: contain !important;
+    background-repeat: no-repeat;
+    background-image: url('{{ contact_logo.url }}');
+    padding-left: 80px;
+  }
+  .navbar-brand img { display: none !important; }
+{% endif %}
+</style>
 
 {% if contact.is_google_analytics %}
 <!-- Global site tag (gtag.js) - Google Analytics -->

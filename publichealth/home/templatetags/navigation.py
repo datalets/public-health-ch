@@ -34,10 +34,14 @@ def language_switcher(context):
     }
 
 @register.simple_tag(takes_context=True)
+def get_site(context):
+    return context['request'].site
+
+@register.simple_tag(takes_context=True)
 def get_site_root(context):
     # NB this returns a core.Page, not the implementation-specific model used
     # so object-comparison to self will return false as objects would differ
-    return context['request'].site.root_page
+    return get_site(context).root_page
 
 def has_menu_children(page):
     return page.get_children().live().in_menu().exists()

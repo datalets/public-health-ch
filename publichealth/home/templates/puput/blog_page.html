@@ -24,9 +24,17 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ blog_page.title }}" />
     <meta name="twitter:description" content="{{ blog_page.description }}" />
+
+	<link rel="alternate" type="application/rss+xml"
+	  title="{{ blog_page.title }}" href="{% feeds_url blog_page %}">
+
 {% endblock social_share %}
 
 {% block blog_content %}
+<section id="blog">
+	<div class="container">
+	<div class="row">
+
     {% with per_page=blog_page.num_entries_page %}
         {# 'paginate' tag cannot render dotted variables, so we need to create a context var #}
         {% paginate per_page entries %}
@@ -44,44 +52,39 @@
                     {% endif %}
                 {% endfor  %}
             {% endif %}
-            <article class="box page-content blog_grid">
-                <section>
-                    {% if entry.header_image %}
-                        <span class="img-responsive"><a href="{{ post_url }}">
-                            {% image entry.header_image fill-800x240 as header_image %}
-                            <img alt="{{ entry.header_image.title }}" src="{{ header_image.url }}">
-                        </a></span>
-                    {% endif %}
-                    <!--{% include 'puput/entry_links.html' %}-->
-                </section>
-                <section class="article">
-                    <h4><a href="{{ post_url }}">{{ entry.title }}</a></h4>
-                    {% if entry.excerpt %}
-                        {{ entry.excerpt|richtext }}
-                    {% else %}
-                        {{ entry.body|richtext|truncatewords_html:70 }}
-                    {% endif %}
-                    <div class="row">
-                        <ul class="social-share col-md-9">
-                            <li class="social-item">
-                               {% post_to_facebook post_url '<span><i class="fa fa-facebook"></i></span>' %}
-                            </li>
-                            <li class="social-item">
-                                {% post_to_twitter entry.title post_url '<span><i class="fa fa-twitter"></i></span>' %}
-                            </li>
-                            <li class="social-item">
-                                {% post_to_linkendin post_url '<span><i class="fa fa-linkedin"></i></span>' %}
-                            </li>
-                            <li class="social-item">
-                                {% post_to_gplus post_url '<span><i class="fa fa-google-plus"></i></span>' %}
-                            </li>
-                        </ul>
-                        <div class="col-md-3">
-                            <a class="blog_btn continue" href="{{ post_url }}">/{{ entry.slug|truncatechars:25 }} &raquo;</a>
-                        </div>
-                    </div>
-                </section>
-            </article>
+			{% if forloop.counter0|divisibleby:3 %}
+				</div><div class="row">
+			{% endif %}
+
+			<!-- Blog post {{ entry.id }} -->
+			<div class="col-md-4 blog-entry">
+				<a href="{{ post_url }}">
+				<div class="panel panel-default">
+					{% if entry.header_image %}
+						{% image entry.header_image fill-360x270 %}
+					{% endif %}
+					<div class="panel-body">
+						{% for category in entry.categories.all %}
+							<div class="entry-category">{{ category.name }}</div>
+		                {% endfor  %}
+
+						<h3 class="entry-title">{{ entry.title }}</h3>
+
+						<p>
+						{% if entry.excerpt %}
+							{{ entry.excerpt|safe }}
+						{% else %}
+							{{ entry.body|striptags|truncatewords_html:40 }}
+						{% endif %}
+						</p>
+
+						<span class="entry-meta">
+							{{ entry.date|date:"d.m.Y" }}
+						</span>
+					</div><!-- -/panel-body -->
+				</div><!-- -/panel -->
+				</a>
+			</div><!-- /blog-entry -->
         {% empty %}
             <span>{% trans 'No results found.' %}</span>
         {% endfor %}
@@ -89,5 +92,15 @@
         <div class="pagination">
             {% show_paginator %}
         </div>
+
+		<div class="rss-sitemap">
+			<a href="{% feeds_url blog_page %}" target="_blank" title="RSS">
+				 <i class="fa fa-rss-square"></i> <span>RSS</span>
+			</a>
+		</div>
     {% endwith %}
+
+</div><!-- /row -->
+</div><!-- /container -->
+</section>
 {% endblock blog_content %}

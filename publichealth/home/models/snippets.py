@@ -7,6 +7,7 @@ from django.db import models
 from wagtail.snippets.models import register_snippet
 
 from wagtail.core.models import Page
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel
 
 from .forms import ContactForm
@@ -63,10 +64,20 @@ class Contact(models.Model):
         'title_fr',
         'title_en',
     )
+
     address = models.TextField(default="", blank=True)
     phone = models.CharField(max_length=40, blank=True, default="")
     email = models.EmailField(max_length=100, blank=True, default="")
     www = models.URLField(null=True, blank=True)
+
+    style = models.TextField(default="", blank=True)
+    color = models.CharField(max_length=40, blank=True, default="")
+    logo = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     map_url = models.URLField(null=True, blank=True,
         help_text="Optional link of address to mapping provider")
@@ -95,6 +106,9 @@ class Contact(models.Model):
         FieldPanel('phone'),
         FieldPanel('email'),
         FieldPanel('www'),
+        ImageChooserPanel('logo'),
+        FieldPanel('color'),
+        FieldPanel('style'),
         FieldPanel('map_url'),
         FieldPanel('analytics'),
         PageChooserPanel('contact_form', 'home.ContactForm'),

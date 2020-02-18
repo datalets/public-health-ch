@@ -1,5 +1,6 @@
 {% load static wagtailcore_tags navigation information %}
 {% get_site_root as site_root %}
+{% get_site as the_site %}
 
 <nav class="navbar-pre navbar-fixed-top">
   <div class="container">
@@ -9,7 +10,7 @@
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
             <span class="sr-only">Contact</span>
           </a>
-          {% contact_links site_root=site_root %}
+          {% contact_links the_site=the_site %}
         </span>
         <span class="language-nav">
           {% language_switcher %}
@@ -28,7 +29,7 @@
         </button>
       <a class="navbar-brand" href="{% pageurl site_root %}">
         <img src="{% static 'images/public-health-logo-sign.png' %}" alt="[logo]">
-        <span class="hidden-xs">{% contact_name site_root=site_root %}</span></a>
+        <span class="hidden-xs">{% contact_name the_site=the_site %}</span></a>
     </div>
 
     {% block menu %}

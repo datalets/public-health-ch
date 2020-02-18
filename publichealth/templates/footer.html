@@ -1,5 +1,5 @@
 {% load static wagtailcore_tags navigation information %}
-{% get_site_root as site_root %}
+{% get_site as the_site %}
 
 <!-- Footer -->
 <footer id="footer">
@@ -20,18 +20,18 @@
 
 	<a name="contact-info"></a>
 	<div class="col-md-4" id="contact-info">
-		{% contact_info site_root=site_root %}
+		{% contact_info the_site=the_site %}
 	</div>
 	<div class="col-md-4" id="contact-form">
-		{% footer_form site_root=site_root %}
+		{% footer_form the_site=the_site %}
 	</div>
 </div><!-- /row -->
 </div><!-- /container -->
 </footer>
 
 <div class="copyright">
-	{% contact_name site_root=site_root %}
-	&copy; 2019
+	{% contact_name the_site=the_site %}
+	&copy; 2020
 	&bull; <a href="/privacy/">Privacy</a>
 	&bull; <a href="/impressum/">Impressum</a>
 </div>

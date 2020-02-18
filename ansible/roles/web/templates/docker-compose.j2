@@ -5,39 +5,39 @@ web:
   volumes:
     - ./:/usr/src/app
     - {{ django_log_dir }}:/var/log/wagtail
-  links:
-    - redis
-    - postgres
-    - elasticsearch
+  #links:
+  #  - redis
+  #  - postgres
+  #  - elasticsearch
   ports:
     - "5000:5000"
   environment:
     - DJANGO_SETTINGS_MODULE={{ django_project_name }}.settings.production
-    - ALLOWED_HOSTS=www.{{ allowed_domains|join(',www.') }},{{ allowed_domains }},{{ ipv4_addresses|join(':5000,') }}
+    - ALLOWED_HOSTS=www.{{ allowed_domains|join(',www.') }},{{ allowed_domains|join(',') }},{{ ipv4_addresses|join(':5000,') }}
     - SECRET_KEY={{ django_secret_key }}
     - MAILGUN_KEY={{ django_email_key }}
     - MAILGUN_DOMAIN={{ django_email_domain }}
     - MAILGUN_FROM={{ django_email_from }}
     - DATABASE_URL={{ django_postgres_url }}
-    - ELASTICSEARCH_URL=http://elasticsearch:9200
-    - REDIS_URL=redis://redis:6379
+    - REDIS_URL={{ django_redis_url }}
+    - ELASTICSEARCH_URL={{ django_elasticsearch_url }}
     - LOG_DIR=/var/log/wagtail
-redis:
-  image: redis
-  command: ["redis-server", "--appendonly", "yes"]
-  restart: on-failure
-  volumes:
-    - {{ redis_data_dir }}:/data
-  ports:
-    - "6379:6379"
-postgres:
-  image: postgres
-  ports:
-    - "5432:5432"
-elasticsearch:
-  image: elasticsearch:5
-  ports:
-    - "9200:9200"
-  environment:
-    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  mem_limit: 1g
+# elasticsearch:
+#  image: elasticsearch:5
+#  ports:
+#    - "9200:9200"
+#  environment:
+#    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#  mem_limit: 1g
+# redis:
+#   image: redis
+#   command: ["redis-server", "--appendonly", "yes"]
+#   restart: on-failure
+#   volumes:
+#     - {{ redis_data_dir }}:/data
+#   ports:
+#     - "6379:6379"
+# postgres:
+#   image: postgres
+#   ports:
+#     - "5432:5432"

@@ -1,11 +1,12 @@
 {% load compress static wagtailuserbar navigation information %}
 {% get_site_root as site_root %}
+{% get_site as the_site %}
 <!DOCTYPE html>
 <html lang="{% language_cur %}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{% if page.trans_title %}{{ page.trans_title }} - {% endif %}{% contact_name site_root=site_root html=False %}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
+        <title>{% block title %}{% if self.seo_title %}{{ self.seo_title }}{% else %}{% if page.trans_title %}{{ page.trans_title }} - {% endif %}{% contact_name the_site=the_site html=False %}{% endif %}{% endblock %}{% block title_suffix %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="{% block description %}{% endblock %}">
 
@@ -29,13 +30,13 @@
 
         {% include 'footer.html' %}
 
-        {% block extra_js %}
-            <script src="{% static 'libs/jquery/dist/jquery.js' %}"></script>
-            <script src="{% static 'libs/bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
-            <script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
-            <script src="{% static 'libs/slick-lightbox/dist/slick-lightbox.js' %}"></script>
-            <script src="{% static 'libs/cookieconsent/build/cookieconsent.min.js' %}"></script>
-        {% endblock %}
+        <script src="{% static 'libs/jquery/dist/jquery.js' %}"></script>
+        <script src="{% static 'libs/bootstrap-sass/assets/javascripts/bootstrap.min.js' %}"></script>
+        <script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
+        <script src="{% static 'libs/slick-lightbox/dist/slick-lightbox.js' %}"></script>
+        <script src="{% static 'libs/cookieconsent/build/cookieconsent.min.js' %}"></script>
+
+        {% block extra_js %}{% endblock %}
 
         {% compress js %}
             <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
