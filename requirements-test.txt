@@ -1,5 +1,3 @@
-# Updated: 14.6.2019
-
 pytest
 pytest-splinter
 tox
