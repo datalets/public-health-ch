@@ -70,7 +70,7 @@ logs:
 	docker-compose logs -f --tail=500
 
 backup-data:
-	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
+	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailcore.GroupPagePermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
 	zip ~/publichealth.home.json.`date +"%d%m%Y-%H%M"`.zip ~/publichealth.home.json
 	rm ~/publichealth.home.json
 
