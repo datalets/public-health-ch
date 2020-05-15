@@ -5,10 +5,10 @@ web:
   volumes:
     - ./:/usr/src/app
     - {{ django_log_dir }}:/var/log/wagtail
-  #links:
-  #  - redis
+  links:
+    - elasticsearch
   #  - postgres
-  #  - elasticsearch
+  #  - redis
   ports:
     - "5000:5000"
   environment:
@@ -19,17 +19,17 @@ web:
     - MAILGUN_DOMAIN={{ django_email_domain }}
     - MAILGUN_FROM={{ django_email_from }}
     - DATABASE_URL={{ django_postgres_url }}
+    - ELASTICSEARCH_URL={{ django_elasticsearch_url }}
     - REDIS_URL={{ django_redis_url }}
     - LOG_DIR=/var/log/wagtail
+elasticsearch:
+  image: elasticsearch:5
+  ports:
+    - "9200:9200"
+  environment:
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  mem_limit: 1g
 
-#    - ELASTICSEARCH_URL={{ django_elasticsearch_url }}
-# elasticsearch:
-#  image: elasticsearch:5
-#  ports:
-#    - "9200:9200"
-#  environment:
-#    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#  mem_limit: 1g
 # redis:
 #   image: redis
 #   command: ["redis-server", "--appendonly", "yes"]
