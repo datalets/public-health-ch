@@ -1,0 +1,13 @@
+- hosts: webservers
+  become: true
+  gather_facts: true
+  roles:
+    - role: nginxinc.nginx
+  vars:
+    ipv4_addresses: "{{ ansible_all_ipv4_addresses }}"
+    nginx_http_template_enable: true
+    nginx_http_template:
+      default:
+        template_file: web/templates/nginx.conf.j2
+        conf_file_name: default.conf
+        conf_file_location: /etc/nginx/conf.d/

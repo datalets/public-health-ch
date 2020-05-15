@@ -113,20 +113,15 @@ For an update release with a specific version, use:
 ansible-playbook -s ansible/site.yaml -i ansible/inventories/production --tags release  -e gitversion=<v*.*.*>
 ```
 
-Once the basic system set up, i.e. you have an `ansible` user in the sudoers and docker group, and a few basic system packages ready.
-
-For example, on Ubuntu:
-
-```
-apt-get install -q -y zip git nginx python-virtualenv python-dev
-```
+Once the basic system set up, i.e. you have an `ansible` user in the sudoers and docker group, you are ready to run the playbook.
 
 The typical order of deployment is:
 
-- node.yaml
-- site.yaml
 - docker.yaml
-- harden.yaml
+- node.yaml
+- web.yaml
+- wagtail.yaml
+- internet.yaml
 
 ### Production releases
 
