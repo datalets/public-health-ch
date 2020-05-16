@@ -2,10 +2,10 @@
 
 - name: Checkout code branch from git
   git:
-    repo: 'https://github.com/datalets/public-health-ch'
     dest: "{{ release_dir }}"
-    force: yes
+    repo: "{{ gitrepo }}"
     version: "{{ gitversion }}"
+    force: no
 
 - name: Copy Docker site configuration
   template:

@@ -2,6 +2,8 @@
   become: false
   gather_facts: true
   vars:
+    gitrepo: https://github.com/datalets/public-health-ch
+    gitversion: master
     release_dir: /opt/publichealth
     archive_dir: /opt/www-old
     django_log_dir: /var/log/publichealth

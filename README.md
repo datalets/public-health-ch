@@ -119,6 +119,8 @@ For an update release with a specific version (tag or branch), use (the `-v` par
 ansible-playbook ansible/site.yaml -i ansible/inventories/production --tags release -v -e gitversion=<v*.*.*>
 ```
 
+You can also use the `gitrepo` parameter to use a different fork of the source code.
+
 Once the basic system set up, i.e. you have an `ansible` user in the sudoers and docker group, you are ready to run the playbook.
 
 The typical order of deployment is:
