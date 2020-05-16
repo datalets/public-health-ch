@@ -1,9 +1,42 @@
 ---
 
-- name: Install packages based on package.json.
+- name: Install JavaScript Yarn
+  become: true
   npm:
+    name: yarn
+    global: true
+
+- name: Link the Yarn executable
+  become: true
+  file:
+    src: "/usr/local/lib/npm/bin/yarn"
+    dest: "/usr/local/bin/yarn"
+    state: link
+
+- name: Install JavaScript Grunt
+  become: true
+  yarn:
+    name: grunt-cli
+    global: true
+
+- name: Link the Grunt executable
+  become: true
+  file:
+    src: "/usr/local/lib/npm/bin/grunt"
+    dest: "/usr/local/bin/grunt"
+    state: link
+
+- name: Install JavaScript packages with Yarn
+  yarn:
     path: "{{ release_dir }}"
 
-- name: Install packages based on bower.json.
-  bower:
-    path: "{{ release_dir }}"
+- name: Link the old bower component to libs
+  file:
+    src: "{{ release_dir }}/node_modules/@bower_components"
+    dest: "{{ release_dir }}/publichealth/static/libs"
+    state: link
+
+- name: Compile JavaScript sources with Grunt
+  shell: grunt
+  args:
+    chdir: "{{ release_dir }}"

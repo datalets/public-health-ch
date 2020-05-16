@@ -31,9 +31,8 @@
   args:
     chdir: "{{ release_dir }}"
 
-
-- name: Finish setup of Wagtail site
-  shell: make setup
+- name: Prepare compress frontend
+  shell: make compress
   args:
     chdir: "{{ release_dir }}"
 

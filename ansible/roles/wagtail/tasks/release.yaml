@@ -12,6 +12,7 @@
     src: docker-compose.j2
     dest: "{{ release_dir }}/docker-compose.yml"
 
-- name: Update Docker site
-  debug:
-    msg: "Please run 'make release' in {{ release_dir }} to finish updating the site"
+- name: Rebuild and release Wagtail site
+  shell: make release
+  args:
+    chdir: "{{ release_dir }}"

@@ -3,14 +3,10 @@
 - include: install.yaml
   tags:
     - install
-    - docker
-    - setup
 
 - include: frontend.yaml
   tags:
     - frontend
-    - nodejs
-    - setup
 
 - include: release.yaml
   tags:

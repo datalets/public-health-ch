@@ -38,17 +38,19 @@ apply-migrations: migrations migrate
 setup:
 	docker-compose exec web ./manage.py migrate
 	docker-compose exec web ./manage.py createsuperuser --username admin --email $(EMAIL) --noinput
-	docker-compose exec web ./manage.py compress
-	docker-compose exec web ./manage.py collectstatic --noinput
 
-release:
+rebuild:
 	docker-compose pull
-	sudo docker-compose build web
+	docker-compose build web --no-cache
 	docker-compose stop web
 	docker-compose kill web
 	docker-compose up -d web
+
+compress:
 	docker-compose exec web ./manage.py collectstatic --noinput -i media
 	docker-compose exec web ./manage.py compress
+
+release: rebuild compress
 
 reindex:
 	docker-compose exec web ./manage.py update_index
