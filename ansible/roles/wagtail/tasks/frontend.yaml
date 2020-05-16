@@ -1,5 +1,9 @@
 ---
 
+- name: Create release directory
+  file: path={{ release_dir }} state=directory owner=ansible group=ansible
+  become: true
+
 - name: Install JavaScript Yarn
   become: true
   npm:
@@ -30,11 +34,17 @@
   yarn:
     path: "{{ release_dir }}"
 
-- name: Link the old bower component to libs
+- name: Create libs directory
   file:
-    src: "{{ release_dir }}/node_modules/@bower_components"
-    dest: "{{ release_dir }}/publichealth/static/libs"
-    state: link
+    path: "{{ release_dir }}/publichealth/static/libs/"
+    state: directory
+
+- name: Copy bower components to libs
+  copy:
+    src: "{{ release_dir }}/node_modules/@bower_components/"
+    dest: "{{ release_dir }}/publichealth/static/libs/"
+    remote_src: yes
+    force: yes
 
 - name: Compile JavaScript sources with Grunt
   shell: grunt

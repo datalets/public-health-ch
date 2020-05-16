@@ -41,7 +41,7 @@ setup:
 
 rebuild:
 	docker-compose pull
-	docker-compose build web --no-cache
+	docker-compose build web
 	docker-compose stop web
 	docker-compose kill web
 	docker-compose up -d web
