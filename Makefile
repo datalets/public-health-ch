@@ -70,6 +70,9 @@ django-shell:
 	docker-compose exec web ./manage.py shell
 
 logs:
+	docker-compose exec web tail /var/log/wagtail/publichealth.log /var/log/wagtail/wagtail.log /var/log/wagtail/error.log
+
+docker-logs:
 	docker-compose logs -f --tail=500
 
 backup-data:

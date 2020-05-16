@@ -4,6 +4,14 @@
   file: path={{ release_dir }} state=directory owner=ansible group=ansible
   become: true
 
+- name: Create static directory
+  file: path={{ release_dir }}/static state=directory owner=ansible group=www-data
+  become: true
+
+- name: Set static directory permissions
+  file: dest={{ release_dir }}/static owner=ansible group=www-data mode=u=rwX,g=rX,o=rX recurse=yes
+  become: true
+
 - name: Install JavaScript Yarn
   become: true
   npm:

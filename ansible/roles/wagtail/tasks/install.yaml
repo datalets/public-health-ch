@@ -4,6 +4,14 @@
   file: path={{ release_dir }} state=directory owner=ansible group=ansible
   become: true
 
+- name: Create media directory
+  file: path={{ release_dir }}/media state=directory owner=ansible group=www-data
+  become: true
+
+- name: Set media directory permissions
+  file: dest={{ release_dir }}/media owner=ansible group=www-data mode=u=rwX,g=rX,o=rX recurse=yes
+  become: true
+
 - name: Checkout code branch from git
   git:
     dest: "{{ release_dir }}"
