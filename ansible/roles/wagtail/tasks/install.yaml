@@ -1,7 +1,7 @@
 ---
 
 - name: Create release directory
-  file: path={{ release_dir }} state=directory owner=ansible group=ansible
+  file: path={{ release_dir }} state=directory owner=ansible group=ansible mode=u=rwX,g=rX,o=rX
   become: true
 
 - name: Create media directory
