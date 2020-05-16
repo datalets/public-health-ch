@@ -1,13 +1,28 @@
-- hosts: webservers
+---
+
+- name: Deploy web server (NGINX) configuration
+  hosts: webservers
   become: true
   gather_facts: true
+  tasks:
+    - name: Copy certificate public key
+      tags: nginx_template_config
+      copy:
+        src: cloudflare.pem
+        dest: "/etc/ssl/certs/cloudflare.pem"
+    - name: Copy certificate private key
+      tags: nginx_template_config
+      copy:
+        src: cloudflare.key
+        dest: "/etc/ssl/certs/cloudflare.key"
   roles:
     - role: nginxinc.nginx
   vars:
+    release_dir: /opt/publichealth
     ipv4_addresses: "{{ ansible_all_ipv4_addresses }}"
     nginx_http_template_enable: true
     nginx_http_template:
       default:
-        template_file: web/templates/nginx.conf.j2
+        template_file: web/nginx.conf.j2
         conf_file_name: default.conf
         conf_file_location: /etc/nginx/conf.d/

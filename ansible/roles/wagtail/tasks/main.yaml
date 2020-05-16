@@ -1,9 +1,5 @@
 ---
 
-- include: nginx.yaml
-  tags:
-    - setup
-
 - include: install.yaml
   tags:
     - install

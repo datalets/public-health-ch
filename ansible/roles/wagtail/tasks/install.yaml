@@ -4,6 +4,11 @@
   file: path={{ release_dir }} state=directory owner=ansible group=ansible
   become: true
 
+- name: Ensure Make is installed
+  become: true
+  apt:
+    pkg: make
+
 - name: Checkout code branch from git
   git:
     repo: 'https://github.com/datalets/public-health-ch'
@@ -15,7 +20,12 @@
     src: docker-compose.j2
     dest: "{{ release_dir }}/docker-compose.yml"
 
-- name: Deploy Docker site
+- name: Deploy Wagtail site on Docker
+  shell: make build
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Set up Wagtail site
   shell: make setup
   args:
     chdir: "{{ release_dir }}"

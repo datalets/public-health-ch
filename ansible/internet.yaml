@@ -7,5 +7,6 @@
   roles:
     - role: dev-sec.os-hardening
     - role: dev-sec.ssh-hardening
+    - role: nginxinc.nginx
     - role: dev-sec.nginx-hardening
     - role: jnv.unattended-upgrades
