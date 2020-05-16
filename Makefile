@@ -1,5 +1,6 @@
 export COMPOSE_FILE=./docker-compose.yml
 export COMPOSE_PROJECT_NAME=publichealth
+export EMAIL=change_me@localhost.localhost
 
 default: build
 
@@ -36,7 +37,7 @@ apply-migrations: migrations migrate
 
 setup:
 	docker-compose exec web ./manage.py migrate
-	docker-compose exec web ./manage.py createsuperuser
+	docker-compose exec web ./manage.py createsuperuser --username admin --email $(EMAIL) --noinput
 	docker-compose exec web ./manage.py compress
 	docker-compose exec web ./manage.py collectstatic
 

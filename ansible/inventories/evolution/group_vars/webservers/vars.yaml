@@ -9,8 +9,9 @@ memcached_memory_allocation_mb: 256
 nginx_worker_processes: 2
 nginx_worker_connections: 1024
 
-domain: "{{ vault_domain }}"
+email_admin: "{{ vault_email_admin }}"
 
+domain: "{{ vault_domain }}"
 allowed_domains: "{{ vault_allowed_domains }}"
 
 django_email_key: "{{ vault_django_email_key }}"

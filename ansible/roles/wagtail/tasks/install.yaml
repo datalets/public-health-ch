@@ -22,11 +22,22 @@
     pkg: make
 
 - name: Deploy Wagtail site on Docker
-  shell: make build
+  shell: make build-cached
   args:
     chdir: "{{ release_dir }}"
 
-- name: Set up Wagtail site
+- name: Start Wagtail site
+  shell: make run
+  args:
+    chdir: "{{ release_dir }}"
+
+
+- name: Finish setup of Wagtail site
   shell: make setup
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Finish setup of Wagtail site
+  shell: make setup EMAIL={{ email_admin }}
   args:
     chdir: "{{ release_dir }}"
