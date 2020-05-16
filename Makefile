@@ -39,7 +39,7 @@ setup:
 	docker-compose exec web ./manage.py migrate
 	docker-compose exec web ./manage.py createsuperuser --username admin --email $(EMAIL) --noinput
 	docker-compose exec web ./manage.py compress
-	docker-compose exec web ./manage.py collectstatic
+	docker-compose exec web ./manage.py collectstatic --noinput
 
 release:
 	docker-compose pull
