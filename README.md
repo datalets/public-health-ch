@@ -136,7 +136,7 @@ The typical order of deployment is:
 For further deployment and system maintenance we have a `Makefile` which automates Docker Compose tasks. This should be converted to use [Ansible Container](http://docs.ansible.com/ansible-container/getting_started.html). In the meantime, start a release with Ansible, then complete it using `make`, i.e.:
 
 ```
-ansible-playbook -i ansible/inventories/production --tags release ansible/site.yaml
+ansible-playbook -i ansible/inventories/production --tags release ansible/wagtail.yaml
 ssh -i .keys/ansible.pem ansible@<server-ip> "cd <release_dir> && make release"
 ```
 

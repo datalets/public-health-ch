@@ -44,13 +44,12 @@ rebuild:
 	docker-compose build web
 	docker-compose stop web
 	docker-compose kill web
-	docker-compose up -d web
 
 compress:
 	docker-compose exec web ./manage.py collectstatic --noinput -i media
 	docker-compose exec web ./manage.py compress
 
-release: rebuild compress
+release: rebuild compress run
 
 reindex:
 	docker-compose exec web ./manage.py update_index
