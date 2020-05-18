@@ -86,9 +86,8 @@ backup-images:
 
 backup: backup-data backup-images
 
-django-loaddata:
-	gunzip ~/publichealth.home.json.gz
-	docker-compose exec web ./manage.py loaddata ~/publichealth.home.json
+loaddata:
+	docker-compose exec web ./manage.py loaddata publichealth.home.json
 
 restore: django-loaddata restart
 
