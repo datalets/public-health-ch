@@ -18,7 +18,7 @@ run-here:
 	docker-compose up
 
 run:
-	docker-compose up -d # detach by default
+	docker-compose up -d --restart=always # detach by default
 
 restart:
 	docker-compose stop web
