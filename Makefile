@@ -18,14 +18,12 @@ run-here:
 	docker-compose up
 
 run:
-	docker-compose up -d --restart=always # detach by default
-
-restart:
-	docker-compose stop web
-	docker-compose up -d web
+	docker-compose up -d # detach by default
 
 stop:
-	docker-compose stop
+	docker-compose stop web
+
+restart: stop run
 
 migrate:
 	docker-compose exec web ./manage.py migrate
