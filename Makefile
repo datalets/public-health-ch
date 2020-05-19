@@ -4,6 +4,10 @@ export EMAIL=change_me@localhost.localhost
 
 default: build
 
+local-loaddata:
+	sed -i 's/\"is_default_site\": true/\"is_default_site\": false/g' publichealth.home.json
+	python manage.py loaddata publichealth.home.json
+
 upgrade:
 	docker-compose pull
 
