@@ -1,0 +1,13 @@
+---
+
+- include: frontend.yaml
+  tags:
+    - frontend
+
+- include: install.yaml
+  tags:
+    - install
+
+- include: release.yaml
+  tags:
+    - release

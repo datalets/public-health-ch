@@ -1,24 +1,22 @@
 ---
-- name: install selinux dependencies when selinux is installed on RHEL or Oracle Linux
+- name: install selinux dependencies when selinux is installed
   package:
-    name: '{{ item }}'
+    name: '{{ ssh_selinux_packages }}'
     state: present
-  with_items:
-    - 'policycoreutils-python'
-    - 'checkpolicy'
-  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Oracle Linux'
 
-- name: install selinux dependencies when selinux is installed on Debian or Ubuntu
-  apt:
-    name: '{{ item }}'
+- name: "authorize {{ ssh_server_ports }} ports for selinux"
+  seport:
+    ports: '{{ item }}'
+    proto: tcp
+    setype: ssh_port_t
     state: present
   with_items:
-    - 'policycoreutils'
-    - 'checkpolicy'
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+    - "{{ ssh_server_ports }}"
 
 - name: check if ssh_password module is already installed
-  shell: 'semodule -l | grep ssh_password'
+  shell: 'set -o pipefail && semodule -l | grep ssh_password'
+  args:
+    executable: /bin/bash
   register: ssh_password_module
   failed_when: false
   changed_when: false
@@ -41,17 +39,18 @@
       dest: '{{ ssh_custom_selinux_dir }}'
 
   - name: check and compile policy
-    shell: checkmodule -M -m -o {{ ssh_custom_selinux_dir }}/ssh_password.mod {{ ssh_custom_selinux_dir }}/ssh_password
+    command: checkmodule -M -m -o {{ ssh_custom_selinux_dir }}/ssh_password.mod {{ ssh_custom_selinux_dir }}/ssh_password
 
   - name: create selinux policy module package
-    shell: semodule_package -o {{ ssh_custom_selinux_dir }}/ssh_password.pp  -m {{ ssh_custom_selinux_dir }}/ssh_password.mod
+    command: semodule_package -o {{ ssh_custom_selinux_dir }}/ssh_password.pp  -m {{ ssh_custom_selinux_dir }}/ssh_password.mod
 
   - name: install selinux policy
-    shell: semodule -i {{ ssh_custom_selinux_dir }}/ssh_password.pp
+    command: semodule -i {{ ssh_custom_selinux_dir }}/ssh_password.pp
 
-  when: not ssh_use_pam and sestatus.stdout != 'Disabled' and ssh_password_module.stdout.find('ssh_password') != 0
+  when: not ssh_use_pam | bool and ssh_password_module.stdout.find('ssh_password') != 0
 
 # The following tasks only get executed when selinux is installed, UsePam is 'yes' and the ssh_password module is installed.
-- name: remove selinux-policy when Pam is used, because Allowing sshd to read the shadow file directly is considered a potential security risk (http://danwalsh.livejournal.com/12333.html)
+# See http://danwalsh.livejournal.com/12333.html for more info
+- name: remove selinux-policy when Pam is used, because Allowing sshd to read the shadow file directly is considered a potential security risk
   command: semodule -r ssh_password
-  when: ssh_use_pam and ssh_password_module.stdout.find('ssh_password') == 0
+  when: ssh_use_pam | bool and ssh_password_module.stdout.find('ssh_password') == 0

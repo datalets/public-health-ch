@@ -1,0 +1,15 @@
+# Any private crt and keys #
+############################
+*.crt
+*.key
+__pycache__
+*~
+\#*
+
+# OS Specific
+Thumbs.db
+.DS_Store
+.vscode
+
+# Ansible specific
+*.retry

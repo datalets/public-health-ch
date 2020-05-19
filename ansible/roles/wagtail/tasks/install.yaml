@@ -1,0 +1,50 @@
+---
+
+- name: Create release directory
+  file: path={{ release_dir }} state=directory owner=ansible group=ansible mode=u=rwX,g=rX,o=rX
+  become: true
+
+- name: Create media directory
+  file: path={{ release_dir }}/media state=directory owner=ansible group=www-data
+  become: true
+
+- name: Set media directory permissions
+  file: dest={{ release_dir }}/media owner=ansible group=www-data mode=u=rwX,g=rX,o=rX recurse=yes
+  become: true
+
+- name: Checkout code branch from git
+  git:
+    dest: "{{ release_dir }}"
+    repo: "{{ gitrepo }}"
+    version: "{{ gitversion }}"
+    force: false
+
+- name: Copy Docker site configuration
+  template:
+    src: docker-compose.j2
+    dest: "{{ release_dir }}/docker-compose.yml"
+
+- name: Ensure Make is installed
+  become: true
+  apt:
+    pkg: make
+
+- name: Deploy Wagtail site on Docker
+  shell: make build-cached
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Start Wagtail site
+  shell: make run
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Prepare compress frontend
+  shell: make compress
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Finish setup of Wagtail site
+  shell: make setup EMAIL={{ email_admin }}
+  args:
+    chdir: "{{ release_dir }}"

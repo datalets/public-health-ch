@@ -89,58 +89,54 @@ Install or update the following roles from [Ansible Galaxy](https://docs.ansible
 
 ```
 ansible-galaxy install \
-   dev-sec.nginx-hardening dev-sec.ssh-hardening dev-sec.os-hardening \
-   geerlingguy.nodejs geerlingguy.certbot
+   dev-sec.nginx-hardening \
+   dev-sec.ssh-hardening \
+   dev-sec.os-hardening \
+   geerlingguy.nodejs
 ```
 
 To check that the scripts and roles are correctly installed, use this command to do a "dry run":
 
 ```
-ansible-playbook -s ansible/*.yaml -i ansible/inventories/production --syntax-check --list-tasks
+ansible-playbook ansible/*.yaml -i ansible/inventories/production --list-tasks
+```
+
+If you only want to run a certain set of actions, subset the tags which you see in the output above. For example, to only update the NGINX configuration:
+
+```
+ansible-playbook ansible/web.yaml -i ansible/inventories/production --tags "nginx_template_config"
 ```
 
 To do production deployments, you need to obtain SSH and vault keys from your system administrator (who has followed the Ansible guide to set up a vault..), and place these in a `.keys` folder. To deploy a site:
 
 ```
-ansible-playbook -s ansible/<*.yaml> -i ansible/inventories/production
+ansible-playbook ansible/*.yaml -i ansible/inventories/production
 ```
 
-For an update release with a specific version, use:
+For an update release with a specific version (tag or branch), use (the `-v` parameter showing output of commands):
 
 ```
-ansible-playbook -s ansible/site.yaml -i ansible/inventories/production --tags release  -e gitversion=<v*.*.*>
+ansible-playbook ansible/site.yaml -i ansible/inventories/production --tags release -v -e gitversion=<v*.*.*>
 ```
 
-We use a StackScript to deploy to Linode, the basic system set up is to have a user in the sudoers and docker group, and a few basic system packages ready.
+You can also use the `gitrepo` parameter to use a different fork of the source code.
 
-For example, on Ubuntu:
+Once the basic system set up, i.e. you have an `ansible` user in the sudoers and docker group, you are ready to run the playbook.
 
-```
-apt-get install -q -y zip git nginx python-virtualenv python-dev
-```
+The typical order of deployment is:
 
-The order of deployment is:
-
-- docker.yaml (base system)
+- internet.yaml
+- docker.yaml
 - node.yaml
-- site.yaml
-- harden.yaml
-- certbot.yaml
-
-The last line adds support for Let's Encrypt, which you can configure and enable (updating your Nginx setup) with:
-
-```
-sudo /opt/certbot/certbot-auto --nginx certonly
-```
-
-If you do **not** wish to use SSL, delete the last part of your nginx site configuration (/etc/nginx/sites-enabled/...).
+- web.yaml
+- wagtail.yaml
 
 ### Production releases
 
 For further deployment and system maintenance we have a `Makefile` which automates Docker Compose tasks. This should be converted to use [Ansible Container](http://docs.ansible.com/ansible-container/getting_started.html). In the meantime, start a release with Ansible, then complete it using `make`, i.e.:
 
 ```
-ansible-playbook -s ansible/site.yaml -i ansible/inventories/production --tags release
+ansible-playbook -i ansible/inventories/production --tags release ansible/wagtail.yaml
 ssh -i .keys/ansible.pem ansible@<server-ip> "cd <release_dir> && make release"
 ```
 

@@ -1,0 +1,80 @@
+#{{ ansible_managed }}
+
+# Main site configuration for public-health.ch
+
+upstream wagtail-site {
+	server localhost:5000;
+}
+server {
+	server_name _;
+	listen 80 default_server;
+	return 301 https://$host$request_uri;
+}
+server {
+	server_name _;
+	listen 443 ssl default_server;
+
+	ssl_certificate /etc/ssl/certs/cloudflare.pem;
+	ssl_certificate_key /etc/ssl/certs/cloudflare.key;
+
+	client_max_body_size 16M;
+
+	gzip on;
+	gzip_types text/plain text/css application/x-javascript image/svg+xml;
+	gzip_comp_level 1;
+	gzip_disable msie6;
+	gzip_http_version 1.0;
+	gzip_proxied any;
+	gzip_vary on;
+
+	location /static/ {
+		access_log off; expires 36000;
+		alias {{ release_dir }}/static/;
+		add_header Cache-Control "public";
+		add_header Access-Control-Allow-Origin *; #https://{{ domain }};
+	}
+
+	# Set a longer expiry for CACHE/, because the filenames are unique.
+	location /static/CACHE/ {
+		access_log off; expires 864000;
+		alias {{ release_dir }}/static/CACHE/;
+	}
+
+	# Serve favorites icon from the root
+	location /favicon.ico {
+		access_log off; expires max;
+		alias {{ release_dir }}/static/images/favicon.ico;
+	}
+
+	# Directly serve media with max caching
+	location /media {
+		root {{ release_dir }};
+		autoindex off;
+		access_log off;
+		expires max;
+		add_header Cache-Control "public";
+	}
+
+	# Only serve media by default, not e.g. original_images/.
+	#location ~* ^/media {
+	#	alias {{ release_dir }}/media;
+	#}
+
+	# Disable English home page (for now)
+	if ($host !~* 'sphc.ch') {
+    rewrite ^/en/$ $scheme://$host/de/;
+	}
+
+	# Redirect French home page as appropriate
+	if ($host = 'manifestesante.ch') {
+		rewrite ^/$ $scheme://$host/fr/;
+	}
+
+	location / {
+		proxy_set_header  X-Real-IP $remote_addr;
+		proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header Host $http_host;
+		proxy_redirect off;
+		proxy_pass http://wagtail-site;
+	}
+}

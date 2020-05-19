@@ -1,7 +1,12 @@
 export COMPOSE_FILE=./docker-compose.yml
 export COMPOSE_PROJECT_NAME=publichealth
+export EMAIL=change_me@localhost.localhost
 
 default: build
+
+local-loaddata:
+	sed -i 's/\"is_default_site\": true/\"is_default_site\": false/g' publichealth.home.json
+	python manage.py loaddata publichealth.home.json
 
 upgrade:
 	docker-compose pull
@@ -19,12 +24,10 @@ run-here:
 run:
 	docker-compose up -d # detach by default
 
-restart:
-	docker-compose stop web
-	docker-compose up -d web
-
 stop:
-	docker-compose stop
+	docker-compose stop web
+
+restart: stop run
 
 migrate:
 	docker-compose exec web ./manage.py migrate
@@ -36,18 +39,19 @@ apply-migrations: migrations migrate
 
 setup:
 	docker-compose exec web ./manage.py migrate
-	docker-compose exec web ./manage.py createsuperuser
-	docker-compose exec web ./manage.py compress
-	docker-compose exec web ./manage.py collectstatic
+	docker-compose exec web ./manage.py createsuperuser --username admin --email $(EMAIL) --noinput
 
-release:
+rebuild:
 	docker-compose pull
-	sudo docker-compose build web
+	docker-compose build web
 	docker-compose stop web
 	docker-compose kill web
-	docker-compose up -d web
+
+compress:
 	docker-compose exec web ./manage.py collectstatic --noinput -i media
 	docker-compose exec web ./manage.py compress
+
+release: rebuild compress run
 
 reindex:
 	docker-compose exec web ./manage.py update_index
@@ -67,10 +71,13 @@ django-shell:
 	docker-compose exec web ./manage.py shell
 
 logs:
+	docker-compose exec web tail /var/log/wagtail/publichealth.log /var/log/wagtail/wagtail.log /var/log/wagtail/error.log
+
+docker-logs:
 	docker-compose logs -f --tail=500
 
 backup-data:
-	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
+	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailcore.GroupPagePermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
 	zip ~/publichealth.home.json.`date +"%d%m%Y-%H%M"`.zip ~/publichealth.home.json
 	rm ~/publichealth.home.json
 
@@ -81,9 +88,8 @@ backup-images:
 
 backup: backup-data backup-images
 
-django-loaddata:
-	gunzip ~/publichealth.home.json.gz
-	docker-compose exec web ./manage.py loaddata ~/publichealth.home.json
+loaddata:
+	docker-compose exec web ./manage.py loaddata publichealth.home.json
 
 restore: django-loaddata restart
 
