@@ -6,9 +6,6 @@ driver:
   http_proxy: <%= ENV['http_proxy'] || nil %>
   https_proxy: <%= ENV['https_proxy'] || nil %>
 
-transport:
-  max_ssh_sessions: 5
-
 provisioner:
   name: ansible_playbook
   hosts: all
@@ -17,12 +14,12 @@ provisioner:
   require_ruby_for_busser: false
   ansible_verbose: true
   ansible_diff: true
-  hosts: all
+
   roles_path: ../ansible-ssh-hardening/
   http_proxy: <%= ENV['http_proxy'] || nil %>
   https_proxy: <%= ENV['https_proxy'] || nil %>
   playbook: tests/default.yml
-  ansible_diff: true
+
   ansible_extra_flags:
     - "--skip-tags=sysctl"
 
@@ -51,10 +48,6 @@ platforms:
     provision_command:
       - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
       - systemctl enable sshd.service
-- name: ubuntu1404-ansible-latest
-  driver:
-    image: rndmh3ro/docker-ubuntu1404-ansible:latest
-    platform: ubuntu
 - name: ubuntu1604-ansible-latest
   driver:
     image: rndmh3ro/docker-ubuntu1604-ansible:latest
@@ -62,17 +55,24 @@ platforms:
     run_command: /sbin/init
     provision_command:
       - systemctl enable ssh.service
-- name: debian7-ansible-latest
+- name: ubuntu1804-ansible-latest
   driver:
-    image: rndmh3ro/docker-debian7-ansible:latest
-    platform: debian
-- name: debian8-ansible-latest
-  driver:
-    image: rndmh3ro/docker-debian8-ansible:latest
-    platform: debian
+    image: rndmh3ro/docker-ubuntu1804-ansible:latest
+    platform: ubuntu
+    run_command: /sbin/init
+    provision_command:
+      - systemctl enable ssh.service
 - name: debian9-ansible-latest
   driver:
     image: rndmh3ro/docker-debian9-ansible:latest
+    platform: debian
+    run_command: /sbin/init
+    provision_command:
+      - apt install -y systemd-sysv
+      - systemctl enable ssh.service
+- name: debian10-ansible-latest
+  driver:
+    image: rndmh3ro/docker-debian10-ansible
     platform: debian
     run_command: /sbin/init
     provision_command:
@@ -84,6 +84,15 @@ platforms:
     platform: centos
     run_command: /sbin/init
     provision_command:
+      - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
+      - systemctl enable sshd.service
+- name: fedora-ansible-latest
+  driver:
+    image: rndmh3ro/docker-fedora-ansible:latest
+    platform: centos
+    run_command: /sbin/init
+    provision_command:
+      - dnf install -y python
       - sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
       - systemctl enable sshd.service
 

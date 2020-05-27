@@ -43,9 +43,11 @@
 
 {% block blog_content %}
 
+{% if self.categories.count > 0 %}
 <div class="entry-categories">
     {% categories_list self.categories %}
 </div>
+{% endif %}
 
 <h1 class="title">{{ self.title }}</h1>
 
@@ -81,30 +83,26 @@
          {% if self.id %}data-entry-page-update-comments-url="{% url 'entry_page_update_comments' self.id %}{% endif %}">
     <section>
         {{ self.body|richtext}}
-        <div class="row">
-            <div class="col-md-2">
-                <a href="{% pageurl blog_page %}" class="blog_btn back">
-                    <i class="fa fa-home"></i>
-                </a>
-            </div>
-            {% entry_url self blog_page as post_url %}
-            <ul class="social-share-all text-right col-md-10">
-                <li class="social-item">
-                   {% post_to_facebook post_url '<span><i class="fa fa-facebook"></i></span>' %}
-                </li>
-                <li class="social-item">
-                    {% post_to_twitter self.title post_url '<span><i class="fa fa-twitter"></i></span>' %}
-                </li>
-                <li class="social-item">
-                    {% post_to_linkendin post_url '<span><i class="fa fa-linkedin"></i></span>' %}
-                </li>
-                <li class="social-item">
-                    {% post_to_gplus post_url '<span><i class="fa fa-google-plus"></i></span>' %}
-                </li>
-            </ul>
-        </div>
-
     </section>
+    <div class="row">
+        <div class="col-md-2">
+            <a href="{% pageurl blog_page %}" class="blog_btn back hidden">
+                <i class="fa fa-home"></i>
+            </a>
+            {% entry_url self blog_page as post_url %}
+        </div>
+        <ul class="social-share-all text-right col-md-10">
+            <li class="social-item">
+               {% post_to_facebook post_url '<span><i class="fa fa-facebook"></i></span>' %}
+            </li>
+            <li class="social-item">
+                {% post_to_twitter self.title post_url '<span><i class="fa fa-twitter"></i></span>' %}
+            </li>
+            <li class="social-item">
+                {% post_to_linkendin post_url '<span><i class="fa fa-linkedin"></i></span>' %}
+            </li>
+        </ul>
+    </div>
     {% show_comments %}
 </article>
 {% endblock blog_content %}
