@@ -126,4 +126,7 @@ $slider-nav: 200px;
   ul { list-style: none; margin: 0; padding: 1em 0 0; }
 }
 
+// Fix Bootstrap 3 warning
+.media, .media-body { zoom: none !important; transform: scale(1); }
+
 @import "subsites";

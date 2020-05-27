@@ -6,12 +6,20 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     imagemin: {
-      media: {
+      // media: {
+      //   files: [{
+      //     expand: true,
+      //     cwd: 'media/images/',
+      //     src: '{,*/}*.{png,jpg,jpeg,gif}',
+      //     dest: 'media/images'
+      //   }]
+      // },
+      static: {
         files: [{
           expand: true,
-          cwd: 'media/images/',
+          cwd: 'publichealth/static/images',
           src: '{,*/}*.{png,jpg,jpeg,gif}',
-          dest: 'media/images'
+          dest: 'publichealth/static/images'
         }]
       }
     },
