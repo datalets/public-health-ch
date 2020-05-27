@@ -51,7 +51,7 @@ compress:
 	docker-compose exec web ./manage.py collectstatic --noinput -i media
 	docker-compose exec web ./manage.py compress
 
-release: rebuild compress run
+release: rebuild run compress restart
 
 reindex:
 	docker-compose exec web ./manage.py update_index
