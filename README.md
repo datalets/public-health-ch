@@ -98,25 +98,25 @@ ansible-galaxy install \
 To check that the scripts and roles are correctly installed, use this command to do a "dry run":
 
 ```
-ansible-playbook ansible/*.yaml -i ansible/inventories/production --list-tasks
+ansible-playbook ansible/*.yaml -i ansible/inventories/lagoon --list-tasks
 ```
 
 If you only want to run a certain set of actions, subset the tags which you see in the output above. For example, to only update the NGINX configuration:
 
 ```
-ansible-playbook ansible/web.yaml -i ansible/inventories/production --tags "nginx_template_config"
+ansible-playbook ansible/web.yaml -i ansible/inventories/lagoon --tags "nginx_template_config"
 ```
 
 To do production deployments, you need to obtain SSH and vault keys from your system administrator (who has followed the Ansible guide to set up a vault..), and place these in a `.keys` folder. To deploy a site:
 
 ```
-ansible-playbook ansible/*.yaml -i ansible/inventories/production
+ansible-playbook ansible/*.yaml -i ansible/inventories/lagoon
 ```
 
 For an update release with a specific version (tag or branch), use (the `-v` parameter showing output of commands):
 
 ```
-ansible-playbook ansible/site.yaml -i ansible/inventories/production --tags release -v -e gitversion=<v*.*.*>
+ansible-playbook ansible/site.yaml -i ansible/inventories/lagoon --tags release -v -e gitversion=<v*.*.*>
 ```
 
 You can also use the `gitrepo` parameter to use a different fork of the source code.
@@ -136,7 +136,7 @@ The typical order of deployment is:
 For further deployment and system maintenance we have a `Makefile` which automates Docker Compose tasks. This should be converted to use [Ansible Container](http://docs.ansible.com/ansible-container/getting_started.html). In the meantime, start a release with Ansible, then complete it using `make`, i.e.:
 
 ```
-ansible-playbook -i ansible/inventories/production --tags release ansible/wagtail.yaml
+ansible-playbook -i ansible/inventories/lagoon --tags release ansible/wagtail.yaml
 ssh -i .keys/ansible.pem ansible@<server-ip> "cd <release_dir> && make release"
 ```
 
