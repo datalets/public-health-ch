@@ -79,10 +79,12 @@ Now access the admin panel with the user account you created earlier: http://loc
 
 Issues with migrating database tables in SQLite during development? Try `./manage.py migrate --fake`
 
-Having trouble installing any packages with npm or yarn? Add IPv6 addresses to your hosts:
+Trouble installing packages with npm or yarn? Add IPv6 addresses to your hosts:
 
+   2606:4700:10::6814:162e nodejs.org
    2606:4700::6810:1823 registry.npmjs.org
    2606:4700::6810:1123 registry.yarnpkg.com
+   2a0a:e5c0:2:10::8c52:790a codeload.github.com
 
 ## Production notes
 

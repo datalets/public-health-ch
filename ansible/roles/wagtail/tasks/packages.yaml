@@ -28,7 +28,7 @@
     remote_src: yes
     force: yes
 
-- name: Compile JavaScript sources with Grunt
-  shell: grunt
+- name: Compile frontend sources with Grunt
+  shell: "/usr/local/lib/npm/bin/grunt --force"
   args:
     chdir: "{{ release_dir }}"
