@@ -47,7 +47,7 @@
     path: "{{ release_dir }}/publichealth/static/libs/"
     state: directory
 
-- name: Copy bower components to libs
+- name: Copy npm components to libs
   copy:
     src: "{{ release_dir }}/node_modules/@bower_components/"
     dest: "{{ release_dir }}/publichealth/static/libs/"
