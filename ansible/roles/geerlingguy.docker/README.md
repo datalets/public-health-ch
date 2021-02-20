@@ -1,6 +1,6 @@
 # Ansible Role: Docker
 
-[![Build Status](https://travis-ci.org/geerlingguy/ansible-role-docker.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-role-docker)
+[![CI](https://github.com/geerlingguy/ansible-role-docker/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-docker/actions?query=workflow%3ACI)
 
 An Ansible Role that installs [Docker](https://www.docker.com) on Linux.
 
@@ -28,7 +28,7 @@ You can control whether the package is installed, uninstalled, or at the latest 
 Variables to control the state of the `docker` service, and whether it should start on boot. If you're installing Docker inside a Docker container without systemd or sysvinit, you should set these to `stopped` and set the enabled variable to `no`.
 
     docker_install_compose: true
-    docker_compose_version: "1.25.4"
+    docker_compose_version: "1.26.0"
     docker_compose_path: /usr/local/bin/docker-compose
 
 Docker Compose installation options.
@@ -39,17 +39,17 @@ Docker Compose installation options.
     docker_apt_ignore_key_error: True
     docker_apt_gpg_key: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
 
-(Used only for Debian/Ubuntu.) You can switch the channel to `edge` if you want to use the Edge release.
+(Used only for Debian/Ubuntu.) You can switch the channel to `nightly` if you want to use the Nightly release.
 
 You can change `docker_apt_gpg_key` to a different url if you are behind a firewall or provide a trustworthy mirror.
 Usually in combination with changing `docker_apt_repository` as well.
 
     docker_yum_repo_url: https://download.docker.com/linux/centos/docker-{{ docker_edition }}.repo
-    docker_yum_repo_enable_edge: '0'
+    docker_yum_repo_enable_nightly: '0'
     docker_yum_repo_enable_test: '0'
     docker_yum_gpg_key: https://download.docker.com/linux/centos/gpg
 
-(Used only for RedHat/CentOS.) You can enable the Edge or Test repo by setting the respective vars to `1`.
+(Used only for RedHat/CentOS.) You can enable the Nightly or Test repo by setting the respective vars to `1`.
 
 You can change `docker_yum_gpg_key` to a different url if you are behind a firewall or provide a trustworthy mirror.
 Usually in combination with changing `docker_yum_repository` as well.

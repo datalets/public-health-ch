@@ -118,7 +118,7 @@ class ArticlePage(Page):
 
     body_de = StreamField([
         ('paragraph', RichTextBlock()),
-        ('section', CharBlock(classname="full title")),
+        ('section', CharBlock(form_classname="full title")),
         ('info', InfoBlock(icon='help')),
         ('media', ChoiceBlock(choices=[
             ('gallery', 'Image gallery'),
@@ -126,7 +126,7 @@ class ArticlePage(Page):
     ], null=True, blank=True)
     body_fr = StreamField([
         ('paragraph', RichTextBlock()),
-        ('section', CharBlock(classname="full title")),
+        ('section', CharBlock(form_classname="full title")),
         ('info', InfoBlock(icon='help')),
         ('media', ChoiceBlock(choices=[
             ('gallery', 'Image gallery'),
@@ -134,7 +134,7 @@ class ArticlePage(Page):
     ], null=True, blank=True)
     body_en = StreamField([
         ('paragraph', RichTextBlock()),
-        ('section', CharBlock(classname="full title")),
+        ('section', CharBlock(form_classname="full title")),
         ('info', InfoBlock(icon='help')),
         ('media', ChoiceBlock(choices=[
             ('gallery', 'Image gallery'),

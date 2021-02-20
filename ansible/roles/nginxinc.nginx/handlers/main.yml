@@ -1,39 +1,39 @@
 ---
-- name: "(Handler: All OSs) Run NGINX"
-  block:
+- name: (Handler) Systemd daemon-reload
+  systemd:
+    daemon_reload: yes
 
-    - name: "(Handler: All OSs) Start NGINX"
-      service:
-        name: nginx
-        state: started
-        enabled: yes
-      notify: "(Handler: All OSs) Check NGINX"
-
-    - name: "(Handler: All OSs) Reload NGINX"
-      command: "nginx -s reload"
-      changed_when: false
-
+- name: (Handler) Start/reload NGINX
+  service:
+    name: nginx
+    state: reloaded
+    enabled: yes
   when:
     - nginx_start | bool
-    - not ansible_check_mode
+    - not ansible_check_mode | bool
+  listen: (Handler) Run NGINX
 
-- name: "(Handler: All OSs) Start NGINX Amplify Agent"
+- name: (Handler) Check NGINX
+  command: nginx -t
+  register: config_check
+  ignore_errors: yes
+  check_mode: no
+  changed_when: false
+  listen: (Handler) Run NGINX
+
+- name: (Handler) Print NGINX error if syntax check fails
+  debug:
+    var: config_check.stderr_lines
+  failed_when: config_check.rc != 0
+  when:
+    - config_check.stderr_lines is defined
+    - config_check.rc != 0
+  listen: (Handler) Run NGINX
+
+- name: (Handler) Start NGINX Amplify agent
   service:
     name: amplify-agent
     state: started
 
-- name: "(Handler: Debian/Ubuntu/CentOS/RedHat) Start NGINX Unit"
-  service:
-    name: unit
-    state: started
-    enabled: yes
-
-- name: "(Handler: FreeBSD) Start NGINX Unit"
-  service:
-    name: unitd
-    state: started
-    enabled: yes
-
-- name: "(Handler: All OSs) Check NGINX"
-  command: "nginx -t"
-  changed_when: false
+- name: (Handler) Run logrotate
+  command: logrotate -f /etc/logrotate.d/nginx

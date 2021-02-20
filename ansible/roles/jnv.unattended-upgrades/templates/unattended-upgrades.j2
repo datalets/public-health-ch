@@ -1,3 +1,5 @@
+// {{ ansible_managed }}
+
 // Unattended-Upgrade::Origins-Pattern controls which packages are
 // upgraded.
 Unattended-Upgrade::Origins-Pattern {
@@ -55,9 +57,14 @@ Unattended-Upgrade::MailOnlyOnError "true";
 {% endif %}
 
 {% if unattended_remove_unused_dependencies %}
-// Do automatic removal of new unused dependencies after the upgrade
+// Do automatic removal of all unused dependencies after the upgrade
 // (equivalent to apt-get autoremove)
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
+{% endif %}
+
+{% if not unattended_remove_new_unused_dependencies %}
+// Do automatic removal of new unused dependencies after the upgrade
+Unattended-Upgrade::Remove-New-Unused-Dependencies "false";
 {% endif %}
 
 {% if unattended_automatic_reboot %}
@@ -86,6 +93,18 @@ Unattended-Upgrade::Update-Days {{ unattended_update_days }};
 // Do upgrade application even if it requires restart after upgrade
 // I.e. "XB-Upgrade-Requires: app-restart" is set in the debian/control file
 Unattended-Upgrade::IgnoreAppsRequireRestart "true";
+{% endif %}
+
+{% if unattended_syslog_enable %}
+// Write events to syslog, which is useful in environments where syslog
+// messages are sent to a central store.
+Unattended-Upgrade::SyslogEnable "{{ unattended_syslog_enable }}";
+{% if unattended_syslog_facility is defined %}
+// Write events to the specified syslog facility, or the daemon facility
+// if not specified. Requires the Unattended-Upgrade::SyslogEnable option
+// to be set to true.
+Unattended-Upgrade::SyslogFacility "{{ unattended_syslog_facility }}";
+{% endif %}
 {% endif %}
 
 {% if unattended_dpkg_options %}

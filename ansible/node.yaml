@@ -6,5 +6,5 @@
     - role: geerlingguy.nodejs
       nodejs_install_npm_user: ansible
       nodejs_npm_global_packages:
-        - name: bower
+        - name: yarn
         - name: grunt-cli

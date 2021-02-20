@@ -46,8 +46,10 @@ On some hosts you may find that the unattended-upgrade's cronfile `/etc/cron.dai
     * Default: `false` (don't send any e-mail)
 * `unattended_mail_only_on_error`: send e-mail only on errors, otherwise e-mail will be sent every time there's a package upgrade.
     * Default: `false`
-* `unattended_remove_unused_dependencies`: do automatic removal of new unused dependencies after the upgrade.
+* `unattended_remove_unused_dependencies`: do automatic removal of all unused dependencies after the upgrade.
     * Default: `false`
+* `unattended_remove_new_unused_dependencies`: do automatic removal of new unused dependencies after the upgrade.
+    * Default: `true`
 * `unattended_automatic_reboot`: Automatically reboot system if any upgraded package requires it, immediately after the upgrade.
     * Default: `false`
 * `unattended_automatic_reboot_time`: Automatically reboot system if any upgraded package requires it, at the specific time (_HH:MM_) instead of immediately after the upgrade.
@@ -56,6 +58,10 @@ On some hosts you may find that the unattended-upgrade's cronfile `/etc/cron.dai
     * Default: disabled
 * `unattended_ignore_apps_require_restart`: unattended-upgrades won't automatically upgrade some critical packages requiring restart after an upgrade (i.e. there is `XB-Upgrade-Requires: app-restart` directive in their debian/control file). With this option set to `true`, unattended-upgrades will upgrade these packages regardless of the directive.
     * Default: `false`
+* `unattended_syslog_enable`: Write events to syslog, which is useful in environments where syslog messages are sent to a central store.
+    * Default: `false`
+* `unattended_syslog_facility`: Write events to the specified syslog facility, or the daemon facility if not specified. Will only have affect if `unattended_syslog_enable` is set to `true`.
+    * Default: `daemon`
 * `unattended_verbose`: Define verbosity level of APT for periodic runs. The output will be sent to root.
     * Possible options:
       * `0`: no report

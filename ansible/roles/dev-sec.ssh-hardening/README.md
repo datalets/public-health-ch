@@ -1,12 +1,11 @@
 # ssh-hardening (Ansible Role)
 
 [![Build Status](http://img.shields.io/travis/dev-sec/ansible-ssh-hardening.svg)][1]
-[![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)][2]
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-ssh--hardening-660198.svg)][3]
 
 ## Description
 
-This role provides secure ssh-client and ssh-server configurations.  It is intended to be compliant with the [DevSec SSH  Baseline](https://github.com/dev-sec/ssh-baseline).
+This role provides secure ssh-client and ssh-server configurations.  It is intended to be compliant with the [DevSec SSH Baseline](https://github.com/dev-sec/ssh-baseline).
 
 Warning: This role disables root-login on the target server! Please make sure you have another user with su or sudo permissions that can login into the server.
 
@@ -17,10 +16,10 @@ Warning: This role disables root-login on the target server! Please make sure yo
 ## Role Variables
 | Name           | Default Value | Description                        |
 | -------------- | ------------- | -----------------------------------|
-|`network_ipv6_enable` | false |true if IPv6 is needed|
+|`network_ipv6_enable` | false |true if IPv6 is needed. `ssh_listen_to` must also be set to listen to IPv6 addresses (for example `[::]`).|
 |`ssh_server_ports` | ['22'] |ports on which ssh-server should listen|
 |`ssh_client_port` | '22' |port to which ssh-client should connect|
-|`ssh_listen_to` | ['0.0.0.0'] |one or more ip addresses, to which ssh-server should listen to. Default is all adresseses, but should be configured to specific addresses for security reasons!|
+|`ssh_listen_to` | ['0.0.0.0'] |one or more ip addresses, to which ssh-server should listen to. Default is all IPv4 adresses, but should be configured to specific addresses for security reasons!|
 |`ssh_host_key_files` | [] |Host keys for sshd. If empty ['/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_ecdsa_key', '/etc/ssh/ssh_host_ed25519_key'] will be used, as far as supported by the installed sshd version|
 |`ssh_host_key_algorithms` | [] | Host key algorithms that the server offers. If empty the [default list](https://man.openbsd.org/sshd_config#HostKeyAlgorithms) will be used, otherwise overrides the setting with specified list of algorithms|
 |`ssh_client_alive_interval` | 600 | specifies an interval for sending keepalive messages |
@@ -28,9 +27,10 @@ Warning: This role disables root-login on the target server! Please make sure yo
 |`ssh_permit_tunnel` | false | true if SSH Port Tunneling is required |
 |`ssh_remote_hosts` | [] | one or more hosts and their custom options for the ssh-client. Default is empty. See examples in `defaults/main.yml`.|
 |`ssh_permit_root_login` | no | Disable root-login. Set to `without-password` or `yes` to enable root-login |
-|`ssh_allow_tcp_forwarding` | no | `no` to disable TCP Forwarding. Set to `yes` to allow TCP Forwarding. If you are using OpenSSH >= 6.2 version, you can specify `yes`, `no`, `all` or `local`|
+|`ssh_allow_tcp_forwarding` | no | `'no'` to disable TCP Forwarding. Set to `'yes'` to allow TCP Forwarding. If you are using OpenSSH >= 6.2 version, you can specify `'yes'`, `'no'`, `'all'` or `'local'`. <br> *Note*: values passed to this variable must be strings, thus values `'yes'` and `'no'` should be passed with quotes. |
 |`ssh_gateway_ports` | `false` | `false` to disable binding forwarded ports to non-loopback addresses. Set to `true` to force binding on wildcard address. Set to `clientspecified` to allow the client to specify which address to bind to.|
 |`ssh_allow_agent_forwarding` | false | false to disable Agent Forwarding. Set to true to allow Agent Forwarding.|
+|`ssh_x11_forwarding` | false | false to disable X11 Forwarding. Set to true to allow X11 Forwarding.|
 |`ssh_pam_support` | true | true if SSH has PAM support.|
 |`ssh_use_pam` | true | false to disable pam authentication.|
 |`ssh_gssapi_support` | false | true if SSH has GSSAPI support.|
@@ -45,9 +45,10 @@ Warning: This role disables root-login on the target server! Please make sure yo
 |`ssh_authorized_principals_file` | '' | specifies the file containing principals that are allowed. Only used if ssh_trusted_user_ca_keys_file is set. |
 |`ssh_authorized_principals` | [] | list of hashes containing file paths and authorized principals, see default_custom.yml for all options. Only used if ssh_authorized_principals_file is set. |
 |`ssh_print_motd` | false | false to disable printing of the MOTD|
+|`ssh_print_pam_motd` | false | false to disable printing of the MOTD via pam (Debian and Ubuntu)|
 |`ssh_print_last_log` | false | false to disable display of last login information|
 |`sftp_enabled` | false | true to enable sftp configuration|
-|`sftp_umask` | 0027 | Specifies the umask for sftp|
+|`sftp_umask` | '0027' | Specifies the umask for sftp|
 |`sftp_chroot` | true | false to disable chroot for sftp|
 |`sftp_chroot_dir` | /home/%u | change default sftp chroot location|
 |`ssh_client_roaming` | false | enable experimental client roaming|
@@ -57,16 +58,21 @@ Warning: This role disables root-login on the target server! Please make sure yo
 |`ssh_client_password_login` | false | `true` to allow password-based authentication with the ssh client |
 |`ssh_server_password_login` | false | `true` to allow password-based authentication with the ssh server |
 |`ssh_banner` | `false` | `true` to print a banner on login |
+|`ssh_banner_path`| '/etc/sshd/banner.txt' | path to the SSH banner file |
 |`ssh_client_hardening` | `true` | `false` to stop harden the client |
 |`ssh_client_port` | `'22'` | Specifies the port number to connect on the remote host. |
-|`ssh_compression` | `false` | Specifies whether compression is enabled after the user has authenticated successfully. |
+|`ssh_client_compression` | `false` | Specifies whether the client requests compression. |
+|`ssh_compression` | `false` | Specifies whether server-side compression is enabled after the user has authenticated successfully. |
+|`ssh_login_grace_time` | `30s` | specifies the time allowed for successful authentication to the SSH server |
 |`ssh_max_auth_retries` | `2` | Specifies the maximum number of authentication attempts permitted per connection. |
+|`ssh_max_sessions` | `10` | Specifies the maximum number of open sessions permitted from a given connection. |
 |`ssh_print_debian_banner` | `false` | `true` to print debian specific banner |
 |`ssh_server_enabled` | `true` | `false` to disable the opensshd server |
 |`ssh_server_hardening` | `true` | `false` to stop harden the server |
 |`ssh_server_match_address` | '' | Introduces a conditional block.  If all of the criteria on the Match line are satisfied, the keywords on the following lines override those set in the global section of the config file, until either another Match line or the end of the file. |
 |`ssh_server_match_group` | '' | Introduces a conditional block.  If all of the criteria on the Match line are satisfied, the keywords on the following lines override those set in the global section of the config file, until either another Match line or the end of the file. |
 |`ssh_server_match_user` | '' | Introduces a conditional block.  If all of the criteria on the Match line are satisfied, the keywords on the following lines override those set in the global section of the config file, until either another Match line or the end of the file. |
+|`ssh_server_match_local_port` | '' | Introduces a conditional block.  If all of the criteria on the Match line are satisfied, the keywords on the following lines override those set in the global section of the config file, until either another Match line or the end of the file. |
 |`ssh_server_permit_environment_vars` | `no` | `yes` to specify that ~/.ssh/environment and environment= options in ~/.ssh/authorized_keys are processed by sshd. With openssh version 7.8 it is possible to specify a whitelist of environment variable names in addition to global "yes" or "no" settings |
 |`ssh_server_accept_env_vars`| '' | Specifies what environment variables sent by the client will be copied into the session's enviroment, multiple environment variables may be separated by whitespace |
 |`ssh_use_dns` | `false` | Specifies whether sshd should look up the remote host name, and to check that the resolved host name for the remote IP address maps back to the very same IP address. |
@@ -99,6 +105,12 @@ Example playbook:
       - "AcceptEnv LANG"
 ```
 
+## Changing the default port and idempotency
+
+This role uses the default port 22 or the port configured in the inventory to connect to the server. If the default `ssh` port is changed via `ssh_server_ports`, once the ssh server is restarted, it will still try to connect using the previous port. In order to run this role again on the same server the inventory will have to be updated to use the new ssh port.
+
+If idempotency is important, please consider using role [`ssh-hardening-fallback`](https://github.com/nununo/ansible-ssh-hardening-fallback), which is a wrapper around this role that falls back to port 22 if the configured port is unreachable.
+
 ## Example Playbook
 
     - hosts: localhost
@@ -120,6 +132,7 @@ bundle install
 ```
 
 ### Testing with Docker
+
 ```
 # fast test on one machine
 bundle exec kitchen test ssh-ubuntu1804-ansible-latest

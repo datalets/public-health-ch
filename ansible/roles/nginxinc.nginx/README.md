@@ -1,414 +1,182 @@
-Ansible NGINX Role
-==================
-
 [![Ansible Galaxy](https://img.shields.io/badge/galaxy-nginxinc.nginx-5bbdbf.svg)](https://galaxy.ansible.com/nginxinc/nginx)
-[![Build Status](https://travis-ci.org/nginxinc/ansible-role-nginx.svg?branch=master)](https://travis-ci.org/nginxinc/ansible-role-nginx)
+[![Molecule CI/CD](https://github.com/nginxinc/ansible-role-nginx/workflows/Molecule%20CI/CD/badge.svg)](https://github.com/nginxinc/ansible-role-nginx/actions)
+[![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This role installs NGINX Open Source, NGINX Plus, the NGINX Amplify agent, or NGINX Unit on your target host.
+# 👾 *Help make the NGINX Ansible role better by participating in our [survey](https://forms.office.com/Pages/ResponsePage.aspx?id=L_093Ttq0UCb4L-DJ9gcUKLQ7uTJaE1PitM_37KR881UM0NCWkY5UlE5MUYyWU1aTUcxV0NRUllJSC4u)!* 👾
+
+# Ansible NGINX Role
+
+This role installs NGINX Open Source, NGINX Plus, or the NGINX Amplify agent on your target host.
 
 **Note:** This role is still in active development. There may be unidentified issues and the role variables may change as development continues.
 
-Requirements
-------------
+**Deprecation Warnings:**
 
-**Ansible**
+With the advent of Ansible collections and the release of the [NGINX Core Ansible collection](https://github.com/nginxinc/ansible-collection-nginx), the decision has been made to split this role into three smaller roles and reduce the overhead of this role:
+*   The NGINX Ansible role will keep working as is and be used to install and setup NGINX.
+*   **The NGINX configuration functionalities included in this role have been removed as of release 0.19.0.** There now is a separate role to manage and create NGINX configurations available [here](https://github.com/nginxinc/ansible-role-nginx-config). Any new issues or PRs related to configuring NGINX should be submitted in the new NGINX configuration Ansible role repository. New issues or PRs related to configuring NGINX submitted in this repository will not be worked on. This disclaimer will be removed in a future release.
+*   **The NGINX Unit functionalities included in this role have been removed as of release 0.18.0.** There now is a separate role to install NGINX Unit available [here](https://github.com/nginxinc/ansible-role-nginx-unit). Any new issues or PRs related to NGINX Unit should be submitted in the new NGINX Unit Ansible role repository. New issues or PRs related to NGINX Unit submitted in this repository will not be worked on. This disclaimer will be removed in a future release.
 
-This role was developed and tested with [maintained](https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#release-status) versions of Ansible. Backwards compatibility is not guaranteed.
+## Requirements
 
-Instructions on how to install Ansible can be found in the [Ansible website](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
+### Ansible
 
-**Molecule**
+*   This role is developed and tested with [maintained](https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#release-status) versions of Ansible. Backwards compatibility is not guaranteed.
+*   Instructions on how to install Ansible can be found in the [Ansible website](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
 
-Molecule is used to test the various functionailities of the role. Instructions on how to install Molecule can be found in the [Molecule website](https://molecule.readthedocs.io/en/latest/installation.html).
+### Molecule
 
-Installation
-------------
+*   Molecule `3.x` is used to test the various functionalities of the role.
+*   Instructions on how to install Molecule can be found in the [Molecule website](https://molecule.readthedocs.io/en/latest/installation.html).
 
-**Ansible Galaxy**
+## Installation
+
+### Ansible Galaxy
 
 Use `ansible-galaxy install nginxinc.nginx` to install the latest stable release of the role on your system.
 
-**Git**
+### Git
 
 Use `git clone https://github.com/nginxinc/ansible-role-nginx.git` to pull the latest edge commit of the role from GitHub.
 
-Platforms
----------
+## Platforms
 
-The NGINX Ansible role supports all platforms supported by [NGINX Open Source](https://nginx.org/en/linux_packages.html#mainline), [NGINX Plus](https://www.nginx.com/products/technical-specs/), the [NGINX Amplify agent](https://github.com/nginxinc/nginx-amplify-doc/blob/master/amplify-faq.md#21-what-operating-systems-are-supported), and [NGINX Unit](https://unit.nginx.org/installation/#official-packages):
+The NGINX Ansible role supports all platforms supported by [NGINX Open Source](https://nginx.org/en/linux_packages.html), [NGINX Plus](https://docs.nginx.com/nginx/technical-specs/), and the [NGINX Amplify agent](https://github.com/nginxinc/nginx-amplify-doc/blob/master/amplify-faq.md#21-what-operating-systems-are-supported):
 
-**NGINX Open Source**
+### NGINX Open Source
 
 ```yaml
 Alpine:
-  versions:
-    - 3.8
-    - 3.9
-    - 3.10
-    - 3.11
+  - 3.10
+  - 3.11
+  - 3.12
 CentOS:
-  versions:
-    - 6
-    - 7
-    - 8
+  - 7.4+
+  - 8
 Debian:
-  versions:
-    - stretch
-    - buster
-FreeBSD:
-  versions:
-    - 11.2+
-    - 12
-RedHat:
-  versions:
-    - 6
-    - 7.4+
-    - 8
+  - stretch
+  - buster
+Red Hat:
+  - 7.4+
+  - 8
 SUSE/SLES:
-  versions:
-    - 12
-    - 15
+  - 12
+  - 15
 Ubuntu:
-  versions:
-    - xenial
-    - bionic
+  - xenial
+  - bionic
+  - eoan
+  - focal
 ```
 
-**NGINX Plus**
+### NGINX Plus
 
 ```yaml
 Alpine:
-  versions:
-    - 3.8
-    - 3.9
-    - 3.10
-    - 3.11
+  - 3.10
+  - 3.11
+  - 3.12
 Amazon Linux:
-  versions:
-    - 2018.03
+  - 2018.03
 Amazon Linux 2:
-  versions:
-    - LTS
+  - any
 CentOS:
-  versions:
-    - 6.5+
-    - 7.4+
-    - 8
+  - 7.4+
+  - 8
 Debian:
-  versions:
-    - stretch
-    - buster
+  - stretch
+  - buster
 FreeBSD:
-  versions:
-    - 11.2+
-    - 12
+  - 11.2+
+  - 12
 Oracle Linux:
-  versions:
-    - 6.5+
-    - 7.4+
-RedHat:
-  versions:
-    - 6.5+
-    - 7.4+
-    - 8
+  - 6.5+
+  - 7.4+
+Red Hat:
+  - 7.4+
+  - 8
 SUSE/SLES:
-  versions:
-    - 12
-    - 15
+  - 12
+  - 15
 Ubuntu:
-  versions:
-    - xenial
-    - bionic
+  - xenial
+  - bionic
+  - eoan
+  - focal
 ```
 
-**NGINX Amplify Agent**
+### NGINX Amplify Agent
 
 ```yaml
 Amazon Linux:
-  versions:
-    - 2017.09
+  - 2017.09
 CentOS:
-  versions:
-    - 6
-    - 7
+  - 7
 Debian:
-  versions:
-    - jessie
-    - stretch
+  - jessie
+  - stretch
+Red Hat:
+  - 7
 Ubuntu:
-  versions:
-    - xenial
-    - bionic
-RedHat:
-  versions:
-    - 6
-    - 7
+  - xenial
+  - bionic
+  - focal
 ```
 
-**NGINX Unit**
+**Note:** You can also use this role to compile NGINX Open Source from source, install NGINX Open Source on compatible yet unsupported platforms, or install NGINX Open Source on BSD systems at your own risk.
 
-```yaml
-CentOS:
-  versions:
-    - 6
-    - 7
-RedHat:
-  versions:
-    - 6
-    - 7
-Debian:
-  versions:
-    - jessie
-    - stretch
-    - buster
-Ubuntu:
-  versions:
-    - xenial
-    - bionic
-Amazon Linux:
-  versions:
-    - 2018.03
-Amazon Linux 2:
-  versions:
-    - 2
-FreeBSD:
-  versions:
-    - 10
-    - 11
-```
+## Role Variables
 
-Role Variables
---------------
+This role has multiple variables. The descriptions and defaults for all these variables can be found in the **[`defaults/main/`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/)** folder in the following files:
 
-This role has multiple variables. The descriptions and defaults for all these variables can be found in the directory **`defaults/main`** in the following files:
+|Name|Description|
+|----|-----------|
+|**[`main.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/main.yml)**|NGINX installation variables|
+|**[`amplify.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/amplify.yml)**|NGINX Amplify agent installation variables|
+|**[`linux.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/linux.yml)**|Linux installation variables|
+|**[`bsd.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/defaults/main/bsd.yml)**|BSD installation variables|
 
--   **[defaults/main/main.yml](./defaults/main/main.yml):** NGINX installation variables
--   **[defaults/main/amplify.yml](./defaults/main/amplify.yml):** NGINX Amplify agent installation variables
--   **[defaults/main/template.yml](./defaults/main/template.yml):** NGINX configuration templating variables
--   **[defaults/main/upload.yml](./defaults/main/upload.yml):** NGINX configuration/HTML/SSL upload variables
--   **[defaults/main/linux.yml](./defaults/main/linux.yml):** Linux installation variables
--   **[defaults/main/bsd.yml](./defaults/main/bsd.yml):** BSD installation variables
--   **[defaults/main/unit.yml](./defaults/main/unit.yml):** NGINX Unit installation variables
+Similarly, descriptions and defaults for preset variables can be found in the **[`vars/`](https://github.com/nginxinc/ansible-role-nginx/blob/main/vars/)** folder in the following files:
 
-Dependencies
-------------
+|Name|Description|
+|----|-----------|
+|**[`main.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/vars/main.yml)**|List of supported NGINX platforms and modules|
 
-None
+## Example Playbooks
 
-Example Playbook
-----------------
+Working functional playbook examples can be found in the **[`molecule/common/playbooks/`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/common/playbooks/)** folder in the following files:
 
-This is a sample playbook file for deploying the Ansible Galaxy NGINX role in a localhost and installing the open source version of NGINX.
+|Name|Description|
+|----|-----------|
+|**[`default_converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/common/playbooks/default_converge.yml)**|Install a specific version of NGINX and set up logrotate|
+|**[`module_converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/common/playbooks/module_converge.yml)**|Install various NGINX supported modules|
+|**[`plus_converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/common/playbooks/plus_converge.yml)**|Install NGINX Plus and various NGINX Plus supported modules|
+|**[`source_converge.yml`](https://github.com/nginxinc/ansible-role-nginx/blob/main/molecule/common/playbooks/source_converge.yml)**|Install NGINX from source|
 
-```yaml
----
-- hosts: localhost
-  become: true
-  roles:
-    - role: nginxinc.nginx
-```
+Do note that if you install this repository via Ansible Galaxy, you will have to replace the role variable in the sample playbooks from `ansible-role-nginx` to `nginxinc.nginx`.
 
-This is a sample playbook file for deploying the Ansible Galaxy NGINX role to a dynamic inventory containing the `nginx` tag.
+## Other NGINX Ansible Collections and Roles
 
-```yaml
----
-- hosts: tag_nginx
-  remote_user: root
-  roles:
-    - role: nginxinc.nginx
-```
+You can find the Ansible NGINX Core collection of roles to install and configure NGINX Open Source, NGINX Plus, and NGINX App Protect [here](https://github.com/nginxinc/ansible-collection-nginx).
 
-This is a sample playbook file for deploying the Ansible Galaxy NGINX role in a localhost and installing the open source version of NGINX as a simple web server.
+You can find the Ansible NGINX configuration role to configure NGINX [here](https://github.com/nginxinc/ansible-role-nginx-config).
 
-```yaml
----
-- hosts: localhost
-  become: true
-  roles:
-    - role: nginxinc.nginx
-  vars:
-    nginx_http_template_enable: true
-    nginx_http_template:
-      default:
-        template_file: http/default.conf.j2
-        conf_file_name: default.conf
-        conf_file_location: /etc/nginx/conf.d/
-        servers:
-          server1:
-            listen:
-              listen_localhost:
-                # ip: 0.0.0.0
-                port: 80
-            server_name: localhost
-            error_page: /usr/share/nginx/html
-            autoindex: false
-            web_server:
-              locations:
-                default:
-                  location: /
-                  html_file_location: /usr/share/nginx/html
-                  html_file_name: index.html
-                  autoindex: false
-              http_demo_conf: false
-```
+You can find the Ansible NGINX App Protect role to install and configure NGINX App Protect [here](https://github.com/nginxinc/ansible-role-nginx-app-protect).
 
-This is a sample playbook file for deploying the Ansible Galaxy NGINX role in a localhost and installing the open source version of NGINX as a reverse proxy.
+You can find the Ansible NGINX Controller collection of roles to install and configure NGINX Controller [here](https://github.com/nginxinc/ansible-collection-nginx_controller).
 
-```yaml
----
-- hosts: localhost
-  become: true
-  roles:
-    - role: nginxinc.nginx
-  vars:
-    nginx_http_template_enable: true
-    nginx_http_template:
-      default:
-        template_file: http/default.conf.j2
-        conf_file_name: default.conf
-        conf_file_location: /etc/nginx/conf.d/
-        servers:
-          server1:
-            listen:
-              listen_localhost:
-                # ip: 0.0.0.0
-                port: 80
-                opts:
-                  - default_server
-            server_name: localhost
-            error_page: /usr/share/nginx/html
-            autoindex: false
-            reverse_proxy:
-              locations:
-                frontend:
-                  location: /
-                  proxy_pass: http://frontend_servers
-                backend:
-                  location: /backend
-                  proxy_pass: http://backend_servers
-        upstreams:
-          upstream_1:
-            name: frontend_servers
-            lb_method: least_conn
-            zone_name: frontend
-            zone_size: 64k
-            sticky_cookie: false
-            servers:
-              frontend_server_1:
-                address: 0.0.0.0
-                port: 8081
-                weight: 1
-                health_check: max_fails=3 fail_timeout=5s
-          upstream_2:
-            name: backend_servers
-            lb_method: least_conn
-            zone_name: backend
-            zone_size: 64k
-            sticky_cookie: false
-            servers:
-              backend_server_1:
-                address: 0.0.0.0
-                port: 8082
-                weight: 1
-                health_check: max_fails=3 fail_timeout=5s
-      frontend:
-        template_file: http/default.conf.j2
-        conf_file_name: frontend_default.conf
-        conf_file_location: /etc/nginx/conf.d/
-        servers:
-          server1:
-            listen:
-              listen_localhost:
-                ip: 0.0.0.0
-                port: 8081
-                ssl: false
-                opts: []
-            server_name: localhost
-            error_page: /usr/share/nginx/html
-            autoindex: false
-            web_server:
-              locations:
-                frontend_site:
-                  location: /
-                  proxy_hide_headers:
-                    - X-Powered-By
-                  html_file_location: /usr/share/nginx/html
-                  html_file_name: index.html
-                  autoindex: false
-              http_demo_conf: false
-      backend:
-        template_file: http/default.conf.j2
-        conf_file_name: backend_default.conf
-        conf_file_location: /etc/nginx/conf.d/
-        servers:
-          server1:
-            listen:
-              listen_localhost:
-                ip: 0.0.0.0
-                port: 8082
-                ssl: false
-                opts: []
-            server_name: localhost
-            error_page: /usr/share/nginx/html
-            autoindex: false
-            web_server:
-              locations:
-                backend_site:
-                  location: /
-                  html_file_location: /usr/share/nginx/html
-                  html_file_name: index.html
-                  autoindex: false
-              http_demo_conf: false
-```
+You can find the Ansible NGINX Unit role to install NGINX Unit [here](https://github.com/nginxinc/ansible-role-nginx-unit).
 
+## License
 
-This is a sample playbook file for deploying the Ansible Galaxy NGINX role in a localhost and installing NGINX Plus.
+[Apache License, Version 2.0](https://github.com/nginxinc/ansible-role-nginx/blob/main/LICENSE)
 
-```yaml
----
-- hosts: localhost
-  become: true
-  roles:
-    - role: nginxinc.nginx
-  vars:
-    nginx_type: plus
-```
-
-This is a sample playbook file for deploying the Ansible Galaxy NGINX role in a localhost to install NGINX Unit and the PHP/Perl NGINX Unit language modules.
-
-```yaml
----
-- hosts: localhost
-  become: true
-  roles:
-    - role: nginxinc.nginx
-  vars:
-    nginx_enable: false
-    nginx_unit_enable: true
-    nginx_unit_modules:
-      - unit-php
-      - unit-perl
-```
-
-To run any of the above sample playbooks create a `setup-nginx.yml` file and paste the contents. Executing the Ansible Playbook is then as simple as executing `ansible-playbook setup-nginx.yml`.
-
-Alternatively, you can also clone this repository instead of installing it from Ansible Galaxy. If you decide to do so, replace the role variable in the previous sample playbooks from `nginxinc.nginx` to `ansible-role-nginx`.
-
-Other NGINX Roles
------------------
-
-You can find an Ansible collection of roles to help you install and configure NGINX Controller [here](https://github.com/nginxinc/ansible-collection-nginx_controller)
-
-License
--------
-
-[Apache License, Version 2.0](https://github.com/nginxinc/ansible-role-nginx/blob/master/LICENSE)
-
-Author Information
-------------------
+## Author Information
 
 [Alessandro Fael Garcia](https://github.com/alessfg)
 
 [Grzegorz Dzien](https://github.com/gdzien)
 
-&copy; [NGINX, Inc.](https://www.nginx.com/) 2018 - 2020
+[Tom Gamull](https://github.com/magicalyak)
+
+&copy; [F5 Networks, Inc.](https://www.f5.com/) 2018 - 2021
