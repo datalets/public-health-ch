@@ -5,6 +5,11 @@
   apt:
     pkg: make
 
+- name: Ensure g++ is installed
+  become: true
+  apt:
+    pkg: g++
+
 - name: Create release directory
   file: path={{ release_dir }} state=directory owner=ansible group=ansible mode=u=rwX,g=rX,o=rX
   become: true
