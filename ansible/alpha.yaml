@@ -3,13 +3,10 @@
   gather_facts: True
   vars:
     ssh_server_ports: "{{ vault_ssh_server_ports }}"
-    nginx_add_header: []
     sysctl_overwrite:
       # Enable IPv4 traffic forwarding.
       net.ipv4.ip_forward: 1
   roles:
     - role: dev-sec.os-hardening
     - role: dev-sec.ssh-hardening
-    - role: nginxinc.nginx
-    - role: dev-sec.nginx-hardening
     - role: jnv.unattended-upgrades

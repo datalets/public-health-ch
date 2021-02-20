@@ -77,7 +77,12 @@ Now access the admin panel with the user account you created earlier: http://loc
 
 ## Troubleshooting
 
-- Issues with migrating database tables in SQLite during development? Try `./manage.py migrate --fake`
+Issues with migrating database tables in SQLite during development? Try `./manage.py migrate --fake`
+
+Having trouble installing any packages with npm or yarn? Add IPv6 addresses to your hosts:
+
+   2606:4700::6810:1823 registry.npmjs.org
+   2606:4700::6810:1123 registry.yarnpkg.com
 
 ## Production notes
 
@@ -85,14 +90,10 @@ We use [Ansible](https://www.ansible.com) and [Docker Compose](https://docs.dock
 
 To use Docker Compose to manually deploy the site, copy `ansible/roles/web/templates/docker-compose.j2` to `/docker-compose.yml` and fill in all `{{ variables }}`. This can also be done automatically in Ansible.
 
-Install or update the following roles from [Ansible Galaxy](https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html) to use our scripts:
+To update all roles from [Ansible Galaxy](https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html) used in our install scripts:
 
 ```
-ansible-galaxy install \
-   dev-sec.nginx-hardening \
-   dev-sec.ssh-hardening \
-   dev-sec.os-hardening \
-   geerlingguy.nodejs
+ansible-galaxy install `ls ansible/roles -x -I wagtail` --force
 ```
 
 To check that the scripts and roles are correctly installed, use this command to do a "dry run":
@@ -122,14 +123,6 @@ ansible-playbook ansible/site.yaml -i ansible/inventories/lagoon --tags release 
 You can also use the `gitrepo` parameter to use a different fork of the source code.
 
 Once the basic system set up, i.e. you have an `ansible` user in the sudoers and docker group, you are ready to run the playbook.
-
-The typical order of deployment is:
-
-- internet.yaml
-- docker.yaml
-- node.yaml
-- web.yaml
-- wagtail.yaml
 
 ### Production releases
 

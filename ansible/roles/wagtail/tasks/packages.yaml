@@ -12,32 +12,6 @@
   file: dest={{ release_dir }}/static owner=ansible group=www-data mode=u=rwX,g=rX,o=rX recurse=yes
   become: true
 
-- name: Install JavaScript Yarn
-  become: true
-  npm:
-    name: yarn
-    global: true
-
-- name: Link the Yarn executable
-  become: true
-  file:
-    src: "/usr/local/lib/npm/bin/yarn"
-    dest: "/usr/local/bin/yarn"
-    state: link
-
-- name: Install JavaScript Grunt
-  become: true
-  yarn:
-    name: grunt-cli
-    global: true
-
-- name: Link the Grunt executable
-  become: true
-  file:
-    src: "/usr/local/lib/npm/bin/grunt"
-    dest: "/usr/local/bin/grunt"
-    state: link
-
 - name: Install JavaScript packages with Yarn
   yarn:
     path: "{{ release_dir }}"
