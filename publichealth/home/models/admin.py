@@ -9,7 +9,7 @@ from wagtail.contrib.settings.models import BaseSetting, register_setting
 
 # A simple feedback module built into the site admin
 
-@register_setting(icon='help')
+@register_setting(icon='', classnames='icon icon-help')
 class DataletsSettings(BaseSetting):
     feedback_question = models.TextField(verbose_name='Name',
         help_text='Who should we reply to for questions?', blank=True)
