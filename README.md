@@ -15,7 +15,7 @@ To set up a full development environment, follow all these instructions.
 
 **Frontend setup**
 
-Make sure a recent version of node.js (we recommend using [nave.sh](https://gipublichealth/static/org/archive-message.htmlthub.com/isaacs/nave)), then:
+Use the LTS version of node.js (we recommend using [nave.sh](https://gipublichealth/static/org/archive-message.htmlthub.com/isaacs/nave) with `nave use lts`), then:
 
 ```
 npm install -g yarn grunt-cli
