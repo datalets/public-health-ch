@@ -1,7 +1,7 @@
 # Updated: 11.12.2020
 
 # Core
-wagtail==2.11.3
+wagtail==2.13.1
 elasticsearch>=5.0.0,<6.0.0
 
 # Database
@@ -13,24 +13,21 @@ puput==1.1.1
 guess-language-spirit==0.5.3
 
 # Caching
-django-redis==4.12.1
+django-redis==5.0.0
 
 # Frontend
-django-anymail==8.1
+django-anymail==8.3
 django-colorful==1.3
-django-crispy-forms==1.10.0
+django-crispy-forms==1.11.2
 django-el-pagination==3.3.0
 django-libsass==0.8
-django-social-share==2.1.0
-django-contrib-comments==1.9.2
-libsass==0.20.1
-Pillow==8.0.1
+django-social-share==2.2.1
+django-contrib-comments==2.1.0
+libsass==0.21.0
+Pillow==8.2.0
 
 # Runtime dependencies
 gunicorn
 whitenoise
 python-dotenv
 ConcurrentLogHandler
-
-# Development tools
-stellar
