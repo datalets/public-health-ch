@@ -1,7 +1,7 @@
-# Updated: 11.12.2020
+# Updated: 14.07.2021
 
 # Core
-wagtail==2.13.1
+wagtail==2.12.4
 elasticsearch>=5.0.0,<6.0.0
 
 # Database
@@ -18,11 +18,11 @@ django-redis==5.0.0
 # Frontend
 django-anymail==8.3
 django-colorful==1.3
-django-crispy-forms==1.11.2
+django-contrib-comments==2.1.0
+django-crispy-forms==1.12.0
 django-el-pagination==3.3.0
 django-libsass==0.8
 django-social-share==2.2.1
-django-contrib-comments==2.1.0
 libsass==0.21.0
 Pillow==8.2.0
 
