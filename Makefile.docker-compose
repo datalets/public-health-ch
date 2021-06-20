@@ -1,0 +1,121 @@
+export COMPOSE_FILE=./docker-compose.yml
+export COMPOSE_PROJECT_NAME=publichealth
+export EMAIL=change_me@localhost.localhost
+
+default: build
+
+local-loaddata:
+	sed -i 's/\"is_default_site\": true/\"is_default_site\": false/g' publichealth.home.json
+	python manage.py loaddata publichealth.home.json
+
+upgrade:
+	docker-compose pull
+
+build-cached:
+	docker-compose build
+
+build:
+	docker-compose build --no-cache
+
+run-here:
+	docker-compose stop web	# for restart cases, when already running
+	docker-compose up
+
+run:
+	docker-compose up -d # detach by default
+
+stop:
+	docker-compose stop web
+
+restart: stop run
+
+migrate:
+	docker-compose exec web ./manage.py migrate
+
+migrations:
+	docker-compose exec web ./manage.py makemigrations --merge
+
+apply-migrations: migrations migrate
+
+setup:
+	docker-compose exec web ./manage.py migrate
+	docker-compose exec web ./manage.py createsuperuser --username admin --email $(EMAIL) --noinput
+
+rebuild:
+	docker-compose pull
+	docker-compose build web
+	docker-compose stop web
+	docker-compose kill web
+
+compress:
+	docker-compose exec web ./manage.py collectstatic --noinput -i media
+	docker-compose exec web ./manage.py compress
+
+release: rebuild compress run
+
+reindex:
+	docker-compose exec web ./manage.py update_index
+
+clear_index:
+	docker-compose exec elasticsearch curl -XDELETE localhost:9200/_all
+
+django-exec-bash:
+	# execute bash in the currently running container
+	docker-compose exec web bash
+
+django-run-bash:
+	# run new django container, with bash, and remove it after usage
+	docker-compose run --rm --no-deps web bash
+
+django-shell:
+	docker-compose exec web ./manage.py shell
+
+logs:
+	docker-compose exec web tail /var/log/wagtail/publichealth.log /var/log/wagtail/wagtail.log /var/log/wagtail/error.log
+
+docker-logs:
+	docker-compose logs -f --tail=500
+
+backup-data:
+	docker-compose exec web ./manage.py dumpdata --natural-foreign -e auth.permission -e contenttypes -e wagtailcore.GroupCollectionPermission -e wagtailcore.GroupPagePermission -e wagtailimages.rendition -e sessions -e feedler.feedlysettings > ~/publichealth.home.json
+	zip ~/publichealth.home.json.`date +"%d%m%Y-%H%M"`.zip ~/publichealth.home.json
+	rm ~/publichealth.home.json
+
+backup-images:
+	echo "Backing up images ..."
+	sudo chown -R ansible media
+	zip -ruq ~/media.zip media
+
+backup: backup-data backup-images
+
+loaddata:
+	docker-compose exec web ./manage.py loaddata publichealth.home.json
+
+restore: django-loaddata restart
+
+psql:
+	docker-compose exec postgres psql -U postgres -d postgres
+
+pg-run-detached:
+	# start pg service
+	docker-compose up -d postgres
+
+pg-exec:
+	docker-compose exec postgres bash
+
+pg-dump:
+	docker-compose exec postgres bash -c 'pg_dump -U postgres -d postgres -f ./latest.sql'
+
+pg-backup:
+	docker-compose exec postgres bash -c 'pg_dump -U postgres -d postgres' > ~/pg-backup.sql
+	zip ~/pg-backup.sql.`date +"%d%m%Y-%H%M"`.zip ~/pg-backup.sql
+	rm ~/pg-backup.sql
+
+pg-restore:
+	docker-compose exec postgres bash -c 'psql -U postgres -d postgres -f ./latest.sql'
+
+pg-surefire-drop-restore-db:
+	# drop existing database, recreate it, and then restore its content from backup.
+	docker-compose exec postgres bash -c 'dropdb -h localhost -U postgres postgres'
+	docker-compose exec postgres bash -c 'createdb -h localhost -U postgres postgres'
+	make pg-restore
