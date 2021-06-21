@@ -32,10 +32,16 @@ If you are only working on the frontend, you can start a local webserver and wor
 
 **Backend setup**
 
-If not using Vagrant: after installing Python 3, from the project folder, deploy system packages and create a virtual environment as detailed (for Ubuntu users) below:
+If not using Vagrant: after installing Python 3, from the project folder, deploy system packages (here shown for Ubuntu users) for the development libraries of Python, libJPEG and libPQ (Postgres Client):
 
 ```
-sudo apt-get install python3-venv python3-dev libjpeg-dev
+sudo apt-get install python3-dev libjpeg-dev libpq-dev
+```
+
+Create a virtual environment as below:
+
+```
+sudo apt-get install python3-venv
 
 pyvenv env
 . env/bin/activate
