@@ -1,7 +1,12 @@
 ---
-# Install NGINX.
+# Enable NGINX options -- `nginx_install` and `nginx_configure`.
 # Default is true.
 nginx_enable: true
+
+# Install NGINX and NGINX modules.
+# Variables for these options can be found below.
+# Default is true.
+nginx_install: true
 
 # Start NGINX service.
 # Default is true.
@@ -15,14 +20,14 @@ nginx_debug_output: false
 # Default is 'opensource'.
 nginx_type: opensource
 
-# Specify which version of NGINX you want to install.
-# Default is empty.
+# (Optional) Specify which version of NGINX you want to install.
+# Default is to install the latest release.
 # nginx_version: "=19-1~bionic"
-# For Plus and modules you'll need a wilcard like below (which installs plus-20 and modules)
+# For NGINX Plus and modules you'll need a wilcard like below (which installs plus-20 and modules)
 # nginx_version: "-20*"
 
 # Specify whether you want to maintain your version of NGINX, upgrade to the latest version, or remove NGINX.
-# Can be used with `nginx_version` to achieve fine tune control on which version of NGINX is installed/used on each playbook execution.
+# Can be used with `nginx_version` to fine tune control on which version of NGINX is installed/used on each playbook execution.
 # Using 'present' will install the latest version (or 'nginx_version') of NGINX on a fresh install.
 # Using 'latest' will upgrade NGINX to the latest version (that matches your 'nginx_version') of NGINX on every playbook execution.
 # Using 'absent' will remove NGINX from your system.
@@ -36,27 +41,24 @@ nginx_state: present
 nginx_install_from: nginx_repository
 
 # Specify source install options for NGINX Open Source.
-# Options represent whether to install from source also
-# or to install from packages (default). These only apply
-# if 'nginx_install_from' is set to 'source'
-# For the tools, true means we will isntall from a package
-# and false means install from source.
-# 'nginx_install_source_build_tools' will install compiler
-# and build tools from packages.  If false, you need to have
-# these present.
+# Options represent whether to install from source also or to install from packages (default).
+# These only apply if 'nginx_install_from' is set to 'source'.
+# For the tools, true means we will install from a package and false means install from source.
+# 'nginx_install_source_build_tools' will install compiler and build tools from packages.
+# If false, you need to have these present.
 nginx_install_source_build_tools: true
 nginx_install_source_pcre: false
 nginx_install_source_openssl: true
 nginx_install_source_zlib: false
 
-# Choose where to fetch the NGINX signing key from.
+# (Optional) Choose where to fetch the NGINX signing key from.
 # Default is the official NGINX signing key host.
 # nginx_signing_key: http://nginx.org/keys/nginx_signing.key
 
-# Specify source repository for NGINX Open Source.
-# Only works if 'install_from' is set to 'nginx_repository'.
+# (Optional) Specify repository for NGINX Open Source or NGINX Plus.
+# Only works if 'install_from' is set to 'nginx_repository' when installing NGINX Open Source.
 # Defaults are the official NGINX repositories.
-# nginx_repository: deb https://nginx.org/packages/mainline/debian/ stretch nginx
+# nginx_repository: deb [arch=amd64] https://nginx.org/packages/mainline/debian/ buster nginx
 
 # Specify which branch of NGINX Open Source you want to install.
 # Options are 'mainline' or 'stable'.
@@ -70,24 +72,37 @@ nginx_license:
   certificate: license/nginx-repo.crt
   key: license/nginx-repo.key
 
+# Set up NGINX Plus license before installation.
+# Default is true.
+nginx_setup_license: true
+
 # Remove NGINX Plus license and repository after installation for security purposes.
-# Default is false.
-nginx_delete_license: false
+# Default is true.
+nginx_remove_license: true
 
-# Install NGINX JavaScript, Perl, ModSecurity WAF (NGINX Plus only), GeoIP, Image-Filter, RTMP Media Streaming (NGINX Plus only), and/or XSLT modules.
-# Default is false.
-nginx_modules:
-  njs: false
-  perl: false
-  waf: false
-  geoip: false
-  image_filter: false
-  rtmp: false
-  xslt: false
-
-# Remove previously existing NGINX configuration files.
-# Use a list of paths you wish to remove.
-# Default is false.
-nginx_cleanup_config: false
-nginx_cleanup_config_path:
-  - /etc/nginx/conf.d
+# Install NGINX Modules.
+# You can select any of the modules listed below. Beware of NGINX Plus only modules (these are marked).
+# Format is list with either the module name or a dictionary (see njs for an example).
+# When using a dictionary, the default value for state is present, and for version it's nginx_version if specified.
+# Default is an empty list (no modules are installed).
+nginx_modules: []
+  # - auth-spnego  # NGINX Plus
+  # - brotli  # NGINX Plus
+  # - cookie-flag  # NGINX Plus
+  # - encrypted-session  # NGINX Plus
+  # - geoip
+  # - geoip2  # NGINX Plus
+  # - headers-more  # NGINX Plus
+  # - image-filter
+  # - lua  # NGINX Plus
+  # - name: njs  # Required
+  #   state: present  # Optional
+  #   version: =1.19.4+0.4.4-1~bionic  # Optional
+  # - opentracing  # NGINX Plus
+  # - passenger  # NGINX Plus
+  # - perl  # NGINX Plus
+  # - prometheus  # NGINX Plus
+  # - rtmp
+  # - subs-filter  # NGINX Plus
+  # - waf  # NGINX Plus
+  # - xslt

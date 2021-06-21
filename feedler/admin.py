@@ -9,10 +9,11 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.shortcuts import redirect
 
+from wagtail.admin import messages
 from wagtail.contrib.modeladmin.helpers import AdminURLHelper, ButtonHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin
 from wagtail.contrib.modeladmin.views import IndexView
-from wagtail.admin import messages
+from wagtail.core.models import Site
 
 from feedler.models import Entry
 from feedler.refresh import refresh_streams
@@ -66,7 +67,8 @@ class RefreshView(IndexView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         super().dispatch(request, *args, **kwargs)
-        if not refresh_streams(FeedlySettings.for_site(request.site)):
+        site = Site.find_for_request(request)
+        if not refresh_streams(FeedlySettings.for_site(site)):
             messages.error(
                 request, _('Sorry, could not refresh streams. Please try again in a few minutes, then contact support if the issue persists.'))
         return redirect('/admin/feedler/entry/')

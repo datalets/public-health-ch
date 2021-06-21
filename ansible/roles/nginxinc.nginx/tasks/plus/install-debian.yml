@@ -1,0 +1,29 @@
+---
+- name: (Debian/Ubuntu) {{ nginx_license_status is defined | ternary('Remove', 'Configure') }} NGINX Plus license verification
+  blockinfile:
+    path: /etc/apt/apt.conf.d/90nginx
+    create: yes
+    block: |
+      Acquire::https::plus-pkgs.nginx.com::Verify-Peer "true";
+      Acquire::https::plus-pkgs.nginx.com::Verify-Host "true";
+      Acquire::https::plus-pkgs.nginx.com::SslCert     "/etc/ssl/nginx/nginx-repo.crt";
+      Acquire::https::plus-pkgs.nginx.com::SslKey      "/etc/ssl/nginx/nginx-repo.key";
+    state: "{{ nginx_license_status | default ('present') }}"
+    mode: 0444
+
+- name: (Debian/Ubuntu) {{ nginx_license_status is defined | ternary('Remove', 'Configure') }} NGINX Plus repository
+  apt_repository:
+    filename: nginx-plus
+    repo: "{{ nginx_repository | default(nginx_plus_default_repository_debian) }}"
+    update_cache: no
+    state: "{{ nginx_license_status | default ('present') }}"
+    mode: 0644
+
+- name: (Debian/Ubuntu) Install NGINX Plus
+  apt:
+    name: "nginx-plus{{ nginx_version | default('') }}"
+    state: "{{ nginx_state }}"
+    update_cache: yes
+  ignore_errors: "{{ ansible_check_mode }}"
+  when: nginx_license_status is not defined
+  notify: (Handler) Run NGINX

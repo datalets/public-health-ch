@@ -15,7 +15,7 @@ To set up a full development environment, follow all these instructions.
 
 **Frontend setup**
 
-Make sure a recent version of node.js (we recommend using [nave.sh](https://gipublichealth/static/org/archive-message.htmlthub.com/isaacs/nave)), then:
+Use the LTS version of node.js (we recommend using [nave.sh](https://gipublichealth/static/org/archive-message.htmlthub.com/isaacs/nave) with `nave use lts`), then:
 
 ```
 npm install -g yarn grunt-cli
@@ -32,10 +32,16 @@ If you are only working on the frontend, you can start a local webserver and wor
 
 **Backend setup**
 
-If not using Vagrant: after installing Python 3, from the project folder, deploy system packages and create a virtual environment as detailed (for Ubuntu users) below:
+If not using Vagrant: after installing Python 3, from the project folder, deploy system packages (here shown for Ubuntu users) for the development libraries of Python, libJPEG and libPQ (Postgres Client):
 
 ```
-sudo apt-get install python3-venv python3-dev libjpeg-dev
+sudo apt-get install python3-dev libjpeg-dev libpq-dev
+```
+
+Create a virtual environment as below:
+
+```
+sudo apt-get install python3-venv
 
 pyvenv env
 . env/bin/activate
@@ -77,7 +83,14 @@ Now access the admin panel with the user account you created earlier: http://loc
 
 ## Troubleshooting
 
-- Issues with migrating database tables in SQLite during development? Try `./manage.py migrate --fake`
+Issues with migrating database tables in SQLite during development? Try `./manage.py migrate --fake`
+
+Trouble installing packages with npm or yarn? Add IPv6 addresses to your hosts:
+
+   2606:4700:10::6814:162e nodejs.org
+   2606:4700::6810:1823 registry.npmjs.org
+   2606:4700::6810:1123 registry.yarnpkg.com
+   2a0a:e5c0:2:10::8c52:790a codeload.github.com
 
 ## Production notes
 
@@ -85,58 +98,46 @@ We use [Ansible](https://www.ansible.com) and [Docker Compose](https://docs.dock
 
 To use Docker Compose to manually deploy the site, copy `ansible/roles/web/templates/docker-compose.j2` to `/docker-compose.yml` and fill in all `{{ variables }}`. This can also be done automatically in Ansible.
 
-Install or update the following roles from [Ansible Galaxy](https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html) to use our scripts:
+To update all roles from [Ansible Galaxy](https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html) used in our install scripts:
 
 ```
-ansible-galaxy install \
-   dev-sec.nginx-hardening \
-   dev-sec.ssh-hardening \
-   dev-sec.os-hardening \
-   geerlingguy.nodejs
+ansible-galaxy install `ls ansible/roles -x -I wagtail` --force
 ```
 
 To check that the scripts and roles are correctly installed, use this command to do a "dry run":
 
 ```
-ansible-playbook ansible/*.yaml -i ansible/inventories/production --list-tasks
+ansible-playbook ansible/*.yaml -i ansible/inventories/lagoon --list-tasks
 ```
 
 If you only want to run a certain set of actions, subset the tags which you see in the output above. For example, to only update the NGINX configuration:
 
 ```
-ansible-playbook ansible/web.yaml -i ansible/inventories/production --tags "nginx_template_config"
+ansible-playbook ansible/web.yaml -i ansible/inventories/lagoon --tags "nginx_template_config"
 ```
 
 To do production deployments, you need to obtain SSH and vault keys from your system administrator (who has followed the Ansible guide to set up a vault..), and place these in a `.keys` folder. To deploy a site:
 
 ```
-ansible-playbook ansible/*.yaml -i ansible/inventories/production
+ansible-playbook ansible/*.yaml -i ansible/inventories/lagoon
 ```
 
 For an update release with a specific version (tag or branch), use (the `-v` parameter showing output of commands):
 
 ```
-ansible-playbook ansible/site.yaml -i ansible/inventories/production --tags release -v -e gitversion=<v*.*.*>
+ansible-playbook ansible/site.yaml -i ansible/inventories/lagoon --tags release -v -e gitversion=<v*.*.*>
 ```
 
 You can also use the `gitrepo` parameter to use a different fork of the source code.
 
 Once the basic system set up, i.e. you have an `ansible` user in the sudoers and docker group, you are ready to run the playbook.
 
-The typical order of deployment is:
-
-- internet.yaml
-- docker.yaml
-- node.yaml
-- web.yaml
-- wagtail.yaml
-
 ### Production releases
 
 For further deployment and system maintenance we have a `Makefile` which automates Docker Compose tasks. This should be converted to use [Ansible Container](http://docs.ansible.com/ansible-container/getting_started.html). In the meantime, start a release with Ansible, then complete it using `make`, i.e.:
 
 ```
-ansible-playbook -i ansible/inventories/production --tags release ansible/wagtail.yaml
+ansible-playbook -i ansible/inventories/lagoon --tags release ansible/wagtail.yaml
 ssh -i .keys/ansible.pem ansible@<server-ip> "cd <release_dir> && make release"
 ```
 

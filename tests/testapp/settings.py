@@ -28,8 +28,8 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    # 'wagtail.contrib.legacy.sitemiddleware.SiteMiddleware', # deprecated in 2.11
 )
 
 ROOT_URLCONF = 'tests.testapp.urls'
