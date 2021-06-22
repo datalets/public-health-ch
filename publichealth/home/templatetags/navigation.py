@@ -2,6 +2,8 @@
 from django import template
 from django.utils import translation
 
+from wagtail.core.models import Site
+
 register = template.Library()
 
 @register.simple_tag()
@@ -35,7 +37,7 @@ def language_switcher(context):
 
 @register.simple_tag(takes_context=True)
 def get_site(context):
-    return context['request'].site
+    return Site.find_for_request(context['request'])
 
 @register.simple_tag(takes_context=True)
 def get_site_root(context):

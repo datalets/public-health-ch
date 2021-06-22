@@ -11,6 +11,10 @@ import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "publichealth.settings.production")
 
+# Loads environment variables from a .env file if available.
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.

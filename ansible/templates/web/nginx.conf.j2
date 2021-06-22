@@ -7,12 +7,12 @@ upstream wagtail-site {
 }
 server {
 	server_name _;
-	listen 80 default_server;
+	listen [::]:80 default_server;
 	return 301 https://$host$request_uri;
 }
 server {
 	server_name _;
-	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
 
 	ssl_certificate /etc/ssl/certs/cloudflare.pem;
 	ssl_certificate_key /etc/ssl/certs/cloudflare.key;

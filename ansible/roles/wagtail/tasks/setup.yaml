@@ -1,0 +1,26 @@
+---
+
+- name: Copy Docker site configuration
+  template:
+    src: docker-compose.j2
+    dest: "{{ release_dir }}/docker-compose.yml"
+
+- name: Deploy Wagtail site on Docker
+  shell: make build-cached
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Start Wagtail site
+  shell: make run
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Prepare compress frontend
+  shell: make compress
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Finish setup of Wagtail site
+  shell: make setup EMAIL={{ email_admin }}
+  args:
+    chdir: "{{ release_dir }}"

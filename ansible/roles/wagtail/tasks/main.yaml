@@ -1,13 +1,17 @@
 ---
 
-- include: frontend.yaml
-  tags:
-    - frontend
-
 - include: install.yaml
   tags:
     - install
 
+- include: packages.yaml
+  tags:
+    - packages
+
 - include: release.yaml
   tags:
     - release
+
+- include: setup.yaml
+  tags:
+    - setup

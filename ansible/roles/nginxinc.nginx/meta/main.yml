@@ -2,7 +2,8 @@
 galaxy_info:
   author: Alessandro Fael Garcia
   description: Official Ansible role for NGINX
-  company: NGINX, Inc.
+  role_name: nginx
+  company: F5 Networks, Inc.
 
   license: Apache License, Version 2.0
 
@@ -11,19 +12,21 @@ galaxy_info:
   platforms:
     - name: Alpine
       versions:
-        - all
+        - any
     - name: Amazon
       versions:
-        - Candidate
+        - 2018.03
+    - name: Amazon Linux 2
+      versions:
+        - any
     - name: Debian
       versions:
-        - jessie
         - stretch
         - buster
     - name: EL
       versions:
-        - 6
         - 7
+        - 8
     - name: FreeBSD
       versions:
         - 11.2
@@ -32,6 +35,7 @@ galaxy_info:
       versions:
         - xenial
         - bionic
+        - focal
     - name: SLES
       versions:
         - 12
@@ -40,11 +44,11 @@ galaxy_info:
   galaxy_tags:
     - nginx
     - oss
+    - opensource
     - plus
-    - amplify
-    - unit
     - web
     - server
     - development
+    - install
 
 dependencies: []
