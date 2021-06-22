@@ -9,9 +9,7 @@ This project is open source under the [MIT License](LICENSE.md).
 
 ## Development environment
 
-The easiest way to set up your machine would be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *publichealth/static/org/archive-message.html#Database setup*.
-
-To set up a full development environment, follow all these instructions.
+An easy way to set up your machine could be to use [Vagrant](https://vagrantup.com), then in the project folder in the terminal type: `vagrant up`. Then when it is ready, follow instructions for *publichealth/static/org/archive-message.html#Database setup*. To set up a full development environment using Docker or native components, follow all these instructions.
 
 **Frontend setup**
 
@@ -94,9 +92,13 @@ Trouble installing packages with npm or yarn? Add IPv6 addresses to your hosts:
 
 ## Production notes
 
-We use [Ansible](https://www.ansible.com) and [Docker Compose](https://docs.docker.com/compose/reference/overview/) for automated deployment.
+Currently the project has two main production deployment strategies: native and Docker Compose, the latter optionally managed by Ansible. Native is currently the default one. To switch to Docker Compose, change the symbolic `Makefile` link to point to `Makefile.docker-compose` or run your make commands as follows:
 
-To use Docker Compose to manually deploy the site, copy `ansible/roles/web/templates/docker-compose.j2` to `/docker-compose.yml` and fill in all `{{ variables }}`. This can also be done automatically in Ansible.
+`$ make -f Makefile.docker-compose <command>`
+
+### Deployment with Ansible and Docker Compose
+
+This project supports [Ansible](https://www.ansible.com) and [Docker Compose](https://docs.docker.com/compose/reference/overview/) for automated deployment. To get started, copy `ansible/roles/web/templates/docker-compose.j2` to `/docker-compose.yml` and fill in all `{{ variables }}`. This can also be done automatically in Ansible.
 
 To update all roles from [Ansible Galaxy](https://docs.ansible.com/ansible/latest/reference_appendices/galaxy.html) used in our install scripts:
 
@@ -134,7 +136,7 @@ Once the basic system set up, i.e. you have an `ansible` user in the sudoers and
 
 ### Production releases
 
-For further deployment and system maintenance we have a `Makefile` which automates Docker Compose tasks. This should be converted to use [Ansible Container](http://docs.ansible.com/ansible-container/getting_started.html). In the meantime, start a release with Ansible, then complete it using `make`, i.e.:
+Start a release with Ansible, then complete it using `make`, i.e.:
 
 ```
 ansible-playbook -i ansible/inventories/lagoon --tags release ansible/wagtail.yaml
