@@ -5,7 +5,7 @@ wagtail==2.12.5
 elasticsearch>=5.0.0,<6.0.0
 
 # Database
-psycopg2-binary==2.8.6
+psycopg2-binary>=2.8.6,<2.9
 dj-database-url==0.5.0
 
 # Content

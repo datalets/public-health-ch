@@ -10,7 +10,7 @@ tox = "*"
 django-debug-toolbar = "*"
 
 [packages]
-"psycopg2-binary" = "*"
+"psycopg2-binary" = "<2.9"
 ConcurrentLogHandler = "*"
 dj-database-url = "*"
 django = "<2.3"
