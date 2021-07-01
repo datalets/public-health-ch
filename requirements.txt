@@ -31,3 +31,4 @@ gunicorn
 whitenoise
 python-dotenv
 ConcurrentLogHandler
+unidecode
