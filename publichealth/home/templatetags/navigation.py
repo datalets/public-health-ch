@@ -2,8 +2,8 @@
 from django import template
 from django.utils import translation
 
-from wagtail.core.models import Site
-
+from wagtail.core.models import Site, Page
+from ..models.forms import ContactForm
 register = template.Library()
 
 @register.simple_tag()
@@ -74,19 +74,22 @@ def menuitems_children(parent):
     if 'Über uns' in parent.title:
         remove_devenez = True
     menuitems_children = parent.get_children().live().in_menu().specific()
-    out_menuitems_children = []
+    items_to_remove = []
     for menuitem in menuitems_children:
         try:
-            menuitem.title = menuitem.trans_title
-            if 'devenez' in menuitem.title.lower() and remove_devenez:
-                continue
-            elif 'mitglied werden' in menuitem.title.lower() and remove_mitglied:
-                continue
+            if type(menuitem) == ContactForm:
+                menuitem.title = menuitem.title.title()
             else:
-                out_menuitems_children.append(menuitem)
+                menuitem.title = menuitem.trans_title
+            if 'devenez' in menuitem.title.lower() and remove_devenez:
+                items_to_remove.append(menuitem)
+            elif 'mitglied werden' in menuitem.title.lower() and remove_mitglied:
+                items_to_remove.append(menuitem)
         except AttributeError:
             pass
-    return out_menuitems_children
+    for item in items_to_remove:
+        menuitems_children = menuitems_children & Page.objects.not_page(item)
+    return menuitems_children
 
 # Retrieves the children of the top menu items for the drop downs
 @register.inclusion_tag('tags/top_menu_children.html', takes_context=True)
