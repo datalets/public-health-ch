@@ -67,13 +67,26 @@ def top_menu(context, parent, calling_page=None):
     }
 
 def menuitems_children(parent):
+    remove_mitglied = False
+    remove_devenez = False
+    if 'Qui sommes-nous' in parent.title:
+        remove_mitglied = True
+    if 'Über uns' in parent.title:
+        remove_devenez = True
     menuitems_children = parent.get_children().live().in_menu().specific()
+    out_menuitems_children = []
     for menuitem in menuitems_children:
         try:
             menuitem.title = menuitem.trans_title
+            if 'devenez' in menuitem.title.lower() and remove_devenez:
+                continue
+            elif 'mitglied werden' in menuitem.title.lower() and remove_mitglied:
+                continue
+            else:
+                out_menuitems_children.append(menuitem)
         except AttributeError:
             pass
-    return menuitems_children
+    return out_menuitems_children
 
 # Retrieves the children of the top menu items for the drop downs
 @register.inclusion_tag('tags/top_menu_children.html', takes_context=True)
