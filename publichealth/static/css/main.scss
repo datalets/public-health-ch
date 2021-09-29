@@ -128,5 +128,12 @@ $slider-nav: 200px;
 
 // Fix Bootstrap 3 warning
 .media, .media-body { zoom: none !important; transform: scale(1); }
+ 
+#mc_embed_signup input[type=radio] {
+  -webkit-appearance: none; padding: 0px;margin-top: 0px;
+} 
+#mc_embed_signup {
+  background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; 
+}
 
 @import "subsites";
