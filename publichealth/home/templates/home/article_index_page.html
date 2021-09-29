@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load i18n wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
 
@@ -21,6 +21,9 @@
     <div class="container">
     	<h2>{{ page.trans_title }}</h2>
     	<p class="lead">{{ page.trans_intro|richtext }}</p>
+      {% if page.subscribe_action %}
+        {% include 'home/subscription_form.html' %}
+      {% endif %}
       <div class="article-body" role="main">
       {% for entry in articles %}
         <div class="item">

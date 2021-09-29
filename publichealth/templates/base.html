@@ -11,6 +11,9 @@
         <meta name="description" content="{% block description %}{% endblock %}">
 
         {% block extra_css %}{% endblock %}
+        {% if page.subscribe_action %}
+        <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+        {% endif %}
         {% compress css %}
             <link rel="stylesheet" type="text/x-scss" href="{% static 'css/main.scss' %}">
         {% endcompress %}
@@ -35,7 +38,28 @@
         <script src="{% static 'libs/slick-carousel/slick/slick.min.js' %}"></script>
         <script src="{% static 'libs/slick-lightbox/dist/slick-lightbox.js' %}"></script>
         <script src="{% static 'libs/cookieconsent/build/cookieconsent.min.js' %}"></script>
-
+        {% if page.subscribe_action %}
+            <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+            <script type='text/javascript'>(function($) {
+                window.fnames = new Array(); 
+                window.ftypes = new Array();
+                fnames0='EMAIL';
+                ftypes0='email';
+                fnames1='FNAME';
+                ftypes1='text';
+                fnames2='LNAME';
+                ftypes2='text';
+                fnames9='MMERGE9';
+                ftypes9='radio';
+                $.extend($.validator.messages, {
+                required: "Dieses Feld ist ein Pflichtfeld.",
+                maxlength: $.validator.format("Geben Sie bitte maximal {0} Zeichen ein."),
+                minlength: $.validator.format("Geben Sie bitte mindestens {0} Zeichen ein."),
+                email: "Geben Sie bitte eine gültige E-Mail Adresse ein.",
+                });}(jQuery));
+                var $mcj = jQuery.noConflict(true);
+            </script>
+        {% endif %} 
         {% block extra_js %}{% endblock %}
 
         {% compress js %}
