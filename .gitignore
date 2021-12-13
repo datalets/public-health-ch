@@ -19,3 +19,4 @@ env
 /node_modules/
 /publichealth/static/libs
 publichealth.home.json
+.history
