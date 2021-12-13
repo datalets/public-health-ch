@@ -187,12 +187,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-# Django compressor settings
-# http://django-compressor.readthedocs.org/en/latest/settings/
+# Django settings
 
+# http://django-compressor.readthedocs.org/en/latest/settings/
 COMPRESS_PRECOMPILERS = [
     ('text/x-scss', 'django_libsass.SassCompiler'),
 ]
+
+# https://docs.djangoproject.com/en/3.2/topics/db/models/#automatic-primary-key-fields
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 
 # Wagtail settings
 
