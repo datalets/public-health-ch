@@ -127,6 +127,6 @@ $slider-nav: 200px;
 }
 
 // Fix Bootstrap 3 warning
-.media, .media-body { zoom: none !important; transform: scale(1); }
+.media, .media-body { transform: scale(1); }
 
 @import "subsites";
