@@ -1,7 +1,7 @@
 {
   "name": "public-health-ch",
   "version": "1.0.0",
-  "description": "THIS FILE IS NO LONGER USED: SEE README",
+  "description": "Public Health frontend",
   "directories": {
     "doc": "docs"
   },
