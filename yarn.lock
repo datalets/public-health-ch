@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@bower_components/bootstrap-sass@twbs/bootstrap-sass#^3.3.7":
+"@bower_components/bootstrap-sass@twbs/bootstrap-sass#^3.4.1":
   version "3.4.1"
   resolved "https://codeload.github.com/twbs/bootstrap-sass/tar.gz/b34765d8a6aa775816c59012b2d6b30c4c66a8e9"
 
