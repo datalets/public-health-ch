@@ -1,12 +1,12 @@
 .env
+env
+/env/
+/venv/
 *.pyc
 .sass-cache
 .DS_Store
 *.swp
 *.sqlite3
-/docker-compose.yml
-/env/
-/venv/
 /static/
 /assets/
 /media/
@@ -14,7 +14,9 @@
 /.keys/
 /.vagrant/
 /Vagrantfile.local
+/docker-compose.yml
 /docs/_build/
 /node_modules/
 /publichealth/static/libs
 publichealth.home.json
+.history

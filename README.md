@@ -20,7 +20,20 @@ npm install -g yarn grunt-cli
 yarn install
 ```
 
-The first command (`..install -g..`) may require `sudo` if you installed node.js as a system package. Afterwards, to compile the frontend, you should be able to run:
+The first command (`..install -g..`) may require `sudo` if you installed node.js as a system package.
+
+**Static libs**
+
+In production we use a build command to copy static libraries into the right location.
+Currently there is no make script for local development. As a workaround, use this in the root folder to create a symbolic link:
+
+```
+ln -s ../../node_modules/@bower_components publichealth/static/libs
+```
+
+**Compilation**
+
+Afterwards, to compile the frontend, you should be able to run:
 
 `grunt`
 

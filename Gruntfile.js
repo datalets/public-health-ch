@@ -1,11 +1,11 @@
-const sass = require('node-sass');
+const sass = require('sass');
 
 module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    imagemin: {
+    // imagemin: {
       // media: {
       //   files: [{
       //     expand: true,
@@ -14,15 +14,15 @@ module.exports = function(grunt) {
       //     dest: 'media/images'
       //   }]
       // },
-      static: {
-        files: [{
-          expand: true,
-          cwd: 'publichealth/static/images',
-          src: '{,*/}*.{png,jpg,jpeg,gif}',
-          dest: 'publichealth/static/images'
-        }]
-      }
-    },
+    //   static: {
+    //     files: [{
+    //       expand: true,
+    //       cwd: 'publichealth/static/images',
+    //       src: '{,*/}*.{png,jpg,jpeg,gif}',
+    //       dest: 'publichealth/static/images'
+    //     }]
+    //   }
+    // },
 
     watch: {
       sass: {
@@ -80,12 +80,12 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  // grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-bg-shell');
   grunt.loadNpmTasks('grunt-browser-sync');
   grunt.loadNpmTasks('grunt-sass');
-  grunt.registerTask('default', ['imagemin', 'sass']);
+  grunt.registerTask('default', ['sass']); // 'imagemin',
   grunt.registerTask('browser-sync', [
     'bgShell',
     'browserSync',

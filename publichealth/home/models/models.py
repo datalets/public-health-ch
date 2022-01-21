@@ -47,6 +47,17 @@ class ArticleIndexPage(Page):
         'intro_en',
     )
 
+    subscribe_label_de = models.CharField("Button Label (de)", default='', blank=True, max_length=250)
+    subscribe_label_fr = models.CharField("Button Label (fr)", default='', blank=True, max_length=250)
+    subscribe_label_en = models.CharField("Button Label (en)", default='', blank=True, max_length=250)
+    subscribe_action = models.URLField("Action", default='', blank=True)
+
+    trans_subscribe_label = TranslatedField(
+        'subscribe_label_de',
+        'subscribe_label_fr',
+        'subscribe_label_en',
+    )
+
     feed_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True, blank=True,
@@ -61,6 +72,16 @@ class ArticleIndexPage(Page):
         FieldPanel('title_en'),
         FieldPanel('intro_en'),
         ImageChooserPanel('feed_image'),
+        MultiFieldPanel(
+        [
+            FieldPanel('subscribe_label_de'),
+            FieldPanel('subscribe_label_fr'),
+            FieldPanel('subscribe_label_en'),
+            FieldPanel('subscribe_action')
+                    ],
+        heading="Newsletters",
+        classname="collapsible collapsed"
+    )
     ]
 
     def get_context(self, request):
