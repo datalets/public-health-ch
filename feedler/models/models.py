@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import datetime
 
 from django.db import models
 from django.utils import translation
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.utils.translation import gettext_lazy as _
 from wagtail.core.models import Page, Orderable
 from wagtail.admin.edit_handlers import FieldPanel
 from wagtail.core.fields import RichTextField
@@ -39,6 +40,11 @@ class Entry(models.Model):
     lang = models.CharField(max_length=2, blank=True, default='', choices=LANGUAGE_CHOICES)
     content = models.TextField()
     tags = models.TextField(blank=True)
+    expire_at = models.DateTimeField(
+        verbose_name=_("expiry date/time"),
+        blank=True,
+        null=True
+    )
 
     stream = models.ForeignKey(Stream,
         blank=False, on_delete=models.CASCADE,
@@ -68,7 +74,9 @@ class FeedPage(Page):
     @property
     def feedentries(self):
         if self.stream:
-            entries = Entry.objects.filter(stream=self.stream)
+            entries = Entry.objects.filter(stream=self.stream).filter(
+                models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=datetime.datetime.now())
+            )
         else:
             entries = Entry.objects.all()
         # Filter out by chosen language
