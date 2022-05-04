@@ -2,6 +2,8 @@
 
 from __future__ import unicode_literals
 
+import datetime
+
 from django.db import models
 from django.utils import translation
 from django.conf import settings
@@ -320,7 +322,9 @@ class HomePage(Page):
     @property
     def newsentries(self):
         # Get the last few news entries for the home page
-        entries = Entry.objects.all().order_by('-published')
+        entries = Entry.objects.filter(
+            models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=datetime.datetime.now())
+        ).all().order_by('-published')
         # Filter out by current language
         curlang = translation.get_language()
         if curlang in ['de']:
