@@ -27,9 +27,18 @@
   <p class="block-{{ block.block_type }}">
     {% include_block block %}
   </p>
-  {% endif %}
+
 {% endfor %}
 </div>
+
+<!-- Table content -->
+<div class="article-table" role="main">
+{% for block in page.trans_table %}
+  {% elif block.block_type == 'table' %}
+    {% include_block block %}
+  {% endif %}
+{% endfor %}
+
 
 <!-- Infoblocks -->
 <div class="row infoblocks">
