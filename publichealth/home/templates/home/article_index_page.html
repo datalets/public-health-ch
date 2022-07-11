@@ -17,11 +17,12 @@
 
 {% else %}
   {% if page.header_image %}
+  {% image page.header_image fill-1908x400 as img %}
 <div id="carousel-banner" class="slide">
 	<div class="carousel-inner slick slick-initialized slick-slider" role="listbox">
 
 		<div class="slick-list draggable" tabindex="0"><div class="slick-track" style="opacity: 1; width: 1908px;"><div class="item slick-slide slick-active" data-slick-index="0" style="width: 1908px; position: relative; left: 0px; top: 0px; z-index: 900; opacity: 1;">
-			<img style="background-image:url({{page.header_image}})">
+			<img style="background-image:url({{img.url}})">
 		</div></div></div>
 
 	</div>
