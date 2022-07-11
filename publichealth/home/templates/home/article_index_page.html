@@ -34,6 +34,14 @@
         </div>
       {% endfor %}
       </div>
+<!-- Table content -->
+<div class="article-table" role="main">
+{% for block in page.trans_table %}
+  {% if block.block_type == 'table_en' or block.block_type == 'table_fr' or block.block_type == 'table_de' %}
+    {% include_block block %}
+  {% endif %}
+{% endfor %}
+</div>
     </div><!-- /container -->
   </section>
 

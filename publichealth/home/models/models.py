@@ -50,9 +50,32 @@ class ArticleIndexPage(Page):
         'intro_en',
     )
 
-    table_en = TableBlock()
-    table_fr = TableBlock()
-    table_de = TableBlock()
+
+    table_en = StreamField(
+        [
+            ('table_en', TableBlock())
+        ],
+        null=True,
+        blank = True,
+    )
+    table_de = StreamField(
+        [
+            ('table_de', TableBlock())
+        ],
+        null=True,
+        blank = True,
+    )
+    table_fr = StreamField(
+        [
+            ('table_fr', TableBlock())
+        ],
+        null=True,
+        blank = True,
+    )
+
+    #table_en = TableBlock()
+    #table_fr = TableBlock()
+    #table_de = TableBlock()
     trans_table = TranslatedField(
         'table_de',
         'table_fr',
@@ -83,9 +106,9 @@ class ArticleIndexPage(Page):
         FieldPanel('intro_fr'),
         FieldPanel('title_en'),
         FieldPanel('intro_en'),
-        #FieldPanel('table_en'),
-        #FieldPanel('table_fr'),
-        #FieldPanel('table_de'),
+        FieldPanel('table_en'),
+        FieldPanel('table_fr'),
+        FieldPanel('table_de'),
         ImageChooserPanel('feed_image'),
         MultiFieldPanel(
         [

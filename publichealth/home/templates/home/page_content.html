@@ -30,11 +30,12 @@
 
 {% endfor %}
 </div>
-
+<h1>Mmmm</h1>
 <!-- Table content -->
 <div class="article-table" role="main">
 {% for block in page.trans_table %}
-  {% elif block.block_type == 'table' %}
+  {% if block.block_type == 'table' %}
+    Inside if
     {% include_block block %}
   {% endif %}
 {% endfor %}
