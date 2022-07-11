@@ -50,32 +50,28 @@ class ArticleIndexPage(Page):
         'intro_en',
     )
 
-
     table_en = StreamField(
         [
             ('table_en', TableBlock())
         ],
         null=True,
-        blank = True,
+        blank=True,
     )
     table_de = StreamField(
         [
             ('table_de', TableBlock())
         ],
         null=True,
-        blank = True,
+        blank=True,
     )
     table_fr = StreamField(
         [
             ('table_fr', TableBlock())
         ],
         null=True,
-        blank = True,
+        blank=True,
     )
 
-    #table_en = TableBlock()
-    #table_fr = TableBlock()
-    #table_de = TableBlock()
     trans_table = TranslatedField(
         'table_de',
         'table_fr',
@@ -204,14 +200,6 @@ class ArticlePage(Page):
         'body_fr',
         'body_en',
     )
-    table_en = TableBlock()
-    table_fr = TableBlock()
-    table_de = TableBlock()
-    trans_table = TranslatedField(
-        'table_en',
-        'table_fr',
-        'table_de',
-    )
 
     date = models.DateField("Date", null=True, blank=True)
 
@@ -305,15 +293,6 @@ class HomePage(Page):
         'body_en',
     )
 
-    #table_en = TableBlock()
-    #table_fr = TableBlock()
-    #table_de = TableBlock()
-    #trans_table = TranslatedField(
-    #    'table_en',
-    #    'table_fr',
-    #    'table_de',
-    #)
-
     infos_de = StreamField([
         ('info', InfoBlock())
     ], null=True, blank=True)
@@ -328,27 +307,24 @@ class HomePage(Page):
         'infos_fr',
         'infos_en',
     )
-#    content_table = StreamField(TableBlock(), verbose_name=_('Content Table'), blank=True)
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('intro_de', classname="full"),
             FieldPanel('body_de', classname="full"),
             StreamFieldPanel('infos_de'),
-	    #StreamFieldPanel('table_de'),
         ], heading="Deutsch",
            classname="collapsible collapsed"),
         MultiFieldPanel([
             FieldPanel('intro_fr', classname="full"),
             FieldPanel('body_fr', classname="full"),
             StreamFieldPanel('infos_fr'),
-	    #StreamFieldPanel('table_fr'),
         ], heading="Français",
            classname="collapsible collapsed"),
         MultiFieldPanel([
             FieldPanel('intro_en', classname="full"),
             FieldPanel('body_en', classname="full"),
             StreamFieldPanel('infos_en'),
-	    #StreamFieldPanel('table_fr'),
         ], heading="English",
            classname="collapsible collapsed"),
     ]
