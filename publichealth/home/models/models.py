@@ -59,14 +59,14 @@ class ArticleIndexPage(Page):
     )
     table_de = StreamField(
         [
-            ('table_de', TableBlock())
+            ('table_de', TableBlock(template='home/program_table.html'))
         ],
         null=True,
         blank=True,
     )
     table_fr = StreamField(
         [
-            ('table_fr', TableBlock())
+            ('table_fr', TableBlock(template='home/program_table.html'))
         ],
         null=True,
         blank=True,
