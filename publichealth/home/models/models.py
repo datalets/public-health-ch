@@ -40,7 +40,12 @@ class ArticleIndexPage(Page):
         'title_en',
     )
 
-    header_image = ImageChooserBlock(required=False)
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     intro_de = RichTextField(default='', blank=True)
     intro_fr = RichTextField(default='', blank=True)
