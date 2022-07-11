@@ -52,7 +52,7 @@ class ArticleIndexPage(Page):
 
     table_en = StreamField(
         [
-            ('table_en', TableBlock(template='templates/home/program_table.html'))
+            ('table_en', TableBlock(template='home/program_table.html'))
         ],
         null=True,
         blank=True,
