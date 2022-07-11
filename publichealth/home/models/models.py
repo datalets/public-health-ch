@@ -40,6 +40,8 @@ class ArticleIndexPage(Page):
         'title_en',
     )
 
+    header_image = ImageChooserBlock(required=False)
+
     intro_de = RichTextField(default='', blank=True)
     intro_fr = RichTextField(default='', blank=True)
     intro_en = RichTextField(default='', blank=True)
@@ -73,6 +75,7 @@ class ArticleIndexPage(Page):
         FieldPanel('intro_fr'),
         FieldPanel('title_en'),
         FieldPanel('intro_en'),
+        ImageChooserPanel('header_image'),
         ImageChooserPanel('feed_image'),
         MultiFieldPanel(
         [
