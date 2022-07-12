@@ -41,6 +41,13 @@ class ArticleIndexPage(Page):
         'title_en',
     )
 
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
     intro_de = RichTextField(default='', blank=True)
     intro_fr = RichTextField(default='', blank=True)
     intro_en = RichTextField(default='', blank=True)
@@ -102,6 +109,7 @@ class ArticleIndexPage(Page):
         FieldPanel('intro_fr'),
         FieldPanel('title_en'),
         FieldPanel('intro_en'),
+        ImageChooserPanel('header_image'),
         FieldPanel('table_en'),
         FieldPanel('table_fr'),
         FieldPanel('table_de'),
