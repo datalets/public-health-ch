@@ -9,7 +9,7 @@ class OriginalImageFormat(Format):
 
         default_html = super().image_to_html(image, alt_text, extra_attributes)
 
-        return format_html("{}<figcaption>{}</figcaption>", default_html, alt_text)
+        return format_html("{}", default_html, alt_text)
 
 
 register_image_format(
