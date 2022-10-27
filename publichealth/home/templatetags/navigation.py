@@ -78,7 +78,7 @@ def menuitems_children(parent):
     for menuitem in menuitems_children:
         try:
             if type(menuitem) == ContactForm:
-                menuitem.title = menuitem.title.title()
+                menuitem.title = menuitem.title
             else:
                 menuitem.title = menuitem.trans_title
             if 'devenez' in menuitem.title.lower() and remove_devenez:
