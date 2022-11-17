@@ -16,7 +16,18 @@
   </section>
 
 {% else %}
+  {% if page.header_image %}
+  {% image page.header_image fill-1908x400 as img %}
+<div id="carousel-banner" class="slide">
+	<div class="carousel-inner slick slick-initialized slick-slider" role="listbox">
 
+		<div class="slick-list draggable" tabindex="0"><div class="slick-track" style="opacity: 1; width: 1908px;"><div class="item slick-slide slick-active" data-slick-index="0" style="width: 1908px; position: relative; left: 0px; top: 0px; z-index: 900; opacity: 1;">
+			<img style="background-image:url({{img.url}})">
+		</div></div></div>
+
+	</div>
+</div>
+  {% endif %}
   <section id="article-index" class="article-index-page">
     <div class="container">
     	<h2>{{ page.trans_title }}</h2>
@@ -34,6 +45,14 @@
         </div>
       {% endfor %}
       </div>
+<!-- Table content -->
+<div class="article-table table-program" role="main">
+{% for block in page.trans_table %}
+  {% if block.block_type == 'table_en' or block.block_type == 'table_fr' or block.block_type == 'table_de' %}
+    {% include_block block %}
+  {% endif %}
+{% endfor %}
+</div>
     </div><!-- /container -->
   </section>
 

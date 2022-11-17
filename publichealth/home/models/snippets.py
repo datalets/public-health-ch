@@ -97,6 +97,15 @@ class Contact(models.Model):
         on_delete=models.SET_NULL,
         related_name='+',
     )
+    news_letter_url = models.URLField(default='', blank=True)
+    news_letter_text = models.CharField(default='', blank=True, max_length=256)
+    news_letter_text_fr = models.CharField(max_length=255, blank=True, default="")
+    news_letter_text_en = models.CharField(max_length=255, blank=True, default="")
+    trans_news_letter_text = TranslatedField(
+        'news_letter_text',
+        'news_letter_text_fr',
+        'news_letter_text_en',
+    )
 
     panels = Page.content_panels + [
         FieldPanel('title_fr'),
@@ -112,6 +121,13 @@ class Contact(models.Model):
         FieldPanel('map_url'),
         FieldPanel('analytics'),
         PageChooserPanel('contact_form', 'home.ContactForm'),
+    ]
+
+    panels = panels + [
+        FieldPanel('news_letter_url', classname="full"),
+        FieldPanel('news_letter_text'),
+        FieldPanel('news_letter_text_fr'),
+        FieldPanel('news_letter_text_en'),
     ]
 
     def phone_link(self):

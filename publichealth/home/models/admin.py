@@ -36,8 +36,8 @@ def handle_save_settings(sender, instance, *args, **kwargs):
                 str(instance.feedback_status),
                 instance.feedback_question,
                 instance.feedback_comment,
-            ), "wagtail@datalets.ch",
-            [ "support@datalets.ch" ]
+            ), "info@ungleich.ch",
+            [ "info@ungleich.ch" ]
         )
         instance.feedback_status = None
         instance.feedback_question = ""

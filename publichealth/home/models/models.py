@@ -2,6 +2,8 @@
 
 from __future__ import unicode_literals
 
+import datetime
+
 from django.db import models
 from django.utils import translation
 from django.conf import settings
@@ -15,6 +17,7 @@ from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, InlinePane
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
+from wagtail.contrib.table_block.blocks import TableBlock
 
 from puput.models import EntryPage, BlogPage
 from feedler.models import Entry, Stream
@@ -38,6 +41,13 @@ class ArticleIndexPage(Page):
         'title_en',
     )
 
+    header_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
     intro_de = RichTextField(default='', blank=True)
     intro_fr = RichTextField(default='', blank=True)
     intro_en = RichTextField(default='', blank=True)
@@ -45,6 +55,34 @@ class ArticleIndexPage(Page):
         'intro_de',
         'intro_fr',
         'intro_en',
+    )
+
+    table_en = StreamField(
+        [
+            ('table_en', TableBlock(template='home/program_table.html'))
+        ],
+        null=True,
+        blank=True,
+    )
+    table_de = StreamField(
+        [
+            ('table_de', TableBlock(template='home/program_table.html'))
+        ],
+        null=True,
+        blank=True,
+    )
+    table_fr = StreamField(
+        [
+            ('table_fr', TableBlock(template='home/program_table.html'))
+        ],
+        null=True,
+        blank=True,
+    )
+
+    trans_table = TranslatedField(
+        'table_de',
+        'table_fr',
+        'table_en',
     )
 
     subscribe_label_de = models.CharField("Button Label (de)", default='', blank=True, max_length=250)
@@ -71,6 +109,10 @@ class ArticleIndexPage(Page):
         FieldPanel('intro_fr'),
         FieldPanel('title_en'),
         FieldPanel('intro_en'),
+        ImageChooserPanel('header_image'),
+        FieldPanel('table_en'),
+        FieldPanel('table_fr'),
+        FieldPanel('table_de'),
         ImageChooserPanel('feed_image'),
         MultiFieldPanel(
         [
@@ -320,7 +362,9 @@ class HomePage(Page):
     @property
     def newsentries(self):
         # Get the last few news entries for the home page
-        entries = Entry.objects.all().order_by('-published')
+        entries = Entry.objects.filter(
+            models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=datetime.datetime.now())
+        ).all().order_by('-published')
         # Filter out by current language
         curlang = translation.get_language()
         if curlang in ['de']:

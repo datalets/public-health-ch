@@ -3,6 +3,6 @@
 <ul class="dropdown-menu">
     <!--<li><a href="{% pageurl parent %}">{{ parent.title }}</a></li>-->
     {% for child in menuitems_children %}
-        <li><a href="{% pageurl child %}">{{ child.title|title }}</a></li>
+        <li><a href="{% pageurl child %}">{{ child.title }}</a></li>
     {% endfor %}
 </ul>

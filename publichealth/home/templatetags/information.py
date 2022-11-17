@@ -35,10 +35,18 @@ def get_contacts(the_site):
         'socials': social_contacts
     }
 
+
 # Contact information (footer)
 @register.inclusion_tag('tags/contact_info.html')
 def contact_info(the_site):
     return get_contacts(the_site)
+
+
+# Newsletter (footer)
+@register.inclusion_tag('tags/news_letter.html')
+def news_letter(the_site):
+    return get_contacts(the_site)
+
 
 # Contact form (footer)
 @register.inclusion_tag('tags/footer_form.html')
